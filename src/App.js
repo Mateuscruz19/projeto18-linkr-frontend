@@ -12,7 +12,7 @@ export default function App() {
         <Routes>
           <Route path="/" element={<Component/>} />
           <Route path="/login" element={<Login/>} />
-          <Route path="/cadastro" element={<Register/>} />
+          <Route path="/registro" element={<Register/>} />
         </Routes>
       </BrowserRouter>
   );
