@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { signUp } from "../../services/Auth.js"
 
 export default function Signin() {
 
@@ -13,19 +14,26 @@ export default function Signin() {
     setForm({...form,[name]: value,});
   }
 
-  function handleSendForm(e) {
-    e.preventDefault();
-    if(!form.email || !form.password){
+  function handleSendForm (event) {
+    event.preventDefault();
+    console.log(form)
+    if(!form.name || !form.email || !form.password){
       return alert("Preencha os campos corretamente");
     }
-
-    
+    console.log(form)
+    signUp(form).then((res) => {
+      console.log(res)
+      alert("Registrado com sucesso!")
+      navigate("/login");
+    })
+    .catch((err) => {
+     err.response.data.map((e) => {
+      alert("Erro ao registrar o usuario!"); 
+     return console.log(e)
+     })
+    })
   }
 
-  function emBreve(){
-    return alert("Em breve...")
-  }
-  
 
     return(
         <Background>
@@ -41,10 +49,16 @@ export default function Signin() {
                     </Email>
                     <Senha placeholder="password" name="password" type="password"
                     onChange={(e) => handleForm({name: e.target.name,value: e.target.value,})}>
+                    </Senha>
+                    <Senha placeholder="username" name="username"
+                    onChange={(e) => handleForm({name: e.target.name,value: e.target.value,})}>
+                    </Senha>
+                    <Senha placeholder="picture url" name="picture"
+                    onChange={(e) => handleForm({name: e.target.name,value: e.target.value,})}>
                     </Senha>      
-                <Entrar onClick={handleSendForm}><p>Log in</p></Entrar>
-                <Link className="link" to="/cadastro">
-                <RegisterBox>First time?<span> Create an account!</span></RegisterBox>
+                <Entrar onClick={handleSendForm}><p>Sign Up</p></Entrar>
+                <Link className="link" to="/login">
+                <RegisterBox>Switch back to log in</RegisterBox>
                 </Link>
                 </ContainerBot>
                 </Form>
@@ -200,6 +214,13 @@ const Entrar = styled.button`
     color: #FFFFFF;
 
     }
+
+    &:active {
+            transform: scale(0.98);
+            /* Scaling button to 0.98 to its original size */
+            box-shadow: 3px 2px 22px 1px rgba(0, 0, 0, 0.24);
+            /* Lowering the shadow */
+        }
 
 `
 

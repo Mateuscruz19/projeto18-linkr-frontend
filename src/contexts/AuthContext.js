@@ -4,9 +4,10 @@ export const AuthContext = createContext({})
 
 function AuthProvider({children}){
 
-    
+    const [Token, setToken] = useState({});
+
     return(
-        <AuthContext.Provider value={{}}>
+        <AuthContext.Provider value={{Token, setToken}}>
             {children}
         </AuthContext.Provider>
     )

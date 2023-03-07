@@ -1,7 +1,7 @@
 import { Component } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Login from "./components/Login.js"
-import Register from "./components/Register.js"
+import Login from "./components/auth_components/Login.jsx"
+import Register from "./components/auth_components/Register.jsx"
 import Posts from "./pages/PostPages/PostPages.js";
 
 export default function App() {

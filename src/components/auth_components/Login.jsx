@@ -1,13 +1,16 @@
 import styled from "styled-components";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { signIn } from "../../services/Auth.js"
+import { AuthContext } from "../../contexts/AuthContext.js";
+import { useContext } from "react";
 
 export default function Signin() {
 
 
     const [form, setForm] = useState({});
-
-  const navigate = useNavigate();
+    const navigate = useNavigate();
+    const { setToken } = useContext(AuthContext);
 
   function handleForm({ value, name }) {
     setForm({...form,[name]: value,});
@@ -19,13 +22,13 @@ export default function Signin() {
       return alert("Preencha os campos corretamente");
     }
 
-    
+    signIn(form).then((res) => {
+      if(res.data === "Unauthorized") return alert("Verifique os dados inseridos")
+     setToken(res.data.token);
+      return navigate("/");
+    })
   }
 
-  function emBreve(){
-    return alert("Em breve...")
-  }
-  
 
     return(
         <Background>
@@ -41,16 +44,10 @@ export default function Signin() {
                     </Email>
                     <Senha placeholder="password" name="password" type="password"
                     onChange={(e) => handleForm({name: e.target.name,value: e.target.value,})}>
-                    </Senha>
-                    <Senha placeholder="username" name="username"
-                    onChange={(e) => handleForm({name: e.target.name,value: e.target.value,})}>
-                    </Senha>
-                    <Senha placeholder="picture url" name="picture"
-                    onChange={(e) => handleForm({name: e.target.name,value: e.target.value,})}>
                     </Senha>      
-                <Entrar onClick={handleSendForm}><p>Sign Up</p></Entrar>
-                <Link className="link" to="/cadastro">
-                <RegisterBox>Switch back to log in</RegisterBox>
+                <Entrar onClick={handleSendForm}><p>Log in</p></Entrar>
+                <Link className="link" to="/registro">
+                <RegisterBox>First time?<span> Create an account!</span></RegisterBox>
                 </Link>
                 </ContainerBot>
                 </Form>
@@ -206,6 +203,13 @@ const Entrar = styled.button`
     color: #FFFFFF;
 
     }
+
+    &:active {
+            transform: scale(0.98);
+            /* Scaling button to 0.98 to its original size */
+            box-shadow: 3px 2px 22px 1px rgba(0, 0, 0, 0.24);
+            /* Lowering the shadow */
+        }
 
 `
 
