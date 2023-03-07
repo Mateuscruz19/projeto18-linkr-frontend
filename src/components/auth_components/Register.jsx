@@ -5,7 +5,6 @@ import { signUp } from "../../services/Auth.js"
 
 export default function Signin() {
 
-
     const [form, setForm] = useState({});
 
   const navigate = useNavigate();
@@ -17,7 +16,7 @@ export default function Signin() {
   function handleSendForm (event) {
     event.preventDefault();
     console.log(form)
-    if(!form.name || !form.email || !form.password){
+    if(!form.username || !form.email || !form.password || !form.picture){
       return alert("Preencha os campos corretamente");
     }
     console.log(form)
@@ -44,7 +43,7 @@ export default function Signin() {
             <RightTable>
             <Form>
                 <ContainerBot>
-                    <Email placeholder="e-mail" name="email" type="email"
+                    <Email placeholder="email" name="email" type="email"
                      onChange={(e) => handleForm({ name: e.target.name, value: e.target.value,})}>
                     </Email>
                     <Senha placeholder="password" name="password" type="password"
@@ -53,7 +52,7 @@ export default function Signin() {
                     <Senha placeholder="username" name="username"
                     onChange={(e) => handleForm({name: e.target.name,value: e.target.value,})}>
                     </Senha>
-                    <Senha placeholder="picture url" name="picture"
+                    <Senha placeholder="picture" name="picture"
                     onChange={(e) => handleForm({name: e.target.name,value: e.target.value,})}>
                     </Senha>      
                 <Entrar onClick={handleSendForm}><p>Sign Up</p></Entrar>

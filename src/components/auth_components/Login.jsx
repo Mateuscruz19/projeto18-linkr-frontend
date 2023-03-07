@@ -21,11 +21,10 @@ export default function Signin() {
     if(!form.email || !form.password){
       return alert("Preencha os campos corretamente");
     }
-
     signIn(form).then((res) => {
       if(res.data === "Unauthorized") return alert("Verifique os dados inseridos")
      setToken(res.data.token);
-      return navigate("/");
+      return navigate("/post");
     })
   }
 
@@ -39,7 +38,7 @@ export default function Signin() {
             <RightTable>
             <Form>
                 <ContainerBot>
-                    <Email placeholder="e-mail" name="email" type="email"
+                    <Email placeholder="email" name="email" type="email"
                      onChange={(e) => handleForm({ name: e.target.name, value: e.target.value,})}>
                     </Email>
                     <Senha placeholder="password" name="password" type="password"
