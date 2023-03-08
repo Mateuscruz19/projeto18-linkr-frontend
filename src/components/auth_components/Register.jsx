@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { signUp } from "../../services/Auth.js"
+import { signUp } from "../../services/api.js"
 
 export default function Signin() {
 
@@ -27,7 +27,7 @@ export default function Signin() {
     })
     .catch((err) => {
      err.response.data.map((e) => {
-      alert("Erro ao registrar o usuario!"); 
+      alert("Erro ao registrar o usuario!");
      return console.log(e)
      })
     })
@@ -54,7 +54,7 @@ export default function Signin() {
                     </Senha>
                     <Senha placeholder="picture" name="picture"
                     onChange={(e) => handleForm({name: e.target.name,value: e.target.value,})}>
-                    </Senha>      
+                    </Senha>
                 <Entrar onClick={handleSendForm}><p>Sign Up</p></Entrar>
                 <Link className="link" to="/login">
                 <RegisterBox>Switch back to log in</RegisterBox>
@@ -105,7 +105,7 @@ const TittleBig = styled.p`
     line-height: 117px;
     letter-spacing: 0.05em;
     color: #FFFFFF;
-    
+
     `
 
 
@@ -182,7 +182,7 @@ const Senha = styled.input`
     border-radius: 6px;
 
     &::placeholder{
-    
+
     font-family: 'Oswald';
     font-style: normal;
     font-weight: 700;
