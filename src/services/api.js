@@ -20,8 +20,7 @@ export function signIn(body) {
 
 // REGISTER AUTH
 export function signUp(body) {
-  console.log(url);
-  const response = axios.post(`${url}/sign-up`, body);
+  const response = axios.post(`${process.env.REACT_APP_API_URL}/sign-up`, body);
   return response;
 }
 

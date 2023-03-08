@@ -26,8 +26,8 @@ export default function Signin() {
       navigate("/login");
     })
     .catch((err) => {
+     alert("Erro ao registrar o usuario,verifique os campos inseridos.");
      err.response.data.map((e) => {
-      alert("Erro ao registrar o usuario!");
      return console.log(e)
      })
     })
