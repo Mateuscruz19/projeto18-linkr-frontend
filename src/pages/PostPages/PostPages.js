@@ -1,10 +1,55 @@
+import axios from "axios";
+import {  useEffect, useState } from "react";
+//useContext
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { ConteinerPost } from "../../components/ConteinerPost";
 import Header from "../../components/Header/Header";
+// import { AuthContext } from "../../contexts/AuthContext";
 import veio from "../../img/image 4.svg";
 
 export default function Posts() {
+    const [link, setLink] = useState("");
+    const [description, setDescription] = useState("");
+    const [name, setName] = useState("");
+    const [list, setList] = useState([]);
+
+    // const {token} = useContext(AuthContext);
+    useEffect(() => {
+        axios.get(`${process.env.REACT_APP_API_URL}/publication`).then((res) => {
+            setList(res.data);
+            console.log()
+        }).catch((err) => alert(err.response.data.message))
+    },[]);
+
+    if(list === 0){
+        return <div>Carregando...</div>;
+    }
+
+    function addPost(e){
+        e.preventDefault();
+
+        const url = `${process.env.REACT_APP_API_URL}/publication`;
+
+        const body = {
+            link: link,
+            description: description,
+            name: name
+        };
+
+        axios.post(url, body,
+        //     {
+        //     headers: {
+        //         'Authorization': `Bearer ${token}`
+        //     }
+        // }
+        ).then(() => {
+            console.log("foi inserido uma publicação");
+        }).catch((err)=>{
+            console.log(err);
+            alert(err.response);
+        });
+    }
   return (
     <>
       <Header />
@@ -14,16 +59,16 @@ export default function Posts() {
           <CaixaInsert>
             <img src={veio} alt="imagem de perfil" />
             <CaixaPostInputs>
-              <form onSubmit="">
+              <form onSubmit={addPost}>
                 <CaixaInputs>
-                  <input
+                  <input name="description" value={description} type="text" 
                     className="primeiro"
-                    placeholder="What are you going to share today?"
+                    placeholder="What are you going to share today?" onChange={(e) => setDescription(e.target.value)}
                   />
-                  <input placeholder="https://..." />
-                  <input
+                  <input name="link" value={link} type="text"  placeholder="https://..." onChange={(e) => setLink(e.target.value)}/>
+                  <input name="name" value={name} type="text"
                     className="ultimo"
-                    placeholder="Awesome article about #javascript"
+                    placeholder="Awesome article about #javascript" onChange={(e) => setName(e.target.value)}
                   />
                 </CaixaInputs>
               </form>
@@ -32,17 +77,33 @@ export default function Posts() {
               </ButtonPost>
             </CaixaPostInputs>
           </CaixaInsert>
-          <CaixaMaps>
-            <img src={veio} alt="imagem de perfil" />
-            <MapsConteudos>
-              <p className="nome">Juvenal Juvêncio</p>
-              <p>
-                Muito maneiro esse tutorial de Material UI com React, deem uma
-                olhada!
-              </p>
-              <p>[parte do Link ainda a ser implementada]</p>
-            </MapsConteudos>
-          </CaixaMaps>
+          <Lista>
+            {list.length === 0 ?(
+                <div>Sua lista esta vazio</div>
+            ):(
+                <>
+                    {list.map((l) => (
+                        <CaixaMaps key={l.id}>
+                            <img src={l.avatarImage} alt="imagem de perfil" />
+                            <MapsConteudos>
+                            <p className="nome">{l.name}</p>
+                            <p>
+                                {l.descriptionPost}
+                                {l.hashtags.map(( index) => (
+                                    <HashtagasPosts key={index.id}>
+                                        <p>
+                                            {index.nameHashtag}
+                                        </p>
+                                    </HashtagasPosts>
+                                ))}
+                            </p>
+                            <p>{l.linkPost}</p>
+                            </MapsConteudos>
+                        </CaixaMaps>
+                    ))}
+                </>
+            )}
+          </Lista>
         </Timeline>
         <HashTags>
           <p className="titulo">trending</p>
@@ -158,6 +219,34 @@ const ButtonPost = styled.div`
   }
 `;
 
+const Lista = styled.div`
+  flex-direction: column;
+`;
+
+const HashTags = styled.div`
+  flex-direction: column;
+  width: 301px;
+  height: 406px;
+  background-color: #171717;
+  margin-top: 185px;
+  margin-left: 25px;
+  border-radius: 10px;
+  color: #ffffff;
+
+  p {
+    font-family: "Lato";
+    font-size: 19px;
+    font-weight: 700;
+    margin: 16px;
+  }
+
+  .titulo {
+    font-family: "Oswald";
+    font-size: 27px;
+    font-weight: 700;
+  }
+`;
+
 const CaixaMaps = styled.div`
   display: flex;
   flex-direction: row;
@@ -192,26 +281,11 @@ const MapsConteudos = styled.div`
   }
 `;
 
-const HashTags = styled.div`
-  flex-direction: column;
-  width: 301px;
-  height: 406px;
-  background-color: #171717;
-  margin-top: 185px;
-  margin-left: 25px;
-  border-radius: 10px;
-  color: #ffffff;
-
-  p {
-    font-family: "Lato";
-    font-size: 19px;
-    font-weight: 700;
-    margin: 16px;
-  }
-
-  .titulo {
-    font-family: "Oswald";
-    font-size: 27px;
-    font-weight: 700;
-  }
+const HashtagasPosts = styled.div`
+    p{
+        font-family: 'Lato';
+        font-size: 17px;
+        font-weight: 400;
+        color: #ffffff;
+    }
 `;
