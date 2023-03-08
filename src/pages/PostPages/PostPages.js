@@ -1,55 +1,63 @@
-import axios from "axios";
-import {  useEffect, useState } from "react";
+import axios from 'axios';
+import { useEffect, useState } from 'react';
 //useContext
-import { Link } from "react-router-dom";
-import styled from "styled-components";
-import { ConteinerPost } from "../../components/ConteinerPost";
-import Header from "../../components/Header/Header";
+import { Link } from 'react-router-dom';
+import styled from 'styled-components';
+import { ConteinerPost } from '../../components/ConteinerPost';
+import Header from '../../components/Header/Header';
 // import { AuthContext } from "../../contexts/AuthContext";
-import veio from "../../img/image 4.svg";
+import veio from '../../img/image 4.svg';
 
 export default function Posts() {
-    const [link, setLink] = useState("");
-    const [description, setDescription] = useState("");
-    const [name, setName] = useState("");
-    const [list, setList] = useState([]);
+  const [link, setLink] = useState('');
+  const [description, setDescription] = useState('');
+  const [name, setName] = useState('');
+  const [list, setList] = useState([]);
 
-    // const {token} = useContext(AuthContext);
-    useEffect(() => {
-        axios.get(`${process.env.REACT_APP_API_URL}/publication`).then((res) => {
-            setList(res.data);
-            console.log()
-        }).catch((err) => alert(err.response.data.message))
-    },[]);
+  // const {token} = useContext(AuthContext);
+  useEffect(() => {
+    axios
+      .get(`${process.env.REACT_APP_API_URL}/publication`)
+      .then((res) => {
+        setList(res.data);
+        console.log(res.data);
+      })
+      .catch((err) => alert(err.response.data.message));
+  }, []);
 
-    if(list === 0){
-        return <div>Carregando...</div>;
-    }
+  if (list === 0) {
+    return <div>Carregando...</div>;
+  }
 
-    function addPost(e){
-        e.preventDefault();
+  function addPost(e) {
+    e.preventDefault();
 
-        const url = `${process.env.REACT_APP_API_URL}/publication`;
+    const url = `${process.env.REACT_APP_API_URL}/publication`;
 
-        const body = {
-            link: link,
-            description: description,
-            name: name
-        };
+    const body = {
+      link: link,
+      description: description,
+      name: name,
+    };
 
-        axios.post(url, body,
+    axios
+      .post(
+        url,
+        body
         //     {
         //     headers: {
         //         'Authorization': `Bearer ${token}`
         //     }
         // }
-        ).then(() => {
-            console.log("foi inserido uma publicação");
-        }).catch((err)=>{
-            console.log(err);
-            alert(err.response);
-        });
-    }
+      )
+      .then(() => {
+        console.log('foi inserido uma publicação');
+      })
+      .catch((err) => {
+        console.log(err);
+        alert(err.response);
+      });
+  }
   return (
     <>
       <Header />
@@ -57,84 +65,96 @@ export default function Posts() {
         <Timeline>
           <h1>timeline</h1>
           <CaixaInsert>
-            <img src={veio} alt="imagem de perfil" />
+            <img src={veio} alt='imagem de perfil' />
             <CaixaPostInputs>
               <form onSubmit={addPost}>
                 <CaixaInputs>
-                  <input name="description" value={description} type="text" 
-                    className="primeiro"
-                    placeholder="What are you going to share today?" onChange={(e) => setDescription(e.target.value)}
+                  <input
+                    name='description'
+                    value={description}
+                    type='text'
+                    className='primeiro'
+                    placeholder='What are you going to share today?'
+                    onChange={(e) => setDescription(e.target.value)}
                   />
-                  <input name="link" value={link} type="text"  placeholder="https://..." onChange={(e) => setLink(e.target.value)}/>
-                  <input name="name" value={name} type="text"
-                    className="ultimo"
-                    placeholder="Awesome article about #javascript" onChange={(e) => setName(e.target.value)}
+                  <input
+                    name='link'
+                    value={link}
+                    type='text'
+                    placeholder='https://...'
+                    onChange={(e) => setLink(e.target.value)}
+                  />
+                  <input
+                    name='name'
+                    value={name}
+                    type='text'
+                    className='ultimo'
+                    placeholder='Awesome article about #javascript'
+                    onChange={(e) => setName(e.target.value)}
                   />
                 </CaixaInputs>
               </form>
               <ButtonPost>
-                <button type="submit">Publish</button>
+                <button type='submit'>Publish</button>
               </ButtonPost>
             </CaixaPostInputs>
           </CaixaInsert>
           <Lista>
-            {list.length === 0 ?(
-                <div>Sua lista esta vazio</div>
-            ):(
-                <>
-                    {list.map((l) => (
-                        <CaixaMaps key={l.id}>
-                            <img src={l.avatarImage} alt="imagem de perfil" />
-                            <MapsConteudos>
-                            <p className="nome">{l.name}</p>
-                            <p>
-                                {l.descriptionPost}
-                                {l.hashtags.map(( index) => (
-                                    <HashtagasPosts key={index.id}>
-                                        <p>
-                                            {index.nameHashtag}
-                                        </p>
-                                    </HashtagasPosts>
-                                ))}
-                            </p>
-                            <p>{l.linkPost}</p>
-                            </MapsConteudos>
-                        </CaixaMaps>
-                    ))}
-                </>
+            {list.length === 0 ? (
+              <div>Sua lista esta vazio</div>
+            ) : (
+              <>
+                {list.map((l) => (
+                  <CaixaMaps key={l.id}>
+                    <img src={l.avatarImage} alt='imagem de perfil' />
+                    <MapsConteudos>
+                      <p className='nome'>{l.name}</p>
+                      <p>
+                        {l.descriptionPost}
+                        {l.hashtags.map((index) => (
+                          <HashtagasPosts key={index.id}>
+                            <p>{index.nameHashtag}</p>
+                          </HashtagasPosts>
+                        ))}
+                      </p>
+                      <p>{l.linkPost}</p>
+                    </MapsConteudos>
+                  </CaixaMaps>
+                ))}
+              </>
             )}
           </Lista>
         </Timeline>
         <HashTags>
-          <p className="titulo">trending</p>
-          <Link to="">
+          <p className='titulo'>trending</p>
+          <Link to=''>
             <p># javascript</p>
           </Link>
-          <Link to="">
+          <Link to=''>
             <p># react</p>
           </Link>
-          <Link to="">
+          <Link to=''>
             <p># react-native</p>
           </Link>
-          <Link to="">
+          <Link to=''>
             <p># material</p>
           </Link>
-          <Link to="">
+          <Link to=''>
             <p># web-dev</p>
           </Link>
-          <Link to="">
+          <Link to=''>
             <p># mobile</p>
           </Link>
-          <Link to="">
+          <Link to=''>
             <p># css</p>
           </Link>
-          <Link to="">
+          <Link to=''>
             <p># html</p>
           </Link>
-          <Link to="">
+          <Link to=''>
             <p># node</p>
           </Link>
-          <Link to="">
+          <Link to=''>
             <p># sql</p>
           </Link>
         </HashTags>
@@ -149,7 +169,7 @@ const Timeline = styled.div`
   width: 611px;
 
   h1 {
-    font-family: "Oswald";
+    font-family: 'Oswald';
     font-size: 43px;
     font-weight: 700;
     color: #ffffff;
@@ -185,7 +205,7 @@ const CaixaInputs = styled.div`
     background-color: #efefef;
     margin-bottom: 5px;
     margin-left: 30px;
-    font-family: "Lato";
+    font-family: 'Lato';
     font-size: 15px;
     font-weight: 300;
     color: #949494;
@@ -213,7 +233,7 @@ const ButtonPost = styled.div`
     height: 31px;
     border-radius: 10px;
     color: #ffffff;
-    font-family: "Lato";
+    font-family: 'Lato';
     font-size: 14px;
     font-weight: 700;
   }
@@ -234,14 +254,14 @@ const HashTags = styled.div`
   color: #ffffff;
 
   p {
-    font-family: "Lato";
+    font-family: 'Lato';
     font-size: 19px;
     font-weight: 700;
     margin: 16px;
   }
 
   .titulo {
-    font-family: "Oswald";
+    font-family: 'Oswald';
     font-size: 27px;
     font-weight: 700;
   }
@@ -269,7 +289,7 @@ const MapsConteudos = styled.div`
 
   p {
     flex-wrap: wrap;
-    font-family: "Lato";
+    font-family: 'Lato';
     font-size: 17px;
     font-weight: 400;
     color: #b7b7b7;
@@ -282,10 +302,10 @@ const MapsConteudos = styled.div`
 `;
 
 const HashtagasPosts = styled.div`
-    p{
-        font-family: 'Lato';
-        font-size: 17px;
-        font-weight: 400;
-        color: #ffffff;
-    }
+  p {
+    font-family: 'Lato';
+    font-size: 17px;
+    font-weight: 400;
+    color: #ffffff;
+  }
 `;
