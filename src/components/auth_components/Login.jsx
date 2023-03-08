@@ -1,9 +1,8 @@
 import styled from "styled-components";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { signIn } from "../../services/Auth.js"
+import { signIn } from "../../services/api.js"
 import { AuthContext } from "../../contexts/AuthContext.js";
-import { useContext } from "react";
 
 export default function Signin() {
 
@@ -43,7 +42,7 @@ export default function Signin() {
                     </Email>
                     <Senha placeholder="password" name="password" type="password"
                     onChange={(e) => handleForm({name: e.target.name,value: e.target.value,})}>
-                    </Senha>      
+                    </Senha>
                 <Entrar onClick={handleSendForm}><p>Log in</p></Entrar>
                 <Link className="link" to="/registro">
                 <RegisterBox>First time?<span> Create an account!</span></RegisterBox>
@@ -94,7 +93,7 @@ const TittleBig = styled.p`
     line-height: 117px;
     letter-spacing: 0.05em;
     color: #FFFFFF;
-    
+
     `
 
 
@@ -171,7 +170,7 @@ const Senha = styled.input`
     border-radius: 6px;
 
     &::placeholder{
-    
+
     font-family: 'Oswald';
     font-style: normal;
     font-weight: 700;
