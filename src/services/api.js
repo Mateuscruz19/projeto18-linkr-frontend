@@ -12,7 +12,7 @@ const authorization = (token) => ({
 
 // LOGIN AUTH
 export function signIn(body) {
-  const response = axios.post(`${url}/sign-in`, body).catch((error) => {
+  const response = axios.post(`${process.env.REACT_APP_API_URL}/sign-in`, body).catch((error) => {
     return error.response;
   });
   return response;
