@@ -20,9 +20,9 @@ const Header = () => {
   const { token } = useContext(AuthContext);
   const navigate = useNavigate();
 
-  // useEffect(() => {
-  //   if(!token) return navigate("/login");
-  // }, [token]);
+  useEffect(() => {
+     if(!token) return navigate("/login");
+   }, [token]);
 
   async function handleSearchValue(username) {
     setSearchValue(username);
@@ -30,7 +30,7 @@ const Header = () => {
     try {
       const { data: users } = await getUsersByUsername(
         username,
-        "dc40b4de-2701-406a-a730-caef552ca322"
+        token
       );
       console.log(users);
       setSearchResult(users);
