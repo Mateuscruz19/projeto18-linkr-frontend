@@ -1,6 +1,6 @@
-import axios from "axios";
+import axios from 'axios';
 
-const url = "http://localhost:4000";
+const url = 'http://localhost:4000';
 
 export const apiRequests = axios.create({
   baseURL: process.env.REACT_APP_API_URL,
@@ -21,8 +21,8 @@ export function signIn(body) {
 // REGISTER AUTH
 export function signUp(body) {
   console.log(url);
-  //   const response = axios.post(`${url}/sign-up`, body);
-  //   return response;
+  const response = axios.post(`${url}/sign-up`, body);
+  return response;
 }
 
 export const getUsersByUsername = (username, token) =>
