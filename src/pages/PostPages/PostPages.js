@@ -16,13 +16,19 @@ export default function Posts() {
   const [name, setName] = useState("");
   const [list, setList] = useState([]);
   const [alter, setAlter] = useState(false);
-  const { token } = useContext(AuthContext);
+  const { token,setToken } = useContext(AuthContext);
   const { user } = useUser();
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (isEmpty(token)) return navigate("/");
 
+    const acess = localStorage.getItem("linkrAcess");
+    console.log(acess)
+    if(acess === null){
+        navigate("/")
+    } else {
+      setToken(acess)
+    }
     const config = {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -39,7 +45,7 @@ export default function Posts() {
       })
       .catch((err) => {
         console.log(err);
-        alert(err.response.data.message);
+        console.log(err.response.data.message);
       });
   }, [alter]);
 
