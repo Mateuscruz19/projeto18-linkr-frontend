@@ -14,13 +14,22 @@ import { AuthContext } from "../../contexts/AuthContext";
 import { getUsersByUsername } from "../../services/api";
 import UserCard from "./UserCard/UserCard";
 import { useUser } from "../../contexts/UserContext";
+import {  useNavigate } from "react-router-dom";
 
 const Header = () => {
   const [searchValue, setSearchValue] = useState("");
   const [searchResult, setSearchResult] = useState([]);
   const [dropdownFlag, setDropdownFlag] = useState(false);
-  const { token } = useContext(AuthContext);
+  const { setToken,token } = useContext(AuthContext);
   const { user } = useUser();
+  const navigate = useNavigate();
+
+  function Logout() {
+    setToken("")
+    navigate("/")
+    localStorage.removeItem("linkrAcess");
+    alert("Deslogado com sucesso!")
+  }
 
   async function handleSearchValue(username) {
     setSearchValue(username);
@@ -69,7 +78,7 @@ const Header = () => {
           />
         </ImageCrop>
         {dropdownFlag && (
-          <Dropdown>
+          <Dropdown onClick={Logout}>
             <button>Logout</button>
           </Dropdown>
         )}
