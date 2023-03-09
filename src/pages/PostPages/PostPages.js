@@ -2,7 +2,7 @@ import axios from 'axios';
 import { useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import { ConteinerPost } from '../../components/ConteinerPost';
+import { ConteinerPost } from './ConteinerPost.js';
 import Header from '../../components/Header/Header';
 import veio from '../../img/image 4.svg';
 import { AuthContext } from '../../contexts/AuthContext';
@@ -68,21 +68,14 @@ export default function Posts() {
     <>
       <Header />
       <ConteinerPost>
-        <Timeline>
+        <MainContainerPostStyled>
           <TitleTimeLine>timeline</TitleTimeLine>
-          <CaixaInsert>
-            <img src={veio} alt='imagem de perfil' />
-            <CaixaPostInputs>
-              <form onSubmit={addPost}>
-                <CaixaInputs>
-                  <input
-                    name='description'
-                    value={description}
-                    type='text'
-                    className='primeiro'
-                    placeholder='What are you going to share today?'
-                    onChange={(e) => setDescription(e.target.value)}
-                  />
+          <MainContentPostStyled>
+            <Timeline>
+              <CaixaInsert>
+                <img src={veio} alt='imagem de perfil' />
+                <CaixaPostInputs onSubmit={addPost}>
+                  <label>What are you going to share today?</label>
                   <input
                     name='link'
                     value={link}
@@ -98,73 +91,77 @@ export default function Posts() {
                     placeholder='Awesome article about #javascript'
                     onChange={(e) => setName(e.target.value)}
                   />
-                </CaixaInputs>
-              </form>
-              <ButtonPost>
-                <button type='submit'>Publish</button>
-              </ButtonPost>
-            </CaixaPostInputs>
-          </CaixaInsert>
-          <Lista>
-            {list.length === 0 ? (
-              <div>Sua lista esta vazio</div>
-            ) : (
-              <>
-                {list.map((item) => (
-                  <Post
-                    item={item}
-                    list={list}
-                    setList={setList}
-                    alter={alter}
-                    setAlter={setAlter}
-                  />
-                ))}
-              </>
-            )}
-          </Lista>
-        </Timeline>
-        <HashTags>
-          <p className='titulo'>trending</p>
-          <Link to=''>
-            <p># javascript</p>
-          </Link>
-          <Link to=''>
-            <p># react</p>
-          </Link>
-          <Link to=''>
-            <p># react-native</p>
-          </Link>
-          <Link to=''>
-            <p># material</p>
-          </Link>
-          <Link to=''>
-            <p># web-dev</p>
-          </Link>
-          <Link to=''>
-            <p># mobile</p>
-          </Link>
-          <Link to=''>
-            <p># css</p>
-          </Link>
-          <Link to=''>
-            <p># html</p>
-          </Link>
-          <Link to=''>
-            <p># node</p>
-          </Link>
-          <Link to=''>
-            <p># sql</p>
-          </Link>
-        </HashTags>
+
+                  <ButtonPost>
+                    <button type='submit'>Publish</button>
+                  </ButtonPost>
+                </CaixaPostInputs>
+              </CaixaInsert>
+              <Lista>
+                {list.length === 0 ? (
+                  <div>Sua lista esta vazio</div>
+                ) : (
+                  <>
+                    {list.map((item) => (
+                      <Post
+                        item={item}
+                        list={list}
+                        setList={setList}
+                        alter={alter}
+                        setAlter={setAlter}
+                      />
+                    ))}
+                  </>
+                )}
+              </Lista>
+            </Timeline>
+            <HashTags>
+              <TitleHashtag>trending</TitleHashtag>
+
+              <ContainerHashtags>
+                <InfoHashtags># javascript</InfoHashtags>
+
+                <InfoHashtags># react</InfoHashtags>
+
+                <InfoHashtags># react-native</InfoHashtags>
+
+                <InfoHashtags># material</InfoHashtags>
+
+                <InfoHashtags># web-dev</InfoHashtags>
+
+                <InfoHashtags># mobile</InfoHashtags>
+
+                <InfoHashtags># css</InfoHashtags>
+
+                <InfoHashtags># html</InfoHashtags>
+
+                <InfoHashtags># node</InfoHashtags>
+
+                <InfoHashtags># sql</InfoHashtags>
+              </ContainerHashtags>
+            </HashTags>
+          </MainContentPostStyled>
+        </MainContainerPostStyled>
       </ConteinerPost>
     </>
   );
 }
 
+const MainContainerPostStyled = styled.div`
+  width: 70%;
+  margin-top: 130px;
+`;
+
+const MainContentPostStyled = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 45px;
+`;
+
 const Timeline = styled.div`
   flex-direction: column;
-  margin-top: 78px;
-  width: 611px;
+  width: 65%;
 `;
 
 const TitleTimeLine = styled.h1`
@@ -176,15 +173,12 @@ const TitleTimeLine = styled.h1`
 
 const CaixaInsert = styled.div`
   display: flex;
-  margin-top: 43px;
-  padding: 16px;
-  width: 611px;
-  justify-content: space-around;
-  flex-direction: row;
+  padding: 20px;
+  width: 100%;
   background-color: #ffffff;
-  border-radius: 10px;
   margin-bottom: 30px;
-
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 16px;
   img {
     width: 50px;
     height: 50px;
@@ -192,24 +186,31 @@ const CaixaInsert = styled.div`
   }
 `;
 
-const CaixaPostInputs = styled.div`
+const CaixaPostInputs = styled.form`
+  width: 85%;
   flex-direction: column;
-`;
-
-const CaixaInputs = styled.div`
+  margin-left: 20px;
+  label {
+    font-family: 'Lato';
+    font-style: normal;
+    font-weight: 300;
+    font-size: 20px;
+    line-height: 24px;
+    color: #707070;
+  }
   input {
     border-radius: 10px;
-    width: 503px;
+    width: 100%;
     height: 40px;
     background-color: #efefef;
-    margin-bottom: 5px;
-    margin-left: 30px;
+    margin-top: 10px;
     font-family: 'Lato';
     font-size: 15px;
     font-weight: 300;
     color: #949494;
+    border: none;
+    padding-left: 15px;
   }
-
   .primeiro {
     width: 445px;
     height: 40px;
@@ -224,8 +225,10 @@ const CaixaInputs = styled.div`
 `;
 
 const ButtonPost = styled.div`
+  width: 100%;
   display: flex;
   justify-content: flex-end;
+  margin-top: 5px;
   button {
     background-color: #1877f2;
     width: 112px;
@@ -235,76 +238,48 @@ const ButtonPost = styled.div`
     font-family: 'Lato';
     font-size: 14px;
     font-weight: 700;
+    border: none;
   }
 `;
 
 const Lista = styled.div`
+  width: 100%;
   flex-direction: column;
 `;
 
 const HashTags = styled.div`
   flex-direction: column;
-  width: 301px;
-  height: 406px;
+  width: 30%;
+  height: 100%;
   background-color: #171717;
-  margin-top: 185px;
-  margin-left: 25px;
-  border-radius: 10px;
+  border-radius: 16px;
   color: #ffffff;
-
-  p {
-    font-family: 'Lato';
-    font-size: 19px;
-    font-weight: 700;
-    margin: 16px;
-  }
-
-  .titulo {
-    font-family: 'Oswald';
-    font-size: 27px;
-    font-weight: 700;
-  }
+  position: sticky;
+  top: 100px;
 `;
 
-const CaixaMaps = styled.div`
-  display: flex;
-  flex-direction: row;
-  margin-top: 29px;
-  width: 611px;
-  background-color: #171717;
-  border-radius: 10px;
-  padding: 16px;
-
-  img {
-    width: 50px;
-    height: 50px;
-    border-radius: 100%;
-  }
+const TitleHashtag = styled.h1`
+  width: 100%;
+  font-family: 'Oswald';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 27px;
+  line-height: 40px;
+  color: #ffffff;
+  padding: 9px 0px 12px 16px;
+  border-bottom: 1px solid #484848;
 `;
 
-const MapsConteudos = styled.div`
-  flex-direction: column;
-  margin-left: 30px;
-
-  p {
-    flex-wrap: wrap;
-    font-family: 'Lato';
-    font-size: 17px;
-    font-weight: 400;
-    color: #b7b7b7;
-    margin-bottom: 7px;
-  }
-
-  .nome {
-    color: #ffffff;
-  }
+const ContainerHashtags = styled.div`
+  width: 100%;
+  padding: 22px 16px 20px 16px;
 `;
 
-const HashtagasPosts = styled.div`
-  p {
-    font-family: 'Lato';
-    font-size: 17px;
-    font-weight: 400;
-    color: #ffffff;
-  }
+const InfoHashtags = styled.p`
+  font-family: 'Lato';
+  font-size: 19px;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 15px;
+  cursor: pointer;
 `;

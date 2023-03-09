@@ -6,5 +6,4 @@ export const ConteinerPost = styled.div`
   background-color: #333333;
   display: flex;
   justify-content: center;
-  align-items: center;
 `;

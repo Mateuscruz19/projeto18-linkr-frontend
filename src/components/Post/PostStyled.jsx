@@ -68,7 +68,6 @@ export const DescriptionStyled = styled.h2`
   line-height: 20px;
   color: #b7b7b7;
   word-wrap: break-word;
-  word-wrap: normal;
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
@@ -88,14 +87,14 @@ export const ContainerLinkStyled = styled.div`
   border-radius: 11px;
   display: flex;
   margin-top: 10px;
+  border: 1px solid #4d4d4d;
+  border-radius: 13px;
   cursor: pointer;
 `;
 
 export const ContainerInfoLinkStyled = styled.div`
   width: 70%;
   border-radius: 13px 0px 0px 13px;
-  border: 1px solid #4d4d4d;
-  border-right: none;
   padding: 20px;
 `;
 
@@ -162,11 +161,22 @@ export const ImageLinkStyled = styled.img`
   border-radius: 0px 13px 13px 0px;
 `;
 
-export const DeleteButtonStyled = styled.div`
+export const ContainerModifyStyled = styled.div`
   top: 30px;
   right: 30px;
   position: absolute;
+  display: flex;
+`;
+
+export const UpdateButtonStyled = styled.div`
   color: #fff;
-  font-size: 14px;
+  font-size: 16px;
   cursor: pointer;
+`;
+
+export const DeleteButtonStyled = styled.div`
+  color: #fff;
+  font-size: 16px;
+  cursor: pointer;
+  margin-left: 12px;
 `;
