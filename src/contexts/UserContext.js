@@ -1,4 +1,3 @@
-import { isEmptyStatement } from "@babel/types";
 import { createContext, useContext, useEffect, useState } from "react";
 import { AuthContext } from "./AuthContext";
 import isEmpty from "../utils/functions/isEmpty";
@@ -8,10 +7,10 @@ const UserContext = createContext({});
 
 const UserProvider = ({ children }) => {
   const [user, setUser] = useState({});
-  const { token, setToken } = useContext(AuthContext);
+  const { token } = useContext(AuthContext);
 
   useEffect(() => {
-    if (user && !isEmpty(user) || isEmpty(token)) return;
+    if ((user && !isEmpty(user)) || isEmpty(token)) return;
 
     const getCurrentUser = async () => {
       try {
@@ -33,6 +32,6 @@ const UserProvider = ({ children }) => {
   );
 };
 
-export const useUser = () => useContext(useContext);
+export const useUser = () => useContext(UserContext);
 
 export default UserProvider;
