@@ -1,29 +1,43 @@
 import axios from 'axios';
-import { useEffect, useState } from 'react';
-//useContext
+import { useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { ConteinerPost } from '../../components/ConteinerPost';
 import Header from '../../components/Header/Header';
-// import { AuthContext } from "../../contexts/AuthContext";
 import veio from '../../img/image 4.svg';
+import { AuthContext } from '../../contexts/AuthContext';
+import Post from '../../components/Post/Post';
 
 export default function Posts() {
   const [link, setLink] = useState('');
   const [description, setDescription] = useState('');
   const [name, setName] = useState('');
   const [list, setList] = useState([]);
+  const [alter, setAlter] = useState(false);
+  const { token } = useContext(AuthContext);
 
-  // const {token} = useContext(AuthContext);
+  console.log(list);
+
   useEffect(() => {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
     axios
-      .get(`${process.env.REACT_APP_API_URL}/publication`)
+      .get(`${process.env.REACT_APP_API_URL}/publication`, config)
       .then((res) => {
+        if (res.status === 425) {
+          return null;
+        }
         setList(res.data);
         console.log(res.data);
       })
-      .catch((err) => alert(err.response.data.message));
-  }, []);
+      .catch((err) => {
+        console.log(err);
+        alert(err.response.data.message);
+      });
+  }, [alter]);
 
   if (list === 0) {
     return <div>Carregando...</div>;
@@ -41,15 +55,7 @@ export default function Posts() {
     };
 
     axios
-      .post(
-        url,
-        body
-        //     {
-        //     headers: {
-        //         'Authorization': `Bearer ${token}`
-        //     }
-        // }
-      )
+      .post(url, body)
       .then(() => {
         console.log('foi inserido uma publicação');
       })
@@ -63,7 +69,7 @@ export default function Posts() {
       <Header />
       <ConteinerPost>
         <Timeline>
-          <h1>timeline</h1>
+          <TitleTimeLine>timeline</TitleTimeLine>
           <CaixaInsert>
             <img src={veio} alt='imagem de perfil' />
             <CaixaPostInputs>
@@ -104,22 +110,14 @@ export default function Posts() {
               <div>Sua lista esta vazio</div>
             ) : (
               <>
-                {list.map((l) => (
-                  <CaixaMaps key={l.id}>
-                    <img src={l.avatarImage} alt='imagem de perfil' />
-                    <MapsConteudos>
-                      <p className='nome'>{l.name}</p>
-                      <p>
-                        {l.descriptionPost}
-                        {l.hashtags.map((index) => (
-                          <HashtagasPosts key={index.id}>
-                            <p>{index.nameHashtag}</p>
-                          </HashtagasPosts>
-                        ))}
-                      </p>
-                      <p>{l.linkPost}</p>
-                    </MapsConteudos>
-                  </CaixaMaps>
+                {list.map((item) => (
+                  <Post
+                    item={item}
+                    list={list}
+                    setList={setList}
+                    alter={alter}
+                    setAlter={setAlter}
+                  />
                 ))}
               </>
             )}
@@ -167,13 +165,13 @@ const Timeline = styled.div`
   flex-direction: column;
   margin-top: 78px;
   width: 611px;
+`;
 
-  h1 {
-    font-family: 'Oswald';
-    font-size: 43px;
-    font-weight: 700;
-    color: #ffffff;
-  }
+const TitleTimeLine = styled.h1`
+  font-family: 'Oswald';
+  font-size: 43px;
+  font-weight: 700;
+  color: #ffffff;
 `;
 
 const CaixaInsert = styled.div`
@@ -185,6 +183,7 @@ const CaixaInsert = styled.div`
   flex-direction: row;
   background-color: #ffffff;
   border-radius: 10px;
+  margin-bottom: 30px;
 
   img {
     width: 50px;

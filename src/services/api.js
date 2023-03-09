@@ -26,3 +26,7 @@ export function signUp(body) {
 
 export const getUsersByUsername = (username, token) =>
   apiRequests.get(`/users?username=${username}`, authorization(token));
+
+export const deletePost = (id, token) => {
+  return apiRequests.delete(`/publication/${id}`, authorization(token));
+};
