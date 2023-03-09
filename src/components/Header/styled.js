@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 export const HeaderContainer = styled.header`
   display: flex;
@@ -9,6 +9,7 @@ export const HeaderContainer = styled.header`
   background-color: ${({ theme }) => theme.colors.black};
   height: 4.5rem;
   position: fixed;
+  z-index: 10;
   top: 0;
   left: 0;
   input {
@@ -32,7 +33,7 @@ export const LogoTitle = styled.h1`
   color: ${({ theme }) => theme.colors.white};
   font-size: 49px;
   font-weight: 700;
-  font-family: "Passion One", "Arial", sans-serif;
+  font-family: 'Passion One', 'Arial', sans-serif;
 `;
 
 export const SearchContainer = styled.div`

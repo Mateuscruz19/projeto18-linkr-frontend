@@ -14,16 +14,26 @@ import {
   TitleInfoLinkStyled,
   DescriptionInfoLinkStyled,
   UrlInfoLinkStyled,
+  UpdateButtonStyled,
   DeleteButtonStyled,
+  ContainerModifyStyled,
 } from './PostStyled.jsx';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef, useContext } from 'react';
 import { HiTrash } from 'react-icons/hi';
+import { TiPencil } from 'react-icons/ti';
 import axios from 'axios';
 import ModalDelete from '../ModalDelete/ModalDelete.js';
+import { updatePost } from '../../services/api.js';
+import { AuthContext } from '../../contexts/AuthContext.js';
 
 const Post = ({ item, list, setList, alter, setAlter }) => {
+  const { token } = useContext(AuthContext);
   const [infoLink, setInfoLink] = useState(undefined);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [description, setDescription] = useState(item.descriptionPost);
+  const [editing, setEditing] = useState(false);
+  const inputRef = useRef(null);
+  console.log(description);
 
   console.log(item.linkPost);
   useEffect(() => {
@@ -40,6 +50,47 @@ const Post = ({ item, list, setList, alter, setAlter }) => {
   const handleOpenModal = () => setIsModalOpen(true);
   const handleCloseModal = () => setIsModalOpen(false);
 
+  const handleTextClick = () => {
+    if (editing === false) {
+      setEditing(true);
+    } else {
+      setDescription(item.descriptionPost);
+      setEditing(false);
+    }
+  };
+
+  const handleConfirm = () => {
+    setEditing(false);
+    setDescription(inputRef.current.value);
+  };
+
+  const handleKeyPress = (event) => {
+    if (event.key === 'Enter') {
+      handleUpdatePost();
+    }
+    if (event.key === 'Escape') {
+      setDescription(item.descriptionPost);
+      setEditing(false);
+    }
+  };
+
+  const handleInputChange = (event) => {
+    setDescription(event.target.value);
+  };
+
+  const handleUpdatePost = () => {
+    const body = { description };
+    updatePost(item.id, body, token)
+      .then((res) => {
+        handleConfirm();
+      })
+      .catch((err) => {
+        console.log(err);
+        alert(err.response);
+        setDescription(item.descriptionPost);
+      });
+  };
+
   return (
     <>
       <MainContainerPostStyled>
@@ -52,7 +103,18 @@ const Post = ({ item, list, setList, alter, setAlter }) => {
         </ContainerImageLikeStyled>
         <ContainerInfoDescriptionStyled>
           <TitleNameStyled>{item.name}</TitleNameStyled>
-          <DescriptionStyled>{item.descriptionPost}</DescriptionStyled>
+          {editing ? (
+            <input
+              type='text'
+              ref={inputRef}
+              value={description}
+              onKeyDown={handleKeyPress}
+              onChange={handleInputChange}
+            />
+          ) : (
+            <DescriptionStyled>{description}</DescriptionStyled>
+          )}
+
           {infoLink ? (
             <ContainerLinkStyled onClick={(e) => window.open(infoLink.url, '_blank')}>
               <ContainerInfoLinkStyled>
@@ -73,9 +135,14 @@ const Post = ({ item, list, setList, alter, setAlter }) => {
             <>Carregando...</>
           )}
         </ContainerInfoDescriptionStyled>
-        <DeleteButtonStyled onClick={handleOpenModal}>
-          <HiTrash />
-        </DeleteButtonStyled>
+        <ContainerModifyStyled>
+          <UpdateButtonStyled onClick={handleTextClick}>
+            <TiPencil />
+          </UpdateButtonStyled>
+          <DeleteButtonStyled onClick={handleOpenModal}>
+            <HiTrash />
+          </DeleteButtonStyled>
+        </ContainerModifyStyled>
       </MainContainerPostStyled>
       <ModalDelete
         isModalOpen={isModalOpen}
