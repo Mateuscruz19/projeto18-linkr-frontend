@@ -9,6 +9,7 @@ import { AuthContext } from "../../contexts/AuthContext";
 import Post from "../../components/Post/Post";
 import { useUser } from "../../contexts/UserContext.js";
 import isEmpty from "../../utils/functions/isEmpty.js";
+import TrendingsBar from "../../components/TrendingsBar.js";
 
 export default function Posts() {
   const [link, setLink] = useState("");
@@ -125,31 +126,7 @@ export default function Posts() {
                 )}
               </Lista>
             </Timeline>
-            <HashTags>
-              <TitleHashtag>trending</TitleHashtag>
-
-              <ContainerHashtags>
-                <InfoHashtags># javascript</InfoHashtags>
-
-                <InfoHashtags># react</InfoHashtags>
-
-                <InfoHashtags># react-native</InfoHashtags>
-
-                <InfoHashtags># material</InfoHashtags>
-
-                <InfoHashtags># web-dev</InfoHashtags>
-
-                <InfoHashtags># mobile</InfoHashtags>
-
-                <InfoHashtags># css</InfoHashtags>
-
-                <InfoHashtags># html</InfoHashtags>
-
-                <InfoHashtags># node</InfoHashtags>
-
-                <InfoHashtags># sql</InfoHashtags>
-              </ContainerHashtags>
-            </HashTags>
+          <TrendingsBar/>
           </MainContentPostStyled>
         </MainContainerPostStyled>
       </ConteinerPost>
@@ -255,41 +232,4 @@ const ButtonPost = styled.div`
 const Lista = styled.div`
   width: 100%;
   flex-direction: column;
-`;
-
-const HashTags = styled.div`
-  flex-direction: column;
-  width: 30%;
-  height: 100%;
-  background-color: #171717;
-  border-radius: 16px;
-  color: #ffffff;
-  position: sticky;
-  top: 100px;
-`;
-
-const TitleHashtag = styled.h1`
-  width: 100%;
-  font-family: "Oswald";
-  font-style: normal;
-  font-weight: 700;
-  font-size: 27px;
-  line-height: 40px;
-  color: #ffffff;
-  padding: 9px 0px 12px 16px;
-  border-bottom: 1px solid #484848;
-`;
-
-const ContainerHashtags = styled.div`
-  width: 100%;
-  padding: 22px 16px 20px 16px;
-`;
-
-const InfoHashtags = styled.p`
-  font-family: "Lato";
-  font-size: 19px;
-  font-weight: 700;
-  color: #fff;
-  margin-bottom: 15px;
-  cursor: pointer;
 `;
