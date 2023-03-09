@@ -57,6 +57,9 @@ export const SearchBox = styled.ul`
     align-items: center;
     justify-content: center;
   }
+  a{
+    text-decoration: none;
+  }
 `;
 
 export const ProfileContainer = styled.div`

@@ -1,17 +1,17 @@
 import { UserContent } from "./styled";
 import { ImageCrop } from "../styled";
+import { Link } from "react-router-dom";
 
-const UserCard = ({avatar, username} ) => {
+const UserCard = ({ avatar, username, id }) => {
   return (
-    <UserContent>
-      <ImageCrop height={"39px"} width={"39px"}>
-        <img
-          src={avatar}
-          alt={`User Avatar :)`}
-        />
-      </ImageCrop>
-      <span>{username}</span>
-    </UserContent>
+    <Link to={`/post/${id}`}>
+      <UserContent>
+        <ImageCrop height={"39px"} width={"39px"}>
+          <img src={avatar} alt={`User Avatar :)`} />
+        </ImageCrop>
+        <span>{username}</span>
+      </UserContent>
+    </Link>
   );
 };
 

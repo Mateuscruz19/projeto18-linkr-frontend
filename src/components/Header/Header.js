@@ -51,7 +51,7 @@ const Header = () => {
               <p>Usuário não encontrado :P</p>
             ) : (
               searchResult.map(({ id, avatar_url, name }) => (
-                <UserCard key={id} avatar={avatar_url} username={name} />
+                <UserCard key={id} id={id} avatar={avatar_url} username={name} />
               ))
             )}
           </SearchBox>
