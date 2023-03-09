@@ -21,17 +21,14 @@ const Header = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-     if(!token) return navigate("/login");
-   }, [token]);
+    if (!token) return navigate("/");
+  }, [token]);
 
   async function handleSearchValue(username) {
     setSearchValue(username);
 
     try {
-      const { data: users } = await getUsersByUsername(
-        username,
-        token
-      );
+      const { data: users } = await getUsersByUsername(username, token);
       console.log(users);
       setSearchResult(users);
     } catch (error) {
@@ -51,10 +48,9 @@ const Header = () => {
         />
         {searchValue && (
           <SearchBox>
-            {
-              searchResult.map(({ id, avatar_url, name }) => (
-                <UserCard key={id} avatar={avatar_url} username={name} />
-              ))}
+            {searchResult.map(({ id, avatar_url, name }) => (
+              <UserCard key={id} avatar={avatar_url} username={name} />
+            ))}
           </SearchBox>
         )}
       </SearchContainer>
