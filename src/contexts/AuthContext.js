@@ -1,11 +1,18 @@
-import React, { createContext, useState } from 'react';
+import React, { createContext, useEffect, useState } from "react";
 
 export const AuthContext = createContext({});
 
 function AuthProvider({ children }) {
-  const [token, setToken] = useState({});
+  const tokenLocalStorage = localStorage.getItem("linkrAcess");
+  const [token, setToken] = useState(
+    tokenLocalStorage ? tokenLocalStorage : {}
+  );
 
-  return <AuthContext.Provider value={{ token, setToken }}>{children}</AuthContext.Provider>;
+  return (
+    <AuthContext.Provider value={{ token, setToken }}>
+      {children}
+    </AuthContext.Provider>
+  );
 }
 
 export default AuthProvider;

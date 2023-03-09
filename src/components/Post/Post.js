@@ -96,14 +96,14 @@ const Post = ({ item, list, setList, alter, setAlter }) => {
     <>
       <MainContainerPostStyled>
         <ContainerImageLikeStyled>
-        <Link to={`/post/${item.userId}`} ><ImageProfileStyled src={item.avatarImage} alt='' /></Link>
+        <Link to={`/user/${item.userId}`} ><ImageProfileStyled src={item.avatarImage} alt='' /></Link>
           <ButtonLikeStyled>
             <AiOutlineHeart />
             <span>13 likes</span>
           </ButtonLikeStyled>
         </ContainerImageLikeStyled>
         <ContainerInfoDescriptionStyled>
-          <TitleNameStyled><Link to={`/post/${item.userId}`} >{item.name}</Link></TitleNameStyled>
+          <TitleNameStyled><Link to={`/user/${item.userId}`} >{item.name}</Link></TitleNameStyled>
           {editing ? (
             <input
               type='text'
