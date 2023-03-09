@@ -5,32 +5,31 @@ import {
   ProfileContainer,
   SearchContainer,
   SearchBox,
+  Dropdown,
 } from "./styled";
 import { AiOutlineDown } from "react-icons/ai";
 import { DebounceInput } from "react-debounce-input";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { AuthContext } from "../../contexts/AuthContext";
-import { useNavigate } from "react-router-dom";
 import { getUsersByUsername } from "../../services/api";
 import UserCard from "./UserCard/UserCard";
+import { useUser } from "../../contexts/UserContext";
 
 const Header = () => {
   const [searchValue, setSearchValue] = useState("");
   const [searchResult, setSearchResult] = useState([]);
+  const [dropdownFlag, setDropdownFlag] = useState(false);
   const { token } = useContext(AuthContext);
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    if (!token) return navigate("/");
-  }, [token]);
+  const { user } = useUser();
 
   async function handleSearchValue(username) {
     setSearchValue(username);
 
     try {
-      const { data: users } = await getUsersByUsername(username, token);
-      console.log(users);
-      setSearchResult(users);
+      const { data: users } =
+        username && (await getUsersByUsername(username, token));
+
+      setSearchResult(username ? users : []);
     } catch (error) {
       console.log(error);
     }
@@ -48,22 +47,32 @@ const Header = () => {
         />
         {searchValue && (
           <SearchBox>
-            {searchResult.map(({ id, avatar_url, name }) => (
-              <UserCard key={id} avatar={avatar_url} username={name} />
-            ))}
+            {!searchResult.length ? (
+              <p>Usuário não encontrado :P</p>
+            ) : (
+              searchResult.map(({ id, avatar_url, name }) => (
+                <UserCard key={id} avatar={avatar_url} username={name} />
+              ))
+            )}
           </SearchBox>
         )}
       </SearchContainer>
-      <ProfileContainer>
-        <button>
+      <ProfileContainer drop={dropdownFlag}>
+        <button onClick={() => setDropdownFlag(!dropdownFlag)}>
           <AiOutlineDown />
         </button>
         <ImageCrop height={"59px"} width={"59px"}>
           <img
-            src={`https://t.ctcdn.com.br/SquOzwLGbhezsZr0JLCoWRTevsc=/512x288/smart/filters:format(webp)/i598772.jpeg`}
+            onClick={() => setDropdownFlag(!dropdownFlag)}
+            src={user.avatarUrl}
             alt={`User Avatar :)`}
           />
         </ImageCrop>
+        {dropdownFlag && (
+          <Dropdown>
+            <button>Logout</button>
+          </Dropdown>
+        )}
       </ProfileContainer>
     </HeaderContainer>
   );
