@@ -22,7 +22,7 @@ export default function Signin() {
 
     signUp(form)
       .then((res) => {
-        
+
         alert('Registrado com sucesso!');
         navigate('/');
       })
@@ -67,7 +67,7 @@ export default function Signin() {
               onChange={(e) => handleForm({ name: e.target.name, value: e.target.value })}
             ></InputLoginStyled>
             <InputLoginStyled
-              data-test='sign-up-btn'
+              data-test='picture-url'
               placeholder='picture'
               name='picture'
               onChange={(e) => handleForm({ name: e.target.name, value: e.target.value })}
