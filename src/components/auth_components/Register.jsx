@@ -23,7 +23,7 @@ export default function Signin() {
     signUp(form).then((res) => {
       console.log(res)
       alert("Registrado com sucesso!")
-      navigate("/login");
+      navigate("/");
     })
     .catch((err) => {
      alert("Erro ao registrar o usuario,verifique os campos inseridos.");

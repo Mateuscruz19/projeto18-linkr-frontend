@@ -56,8 +56,14 @@ export const TitleNameStyled = styled.h1`
   font-weight: 400;
   font-size: 19px;
   line-height: 23px;
-  color: #ffffff;
   margin-bottom: 5px;
+  a{
+    text-decoration: none;
+    color: #ffffff;
+    &:hover{
+      text-decoration: underline;
+    }
+  }
 `;
 
 export const DescriptionStyled = styled.h2`

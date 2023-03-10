@@ -4,7 +4,6 @@ import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { ConteinerPost } from "./ConteinerPost.js";
 import Header from "../../components/Header/Header";
-import veio from "../../img/image 4.svg";
 import { AuthContext } from "../../contexts/AuthContext";
 import Post from "../../components/Post/Post";
 import { useUser } from "../../contexts/UserContext.js";
@@ -22,13 +21,8 @@ export default function Posts() {
 
   useEffect(() => {
 
-    const acess = localStorage.getItem("linkrAcess");
-    console.log(acess)
-    if(acess === null){
-        navigate("/")
-    } else {
-      setToken(acess)
-    }
+    if(isEmpty(token)) return navigate("/");
+
     const config = {
       headers: {
         Authorization: `Bearer ${token}`,

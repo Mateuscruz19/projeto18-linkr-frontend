@@ -30,6 +30,8 @@ export const getUserByToken = (token) =>
 export const getUsersByUsername = (username, token) =>
   apiRequests.get(`/users?username=${username}`, authorization(token));
 
+export const getPostsByUserId = (userId, token) => apiRequests.get(`/publication/user/${userId}`, authorization(token));
+
 export const deletePost = (id, token) => {
   return apiRequests.delete(`/publication/${id}`, authorization(token));
 };
