@@ -1,13 +1,68 @@
-import React, { createContext, useState } from 'react';
+import React, { createContext, useEffect, useState, useContext } from 'react';
+import { useNavigate } from 'react-router';
 
 export const AuthContext = createContext({});
 
-function AuthProvider({ children }) {
-  const [token, setToken] = useState({});
+export function AuthProvider({ children }) {
+  const [token, setToken] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [user, setUser] = useState(null);
+  const navigate = useNavigate();
 
-  return <AuthContext.Provider value={{ token, setToken }}>{children}</AuthContext.Provider>;
+  useEffect(() => {
+    const recoveredUser = localStorage.getItem('user');
+
+    if (recoveredUser) {
+      const recoveredUserJson = JSON.parse(recoveredUser);
+      setToken(recoveredUserJson.token);
+      delete recoveredUserJson.token;
+      setUser(recoveredUserJson);
+      navigate('/timeline');
+    }
+
+    setLoading(false);
+  }, [loading]);
+
+  const login = (data) => {
+    const loggedUser = data;
+
+    localStorage.setItem('user', JSON.stringify(loggedUser));
+
+    setToken((item) => (item = data.token));
+    delete loggedUser.token;
+    setUser((item) => (item = data.user));
+
+    setLoading(true);
+
+    navigate('/timeline');
+  };
+
+  const logout = () => {
+    localStorage.removeItem('user');
+    setUser(null);
+    setToken(null);
+    navigate('/');
+  };
+
+  return (
+    <AuthContext.Provider
+      value={{
+        authenticated: !!user,
+        user,
+        setUser,
+        token,
+        setToken,
+        loading,
+        setLoading,
+        login,
+        logout,
+      }}
+    >
+      {children}
+    </AuthContext.Provider>
+  );
 }
 
-export default AuthProvider;
+export const useUser = () => useContext(AuthContext);
 
 // Funcao para transportar o token de usuario entre os componentes.

@@ -1,39 +1,31 @@
 import styled from 'styled-components';
-import { useState,useEffect, useContext } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useState, useContext } from 'react';
+import { Link } from 'react-router-dom';
 import { signIn } from '../../services/api.js';
 import { AuthContext } from '../../contexts/AuthContext.js';
 
 export default function Signin() {
   const [form, setForm] = useState({});
-  const navigate = useNavigate();
-  const { setToken } = useContext(AuthContext);
+  const { login } = useContext(AuthContext);
 
   function handleForm({ value, name }) {
     setForm({ ...form, [name]: value });
   }
-
-  useEffect(() => {
-    const acess = localStorage.getItem("linkrAcess");
-    console.log(acess)
-    if(acess !== null){
-        setToken(acess)
-        navigate("/post")
-    }
-
-},[])
 
   function handleSendForm(e) {
     e.preventDefault();
     if (!form.email || !form.password) {
       return alert('Preencha os campos corretamente');
     }
-    signIn(form).then((res) => {
-      if (res.data === 'Unauthorized') return alert('Verifique os dados inseridos');
-      setToken(res.data.token);
-      localStorage.setItem("linkrAcess",res.data.token);
-      return navigate('/post');
-    });
+
+    signIn(form)
+      .then((res) => {
+        if (res.data === 'Unauthorized') return alert('Verifique os dados inseridos');
+        login(res.data);
+      })
+      .catch((error) => {
+        console.log(error.response);
+      });
   }
 
   return (
