@@ -70,11 +70,12 @@ export default function Posts() {
           <TitleTimeLine>timeline</TitleTimeLine>
           <MainContentPostStyled>
             <Timeline>
-              <CaixaInsert>
+              <CaixaInsert data-test='publish-box'>
                 <img src={user.avatar_url} alt='imagem de perfil' />
                 <CaixaPostInputs onSubmit={addPost}>
                   <label>What are you going to share today?</label>
                   <input
+                    data-test='link'
                     name='link'
                     value={link}
                     type='text'
@@ -82,6 +83,7 @@ export default function Posts() {
                     onChange={(e) => setLink(e.target.value)}
                   />
                   <input
+                    data-test='description'
                     name='name'
                     value={name}
                     type='text'
@@ -91,13 +93,15 @@ export default function Posts() {
                   />
 
                   <ButtonPost>
-                    <button type='submit'>Publish</button>
+                    <button type='submit' data-test='publish-btn'>
+                      Publish
+                    </button>
                   </ButtonPost>
                 </CaixaPostInputs>
               </CaixaInsert>
               <Lista>
                 {list.length === 0 ? (
-                  <div>Sua lista esta vazio</div>
+                  <div data-test='message'>There are no posts yet</div>
                 ) : (
                   <>
                     {list.map((item) => (

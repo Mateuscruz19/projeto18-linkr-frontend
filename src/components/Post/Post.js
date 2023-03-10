@@ -24,7 +24,7 @@ import ModalDelete from '../ModalDelete/ModalDelete.js';
 import { updatePost } from '../../services/api.js';
 import { AuthContext } from '../../contexts/AuthContext.js';
 import { Link } from 'react-router-dom';
-import Likes from "../Likes/Likes.js";
+import Likes from '../Likes/Likes.js';
 import HashtagHighlight from '../HashtagHighlight.js';
 
 const Post = ({ item, list, setList, alter, setAlter }) => {
@@ -37,9 +37,7 @@ const Post = ({ item, list, setList, alter, setAlter }) => {
 
   useEffect(() => {
     axios
-      .get(
-        `https://api.linkpreview.net/?key=79574a3e5aa6921ccabd738c2837550c&q=${item.linkPost}/`
-      )
+      .get(`https://api.linkpreview.net/?key=79574a3e5aa6921ccabd738c2837550c&q=${item.linkPost}/`)
       .then((res) => {
         setInfoLink((item) => (item = res.data));
       })
@@ -66,10 +64,10 @@ const Post = ({ item, list, setList, alter, setAlter }) => {
   };
 
   const handleKeyPress = (event) => {
-    if (event.key === "Enter") {
+    if (event.key === 'Enter') {
       handleUpdatePost();
     }
-    if (event.key === "Escape") {
+    if (event.key === 'Escape') {
       setDescription(item.descriptionPost);
       setEditing(false);
     }
@@ -94,24 +92,23 @@ const Post = ({ item, list, setList, alter, setAlter }) => {
 
   return (
     <>
-      <MainContainerPostStyled>
+      <MainContainerPostStyled data-test='post'>
         <ContainerImageLikeStyled>
           <Link to={`/user/${item.userId}`}>
-            <ImageProfileStyled src={item.avatarImage} alt="" />
+            <ImageProfileStyled src={item.avatarImage} alt='' />
           </Link>
-          <Likes
-            postId={item.id}
-            qtyLikesPost={item.qtyLikesPost}
-            idUsersLike={item.idUsersLike}
-          />
+          <Likes postId={item.id} qtyLikesPost={item.qtyLikesPost} idUsersLike={item.idUsersLike} />
         </ContainerImageLikeStyled>
         <ContainerInfoDescriptionStyled>
           <TitleNameStyled>
-            <Link to={`/user/${item.userId}`}>{item.name}</Link>
+            <Link to={`/user/${item.userId}`} data-test='username'>
+              {item.name}
+            </Link>
           </TitleNameStyled>
           {editing ? (
             <input
-              type="text"
+              data-test='edit-input'
+              type='text'
               ref={inputRef}
               value={description}
               onKeyDown={handleKeyPress}
@@ -119,27 +116,27 @@ const Post = ({ item, list, setList, alter, setAlter }) => {
             />
           ) : (
             <DescriptionStyled>
-            <HashtagHighlight text={description}/>
+              <HashtagHighlight text={description} />
             </DescriptionStyled>
           )}
 
           {infoLink ? (
             <ContainerLinkStyled
-              onClick={(e) => window.open(infoLink.url, "_blank")}
+              data-test='link'
+              onClick={(e) => window.open(infoLink.url, '_blank')}
             >
               <ContainerInfoLinkStyled>
                 <TitleInfoLinkStyled>{infoLink.title}</TitleInfoLinkStyled>
-                <DescriptionInfoLinkStyled>
+                <DescriptionInfoLinkStyled data-test='description'>
                   {infoLink.description}
                   <span>
-                    {item.hashtags[0].id !== null &&
-                      item.hashtags.map((hash) => hash.nameHashtag)}
+                    {item.hashtags[0].id !== null && item.hashtags.map((hash) => hash.nameHashtag)}
                   </span>
                 </DescriptionInfoLinkStyled>
                 <UrlInfoLinkStyled>{infoLink.url}</UrlInfoLinkStyled>
               </ContainerInfoLinkStyled>
               <ContainerImageLinkStyled>
-                <ImageLinkStyled src={infoLink.image} alt="" />
+                <ImageLinkStyled src={infoLink.image} alt='' />
               </ContainerImageLinkStyled>
             </ContainerLinkStyled>
           ) : (
@@ -147,10 +144,10 @@ const Post = ({ item, list, setList, alter, setAlter }) => {
           )}
         </ContainerInfoDescriptionStyled>
         <ContainerModifyStyled>
-          <UpdateButtonStyled onClick={handleTextClick}>
+          <UpdateButtonStyled data-test='edit-btn' onClick={handleTextClick}>
             <TiPencil />
           </UpdateButtonStyled>
-          <DeleteButtonStyled onClick={handleOpenModal}>
+          <DeleteButtonStyled data-test='delete-btn' onClick={handleOpenModal}>
             <HiTrash />
           </DeleteButtonStyled>
         </ContainerModifyStyled>
