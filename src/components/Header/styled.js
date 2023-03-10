@@ -19,6 +19,12 @@ export const HeaderContainer = styled.header`
     border-radius: 8px;
     font-size: 19px;
     padding-left: 17px;
+
+    @media screen and (max-width: 800px) {
+      width:70%;
+      margin-left:15px;
+  }
+
     &:focus {
       outline: none;
     }
@@ -34,6 +40,10 @@ export const LogoTitle = styled.h1`
   font-size: 49px;
   font-weight: 700;
   font-family: "Passion One", "Arial", sans-serif;
+
+  @media screen and (max-width: 800px) {
+    font-size:29px;
+  }
 `;
 
 export const SearchContainer = styled.div`
@@ -60,6 +70,7 @@ export const SearchBox = styled.ul`
   a{
     text-decoration: none;
   }
+
 `;
 
 export const ProfileContainer = styled.div`
