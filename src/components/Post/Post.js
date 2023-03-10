@@ -15,16 +15,17 @@ import {
   UpdateButtonStyled,
   DeleteButtonStyled,
   ContainerModifyStyled,
-} from "./PostStyled.jsx";
-import { useEffect, useState, useRef, useContext } from "react";
-import { HiTrash } from "react-icons/hi";
-import { TiPencil } from "react-icons/ti";
-import axios from "axios";
-import ModalDelete from "../ModalDelete/ModalDelete.js";
-import { updatePost } from "../../services/api.js";
-import { AuthContext } from "../../contexts/AuthContext.js";
-import { Link } from "react-router-dom";
+} from './PostStyled.jsx';
+import { useEffect, useState, useRef, useContext } from 'react';
+import { HiTrash } from 'react-icons/hi';
+import { TiPencil } from 'react-icons/ti';
+import axios from 'axios';
+import ModalDelete from '../ModalDelete/ModalDelete.js';
+import { updatePost } from '../../services/api.js';
+import { AuthContext } from '../../contexts/AuthContext.js';
+import { Link } from 'react-router-dom';
 import Likes from "../Likes/Likes.js";
+import HashtagHighlight from '../HashtagHighlight.js';
 
 const Post = ({ item, list, setList, alter, setAlter }) => {
   const { token } = useContext(AuthContext);
@@ -117,7 +118,9 @@ const Post = ({ item, list, setList, alter, setAlter }) => {
               onChange={handleInputChange}
             />
           ) : (
-            <DescriptionStyled>{description}</DescriptionStyled>
+            <DescriptionStyled>
+            <HashtagHighlight text={description}/>
+            </DescriptionStyled>
           )}
 
           {infoLink ? (
