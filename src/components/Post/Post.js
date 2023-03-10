@@ -26,6 +26,7 @@ import ModalDelete from '../ModalDelete/ModalDelete.js';
 import { updatePost } from '../../services/api.js';
 import { AuthContext } from '../../contexts/AuthContext.js';
 import { Link } from 'react-router-dom';
+import HashtagHighlight from '../HashtagHighlight.js';
 
 const Post = ({ item, list, setList, alter, setAlter }) => {
   const { token } = useContext(AuthContext);
@@ -113,7 +114,9 @@ const Post = ({ item, list, setList, alter, setAlter }) => {
               onChange={handleInputChange}
             />
           ) : (
-            <DescriptionStyled>{description}</DescriptionStyled>
+            <DescriptionStyled>
+            <HashtagHighlight text={description}/>
+            </DescriptionStyled>
           )}
 
           {infoLink ? (

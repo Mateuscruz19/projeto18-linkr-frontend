@@ -6,7 +6,7 @@ import Posts from "./pages/PostPages/PostPages.js";
 import colors from "./utils/constants/colors.js";
 import AuthProvider from "./contexts/AuthContext.js";
 import UserProvider from "./contexts/UserContext.js";
-import HashtagPage from "./pages/HashtagPage.js";
+import HashtagPage from "./pages/PostPages/HashtagPage.js";
 import UserFeedPage from "./pages/UserFeedPage/UserFeedPage.js";
 
 export default function App() {
