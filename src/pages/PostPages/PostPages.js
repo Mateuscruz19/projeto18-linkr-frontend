@@ -1,67 +1,66 @@
-import axios from 'axios';
-import { useContext, useEffect, useState } from 'react';
-import styled from 'styled-components';
-import { ContainerPost } from './ContainerPost.js';
-import Header from '../../components/Header/Header';
-import { AuthContext } from '../../contexts/AuthContext';
-import Post from '../../components/Post/Post';
-import { useUser } from '../../contexts/AuthContext.js';
+import { useContext, useEffect, useState } from "react";
+import styled from "styled-components";
+import { ContainerPost } from "./ContainerPost.js";
+import Header from "../../components/Header/Header";
+import { AuthContext } from "../../contexts/AuthContext";
+import Post from "../../components/Post/Post";
+import { useUser } from "../../contexts/AuthContext.js";
+import { getAllPosts, setPost } from "../../services/api.js";
 
 export default function Posts() {
-  const [link, setLink] = useState('');
-  const [description, setDescription] = useState('');
-  const [name, setName] = useState('');
+  const [link, setLink] = useState("");
+  const [description, setDescription] = useState("");
   const [list, setList] = useState([]);
   const [alter, setAlter] = useState(false);
   const { token } = useContext(AuthContext);
   const { user } = useUser();
+  const [sendingPost, setSendingPost] = useState(false);
 
   useEffect(() => {
-    const config = {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    };
-    axios
-      .get(`${process.env.REACT_APP_API_URL}/publication`, config)
-      .then((res) => {
-        if (res.status === 425) {
+    async function listAllPosts() {
+      try {
+        const result = await getAllPosts(token);
+
+        if (result.status === 425) {
           return null;
         }
-        setList(res.data);
-
-      })
-      .catch((err) => {
-        console.log(err);
-        console.log(err.response.data.message);
-      });
+        setList(result.data);
+      } catch (error) {
+        console.log(error);
+        console.log(error.response.data.message);
+      }
+    }
+    listAllPosts();
   }, [alter]);
 
   if (list === 0) {
     return <div>Carregando...</div>;
   }
 
-  function addPost(e) {
+  async function addPost(e) {
     e.preventDefault();
 
-    const url = `${process.env.REACT_APP_API_URL}/publication`;
+    setSendingPost(true);
 
     const body = {
-      link: link,
-      description: description,
-      name: name,
+      description,
+      link,
     };
 
-    axios
-      .post(url, body)
-      .then(() => {
-        console.log('foi inserido uma publicação');
-      })
-      .catch((err) => {
-        console.log(err);
-        alert(err.response);
-      });
+    try {
+      await setPost(body, token);
+
+      setAlter(!alter);
+      setDescription("");
+      setLink("");
+    } catch (error) {
+      console.log(error);
+      alert("Houve um erro ao publicar seu link");
+    } finally {
+      setSendingPost(false);
+    }
   }
+
   return (
     <>
       <Header />
@@ -71,27 +70,33 @@ export default function Posts() {
           <MainContentPostStyled>
             <Timeline>
               <CaixaInsert>
-                <img src={user.avatar_url} alt='imagem de perfil' />
+                <img src={user.avatar_url} alt="imagem de perfil" />
                 <CaixaPostInputs onSubmit={addPost}>
                   <label>What are you going to share today?</label>
                   <input
-                    name='link'
+                    name="link"
                     value={link}
-                    type='text'
-                    placeholder='https://...'
+                    type="url"
+                    pattern="https://.*"
+                    placeholder="https://..."
                     onChange={(e) => setLink(e.target.value)}
+                    required
+                    disabled={sendingPost}
                   />
                   <input
-                    name='name'
-                    value={name}
-                    type='text'
-                    className='ultimo'
-                    placeholder='Awesome article about #javascript'
-                    onChange={(e) => setName(e.target.value)}
+                    name="description"
+                    value={description}
+                    type="text"
+                    className="ultimo"
+                    placeholder="Awesome article about #javascript"
+                    onChange={(e) => setDescription(e.target.value)}
+                    disabled={sendingPost}
                   />
 
                   <ButtonPost>
-                    <button type='submit'>Publish</button>
+                    <button type="submit" disabled={sendingPost}>
+                      {sendingPost ? "Publishing..." : "Publish"}
+                    </button>
                   </ButtonPost>
                 </CaixaPostInputs>
               </CaixaInsert>
@@ -164,7 +169,7 @@ const Timeline = styled.div`
 `;
 
 const TitleTimeLine = styled.h1`
-  font-family: 'Oswald';
+  font-family: "Oswald";
   font-size: 43px;
   font-weight: 700;
   color: #ffffff;
@@ -190,7 +195,7 @@ const CaixaPostInputs = styled.form`
   flex-direction: column;
   margin-left: 20px;
   label {
-    font-family: 'Lato';
+    font-family: "Lato";
     font-style: normal;
     font-weight: 300;
     font-size: 20px;
@@ -203,7 +208,7 @@ const CaixaPostInputs = styled.form`
     height: 40px;
     background-color: #efefef;
     margin-top: 10px;
-    font-family: 'Lato';
+    font-family: "Lato";
     font-size: 15px;
     font-weight: 300;
     color: #949494;
@@ -234,10 +239,13 @@ const ButtonPost = styled.div`
     height: 31px;
     border-radius: 10px;
     color: #ffffff;
-    font-family: 'Lato';
+    font-family: "Lato";
     font-size: 14px;
     font-weight: 700;
     border: none;
+    &:disabled {
+      opacity: 0.8;
+    }
   }
 `;
 
@@ -259,7 +267,7 @@ const HashTags = styled.div`
 
 const TitleHashtag = styled.h1`
   width: 100%;
-  font-family: 'Oswald';
+  font-family: "Oswald";
   font-style: normal;
   font-weight: 700;
   font-size: 27px;
@@ -275,7 +283,7 @@ const ContainerHashtags = styled.div`
 `;
 
 const InfoHashtags = styled.p`
-  font-family: 'Lato';
+  font-family: "Lato";
   font-size: 19px;
   font-weight: 700;
   color: #fff;
