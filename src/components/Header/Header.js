@@ -13,7 +13,6 @@ import { useContext, useState } from 'react';
 import { AuthContext } from '../../contexts/AuthContext';
 import { getUsersByUsername } from '../../services/api';
 import UserCard from './UserCard/UserCard';
-import { useNavigate } from 'react-router-dom';
 
 const Header = () => {
   const [searchValue, setSearchValue] = useState('');

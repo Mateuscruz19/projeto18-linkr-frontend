@@ -17,7 +17,6 @@ export function AuthProvider({ children }) {
       const notAllowToLoggedUsers =
         pathname === "/" || pathname === "/registro";
       const recoveredUserJson = JSON.parse(recoveredUser);
-      console.log(pathname);
       setToken(recoveredUserJson.token);
       delete recoveredUserJson.token;
       setUser(recoveredUserJson);
