@@ -13,12 +13,12 @@ import { AuthContext } from '../../contexts/AuthContext';
 const ModalDelete = ({ isModalOpen, handleCloseModal, itemId, list, setList, alter, setAlter }) => {
   const { token } = useContext(AuthContext);
 
-  console.log(list);
+
   const handleDelete = () => {
     deletePost(itemId, token)
       .then((res) => {
         const newList = list.filter((item) => item.id != itemId);
-        console.log(newList);
+        
         setAlter(!alter);
         setList(newList);
         handleCloseModal();

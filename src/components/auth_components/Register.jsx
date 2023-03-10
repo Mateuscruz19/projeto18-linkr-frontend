@@ -14,15 +14,15 @@ export default function Signin() {
 
   function handleSendForm(event) {
     event.preventDefault();
-    console.log(form);
+
     if (!form.username || !form.email || !form.password || !form.picture) {
       return alert('Preencha os campos corretamente');
     }
 
-    console.log(form);
+
     signUp(form)
       .then((res) => {
-        console.log(res);
+        
         alert('Registrado com sucesso!');
         navigate('/');
       })

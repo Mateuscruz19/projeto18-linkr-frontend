@@ -17,14 +17,14 @@ const Likes = ({ postId, qtyLikesPost, idUsersLike }) => {
   const [like, setLike] = useState(false);
   const [qtyLike, setQtyLike] = useState(qtyLikesPost);
   const [usersLike, setUsersLike] = useState([]);
-  console.log(like);
+
   useEffect(() => {
     let isLike = [];
     if (idUsersLike[0]) {
       isLike = idUsersLike.filter((item) => item.id === user.id);
     }
 
-    console.log(isLike);
+    
     if (isLike.length !== 0) {
       setLike(true);
     }

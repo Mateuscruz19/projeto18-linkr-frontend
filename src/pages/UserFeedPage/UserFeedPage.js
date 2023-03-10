@@ -35,7 +35,7 @@ const UserFeedPage = () => {
     async function getUserPosts() {
       try {
         const { data: posts } = await getPostsByUserId(userId, token);
-  
+
         if(!posts.length) return navigate("/post");
 
         setList(posts);
@@ -68,6 +68,7 @@ const UserFeedPage = () => {
                   <>
                     {list.map((item) => (
                       <Post
+                        key={item.id}
                         item={item}
                         list={list}
                         setList={setList}
