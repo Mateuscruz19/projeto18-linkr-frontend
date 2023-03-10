@@ -50,7 +50,7 @@ export default function HashtagPage() {
       <Header />
       <ContainerPost>
         <MainContainerPostStyled>
-          <TitleTimeLine>#{hashtag}</TitleTimeLine>
+          <TitleTimeLine data-test="hashtag-title">#{hashtag}</TitleTimeLine>
           <MainContentPostStyled>
             <Timeline>
               <Lista>

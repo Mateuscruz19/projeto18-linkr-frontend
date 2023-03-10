@@ -19,12 +19,12 @@ export default function TrendingsBar(props){
 		// <InfoHashtags># javascript</InfoHashtags>
 
 	return(
-		<HashTags>
+		<HashTags data-test="trending">
 		<TitleHashtag>trending</TitleHashtag>
 
 		<ContainerHashtags>
 			{trendings.map((e, i) => (
-				<InfoHashtags key={i} onClick={()=>nav(`/hashtag/${e.name.substring(1)}`)}> {e.name} </InfoHashtags>
+				<InfoHashtags data-test="hashtag" key={i} onClick={()=>nav(`/hashtag/${e.name.substring(1)}`)}> {e.name} </InfoHashtags>
 			))}
 		</ContainerHashtags>
 	  </HashTags>
