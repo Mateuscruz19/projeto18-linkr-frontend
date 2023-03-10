@@ -40,26 +40,26 @@ export default function Signin() {
       <RightTable>
         <Form>
           <ContainerBot>
-            <Email
+            <InputLoginStyled
+              data-test='email'
               placeholder='email'
               name='email'
               type='email'
               onChange={(e) => handleForm({ name: e.target.name, value: e.target.value })}
-            ></Email>
-            <Senha
+            ></InputLoginStyled>
+            <InputLoginStyled
+              data-test='password'
               placeholder='password'
               name='password'
               type='password'
               onChange={(e) => handleForm({ name: e.target.name, value: e.target.value })}
-            ></Senha>
-            <Entrar onClick={handleSendForm}>
+            ></InputLoginStyled>
+            <Entrar data-test='login-btn' onClick={handleSendForm}>
               <p>Log in</p>
             </Entrar>
-            <Link className='link' to='/registro'>
-              <RegisterBox>
-                First time?<span> Create an account!</span>
-              </RegisterBox>
-            </Link>
+            <RegisterBox data-test='sign-up-link' className='link' to='/registro'>
+              First time?<span> Create an account!</span>
+            </RegisterBox>
           </ContainerBot>
         </Form>
       </RightTable>
@@ -74,12 +74,26 @@ const Background = styled.div`
   align-items: center;
   justify-content: space-between;
   background-color: #151515;
+  @media screen and (max-width: 800px) {
+    display: block;
+    height: auto;
+    overflow: hidden;
+  }
 `;
 const TittleBox = styled.div`
   height: 400px;
   width: 500px;
   margin-left: 10%;
   margin-bottom: 5%;
+  @media screen and (max-width: 800px) {
+    width: 100%;
+    height: auto;
+    padding: 20px 0px;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
 `;
 const TittleDesc = styled.p`
   font-family: 'Oswald';
@@ -88,6 +102,12 @@ const TittleDesc = styled.p`
   font-size: 43px;
   line-height: 64px;
   color: #ffffff;
+  @media screen and (max-width: 800px) {
+    width: 100%;
+    text-align: center;
+    font-size: 23px;
+    line-height: 34px;
+  }
 `;
 
 const TittleBig = styled.p`
@@ -98,6 +118,12 @@ const TittleBig = styled.p`
   line-height: 117px;
   letter-spacing: 0.05em;
   color: #ffffff;
+  @media screen and (max-width: 800px) {
+    width: 100%;
+    text-align: center;
+    font-size: 76px;
+    line-height: 84px;
+  }
 `;
 
 const RightTable = styled.main`
@@ -106,6 +132,10 @@ const RightTable = styled.main`
   background: #333333;
   box-shadow: 4px 0px 4px rgba(0, 0, 0, 0.25);
   display: flex;
+  @media screen and (max-width: 800px) {
+    width: 100%;
+    height: 80vh;
+  }
 `;
 
 const Form = styled.form`
@@ -116,6 +146,11 @@ const Form = styled.form`
   align-items: center;
   width: 100%;
   margin-bottom: 150px;
+  @media screen and (max-width: 800px) {
+    justify-content: flex-start;
+    margin-top: 40px;
+    padding: 0 22px;
+  }
 `;
 
 const ContainerBot = styled.div`
@@ -126,15 +161,20 @@ const ContainerBot = styled.div`
   padding: 0px;
   gap: 8px;
   margin-top: 30px;
+  @media screen and (max-width: 800px) {
+    width: 100%;
+    margin-top: 0px;
+  }
 `;
 
-const Email = styled.input`
+const InputLoginStyled = styled.input`
   width: 429px;
   height: 65px;
   left: 956px;
   top: 395px;
   background: #ffffff;
   border-radius: 6px;
+  padding-left: 17px;
 
   &::placeholder {
     font-family: 'Oswald';
@@ -144,30 +184,14 @@ const Email = styled.input`
     line-height: 40px;
     color: #9f9f9f;
   }
-`;
-
-const Senha = styled.input`
-  width: 429px;
-  height: 65px;
-  left: 956px;
-  top: 395px;
-  background: #ffffff;
-  border-radius: 6px;
-
-  &::placeholder {
-    font-family: 'Oswald';
-    font-style: normal;
-    font-weight: 700;
-    font-size: 22px;
-    line-height: 40px;
-    color: #9f9f9f;
+  @media screen and (max-width: 800px) {
+    width: 100%;
   }
 `;
 
 const Entrar = styled.button`
   width: 429px;
   height: 65px;
-
   background: #1877f2;
   border-radius: 6px;
   border: none;
@@ -188,11 +212,13 @@ const Entrar = styled.button`
     box-shadow: 3px 2px 22px 1px rgba(0, 0, 0, 0.24);
     /* Lowering the shadow */
   }
+  @media screen and (max-width: 800px) {
+    width: 100%;
+  }
 `;
 
-const RegisterBox = styled.p`
+const RegisterBox = styled(Link)`
   width: 427px;
-
   font-style: normal;
   font-weight: 400;
   font-size: 15px;
@@ -204,9 +230,13 @@ const RegisterBox = styled.p`
   font-family: 'Lato';
   text-decoration-line: underline;
   color: #ffffff;
-
   &:hover {
     text-decoration: underline;
     text-decoration-color: blue;
+  }
+  @media screen and (max-width: 800px) {
+    width: 100%;
+    display: flex;
+    justify-content: center;
   }
 `;

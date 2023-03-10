@@ -13,8 +13,7 @@ import { useContext, useState } from 'react';
 import { AuthContext } from '../../contexts/AuthContext';
 import { getUsersByUsername } from '../../services/api';
 import UserCard from './UserCard/UserCard';
-import { useNavigate } from "react-router-dom";
-
+import { useNavigate } from 'react-router-dom';
 
 const Header = () => {
   const [searchValue, setSearchValue] = useState('');
@@ -62,7 +61,7 @@ const Header = () => {
                   id={id}
                   avatar={avatar_url}
                   username={name}
-                  setSearchValue = {setSearchValue}
+                  setSearchValue={setSearchValue}
                 />
               ))
             )}
@@ -75,14 +74,17 @@ const Header = () => {
         </button>
         <ImageCrop height={'59px'} width={'59px'}>
           <img
+            data-test='avatar'
             onClick={() => setDropdownFlag(!dropdownFlag)}
             src={user.avatar_url}
             alt={`User Avatar :)`}
           />
         </ImageCrop>
         {dropdownFlag && (
-          <Dropdown onClick={Logout}>
-            <button>Logout</button>
+          <Dropdown data-test='menu'>
+            <button data-test='logout' onClick={Logout}>
+              Logout
+            </button>
           </Dropdown>
         )}
       </ProfileContainer>

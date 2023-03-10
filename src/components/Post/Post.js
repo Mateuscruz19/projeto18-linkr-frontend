@@ -33,6 +33,7 @@ const Post = ({ item, list, setList, alter, setAlter }) => {
   const [description, setDescription] = useState(item.descriptionPost);
   const [editing, setEditing] = useState(false);
   const inputRef = useRef(null);
+
   console.log(description);
 
   console.log(item.idUsersLike);
@@ -96,7 +97,7 @@ const Post = ({ item, list, setList, alter, setAlter }) => {
 
   return (
     <>
-      <MainContainerPostStyled>
+      <MainContainerPostStyled data-test='post'>
         <ContainerImageLikeStyled>
           <Link to={`/user/${item.userId}`}>
             <ImageProfileStyled src={item.avatarImage} alt='' />
@@ -105,7 +106,9 @@ const Post = ({ item, list, setList, alter, setAlter }) => {
         </ContainerImageLikeStyled>
         <ContainerInfoDescriptionStyled>
           <TitleNameStyled>
-            <Link to={`/user/${item.userId}`}>{item.name}</Link>
+            <Link to={`/user/${item.userId}`} data-test='username'>
+              {item.name}
+            </Link>
           </TitleNameStyled>
           {editing ? (
             <input
@@ -120,10 +123,13 @@ const Post = ({ item, list, setList, alter, setAlter }) => {
           )}
 
           {infoLink ? (
-            <ContainerLinkStyled onClick={(e) => window.open(infoLink.url, '_blank')}>
+            <ContainerLinkStyled
+              data-test='link'
+              onClick={(e) => window.open(infoLink.url, '_blank')}
+            >
               <ContainerInfoLinkStyled>
                 <TitleInfoLinkStyled>{infoLink.title}</TitleInfoLinkStyled>
-                <DescriptionInfoLinkStyled>
+                <DescriptionInfoLinkStyled data-test='description'>
                   {infoLink.description}
                   <span>
                     {item.hashtags[0].id !== null && item.hashtags.map((hash) => hash.nameHashtag)}

@@ -46,32 +46,36 @@ export default function Signin() {
       <RightTable>
         <Form>
           <ContainerBot>
-            <Email
+            <InputLoginStyled
+              data-test='email'
               placeholder='email'
               name='email'
               type='email'
               onChange={(e) => handleForm({ name: e.target.name, value: e.target.value })}
-            ></Email>
-            <Senha
+            ></InputLoginStyled>
+            <InputLoginStyled
+              data-test='password'
               placeholder='password'
               name='password'
               type='password'
               onChange={(e) => handleForm({ name: e.target.name, value: e.target.value })}
-            ></Senha>
-            <Senha
+            ></InputLoginStyled>
+            <InputLoginStyled
+              data-test='username'
               placeholder='username'
               name='username'
               onChange={(e) => handleForm({ name: e.target.name, value: e.target.value })}
-            ></Senha>
-            <Senha
+            ></InputLoginStyled>
+            <InputLoginStyled
+              data-test='sign-up-btn'
               placeholder='picture'
               name='picture'
               onChange={(e) => handleForm({ name: e.target.name, value: e.target.value })}
-            ></Senha>
-            <Entrar onClick={handleSendForm}>
+            ></InputLoginStyled>
+            <Entrar data-test='sign-up-btn' onClick={handleSendForm}>
               <p>Sign Up</p>
             </Entrar>
-            <Link className='link' to='/'>
+            <Link data-test='login-link' className='link' to='/'>
               <RegisterBox>Switch back to log in</RegisterBox>
             </Link>
           </ContainerBot>
@@ -79,7 +83,6 @@ export default function Signin() {
       </RightTable>
     </Background>
   );
-
 }
 
 const Background = styled.div`
@@ -143,13 +146,14 @@ const ContainerBot = styled.div`
   margin-top: 30px;
 `;
 
-const Email = styled.input`
+const InputLoginStyled = styled.input`
   width: 429px;
   height: 65px;
   left: 956px;
   top: 395px;
   background: #ffffff;
   border-radius: 6px;
+  padding-left: 17px;
 
   &::placeholder {
     font-family: 'Oswald';
@@ -159,23 +163,8 @@ const Email = styled.input`
     line-height: 40px;
     color: #9f9f9f;
   }
-`;
-
-const Senha = styled.input`
-  width: 429px;
-  height: 65px;
-  left: 956px;
-  top: 395px;
-  background: #ffffff;
-  border-radius: 6px;
-
-  &::placeholder {
-    font-family: 'Oswald';
-    font-style: normal;
-    font-weight: 700;
-    font-size: 22px;
-    line-height: 40px;
-    color: #9f9f9f;
+  @media screen and (max-width: 800px) {
+    width: 100%;
   }
 `;
 

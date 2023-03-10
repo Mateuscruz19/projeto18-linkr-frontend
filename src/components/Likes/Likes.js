@@ -20,6 +20,7 @@ const Likes = ({ postId, qtyLikesPost, idUsersLike }) => {
   console.log(like);
   useEffect(() => {
     let isLike = [];
+
     if (idUsersLike[0]) {
       isLike = idUsersLike.filter((item) => item.id === user.id);
     }

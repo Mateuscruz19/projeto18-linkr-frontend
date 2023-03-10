@@ -1,47 +1,46 @@
-import styled from 'styled-components'
-import Header from '../components/Header/Header.js'
-import {ContainerPost} from './PostPages/ContainerPost.js'
-import TrendingsBar from "./../components/TrendingsBar.js";
-import Post from "./../components/Post/Post.js";
+import styled from 'styled-components';
+import Header from '../components/Header/Header.js';
+import { ContainerPost } from './PostPages/ContainerPost.js';
+import TrendingsBar from './../components/TrendingsBar.js';
+import Post from './../components/Post/Post.js';
 
-import { useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 
 import axios from 'axios';
 
-export default function HashtagPage(props){
+export default function HashtagPage(props) {
+  const [posts, setPosts] = useState([]);
 
-	const [posts, setPosts] = useState([])
+  const hashtag = useParams().hashtag;
 
-	const hashtag = useParams().hashtag
+  useEffect(() => {
+    const prom = axios.get(`${process.env.REACT_APP_API_URL}/hashtag/${hashtag}`);
+    prom.then((res) => setPosts(res.data));
+  }, []);
 
-	useEffect(() => {
-		const prom = axios.get(`${process.env.REACT_APP_API_URL}/hashtag/${hashtag}`)
-		prom.then((res) => setPosts(res.data));
-	},[])
-
-	return(<>
-		<Header />
-		<ContainerPost>
-			<MainContainerPostStyled>
-			<TitleTimeLine>#{hashtag}</TitleTimeLine>
-			<MainContentPostStyled>
-				<Timeline>
-				<Lista>
-					{posts.length === 0 ? (
-						<div>Não há posts contendo a hashtag buscada.</div>
-						) : (
-						posts.map((item) => (
-							<p>{item.description}</p>
-						))
-					)}
-				</Lista>
-				</Timeline>
-			<TrendingsBar/>
-			</MainContentPostStyled>
-			</MainContainerPostStyled>
-		</ContainerPost>
-	</>)
+  return (
+    <>
+      <Header />
+      <ContainerPost>
+        <MainContainerPostStyled>
+          <TitleTimeLine>#{hashtag}</TitleTimeLine>
+          <MainContentPostStyled>
+            <Timeline>
+              <Lista>
+                {posts.length === 0 ? (
+                  <div>Não há posts contendo a hashtag buscada.</div>
+                ) : (
+                  posts.map((item) => <p>{item.description}</p>)
+                )}
+              </Lista>
+            </Timeline>
+            <TrendingsBar />
+          </MainContentPostStyled>
+        </MainContainerPostStyled>
+      </ContainerPost>
+    </>
+  );
 }
 
 const MainContainerPostStyled = styled.div`
@@ -62,7 +61,7 @@ const Timeline = styled.div`
 `;
 
 const TitleTimeLine = styled.h1`
-  font-family: "Oswald";
+  font-family: 'Oswald';
   font-size: 43px;
   font-weight: 700;
   color: #ffffff;
@@ -88,7 +87,7 @@ const CaixaPostInputs = styled.form`
   flex-direction: column;
   margin-left: 20px;
   label {
-    font-family: "Lato";
+    font-family: 'Lato';
     font-style: normal;
     font-weight: 300;
     font-size: 20px;
@@ -101,7 +100,7 @@ const CaixaPostInputs = styled.form`
     height: 40px;
     background-color: #efefef;
     margin-top: 10px;
-    font-family: "Lato";
+    font-family: 'Lato';
     font-size: 15px;
     font-weight: 300;
     color: #949494;
@@ -132,7 +131,7 @@ const ButtonPost = styled.div`
     height: 31px;
     border-radius: 10px;
     color: #ffffff;
-    font-family: "Lato";
+    font-family: 'Lato';
     font-size: 14px;
     font-weight: 700;
     border: none;
