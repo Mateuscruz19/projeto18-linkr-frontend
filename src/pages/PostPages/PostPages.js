@@ -1,29 +1,22 @@
-import axios from "axios";
-import { useContext, useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import styled from "styled-components";
-import { ContainerPost } from "./ContainerPost.js";
-import Header from "../../components/Header/Header";
-import { AuthContext } from "../../contexts/AuthContext";
-import Post from "../../components/Post/Post";
-import { useUser } from "../../contexts/UserContext.js";
-import isEmpty from "../../utils/functions/isEmpty.js";
-import TrendingsBar from "../../components/TrendingsBar.js";
+import axios from 'axios';
+import { useContext, useEffect, useState } from 'react';
+import styled from 'styled-components';
+import { ContainerPost } from './ContainerPost.js';
+import Header from '../../components/Header/Header';
+import { AuthContext } from '../../contexts/AuthContext';
+import Post from '../../components/Post/Post';
+import { useUser } from '../../contexts/AuthContext.js';
 
 export default function Posts() {
-  const [link, setLink] = useState("");
-  const [description, setDescription] = useState("");
-  const [name, setName] = useState("");
+  const [link, setLink] = useState('');
+  const [description, setDescription] = useState('');
+  const [name, setName] = useState('');
   const [list, setList] = useState([]);
   const [alter, setAlter] = useState(false);
-  const { token,setToken } = useContext(AuthContext);
+  const { token } = useContext(AuthContext);
   const { user } = useUser();
-  const navigate = useNavigate();
 
   useEffect(() => {
-
-    if(isEmpty(token)) return navigate("/");
-
     const config = {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -36,7 +29,7 @@ export default function Posts() {
           return null;
         }
         setList(res.data);
-        console.log(res.data);
+
       })
       .catch((err) => {
         console.log(err);
@@ -62,7 +55,7 @@ export default function Posts() {
     axios
       .post(url, body)
       .then(() => {
-        console.log("foi inserido uma publicação");
+        console.log('foi inserido uma publicação');
       })
       .catch((err) => {
         console.log(err);
@@ -78,37 +71,38 @@ export default function Posts() {
           <MainContentPostStyled>
             <Timeline>
               <CaixaInsert>
-                <img src={user.avatarUrl} alt="imagem de perfil" />
+                <img src={user.avatar_url} alt='imagem de perfil' />
                 <CaixaPostInputs onSubmit={addPost}>
                   <label>What are you going to share today?</label>
                   <input
-                    name="link"
+                    name='link'
                     value={link}
-                    type="text"
-                    placeholder="https://..."
+                    type='text'
+                    placeholder='https://...'
                     onChange={(e) => setLink(e.target.value)}
                   />
                   <input
-                    name="name"
+                    name='name'
                     value={name}
-                    type="text"
-                    className="ultimo"
-                    placeholder="Awesome article about #javascript"
+                    type='text'
+                    className='ultimo'
+                    placeholder='Awesome article about #javascript'
                     onChange={(e) => setName(e.target.value)}
                   />
 
                   <ButtonPost>
-                    <button type="submit">Publish</button>
+                    <button type='submit'>Publish</button>
                   </ButtonPost>
                 </CaixaPostInputs>
               </CaixaInsert>
               <Lista>
                 {list.length === 0 ? (
-                  <div>Sua lista esta vazia</div>
+                  <div>Sua lista esta vazio</div>
                 ) : (
                   <>
                     {list.map((item) => (
                       <Post
+                        key={item.id}
                         item={item}
                         list={list}
                         setList={setList}
@@ -120,7 +114,31 @@ export default function Posts() {
                 )}
               </Lista>
             </Timeline>
-          <TrendingsBar/>
+            <HashTags>
+              <TitleHashtag>trending</TitleHashtag>
+
+              <ContainerHashtags>
+                <InfoHashtags># javascript</InfoHashtags>
+
+                <InfoHashtags># react</InfoHashtags>
+
+                <InfoHashtags># react-native</InfoHashtags>
+
+                <InfoHashtags># material</InfoHashtags>
+
+                <InfoHashtags># web-dev</InfoHashtags>
+
+                <InfoHashtags># mobile</InfoHashtags>
+
+                <InfoHashtags># css</InfoHashtags>
+
+                <InfoHashtags># html</InfoHashtags>
+
+                <InfoHashtags># node</InfoHashtags>
+
+                <InfoHashtags># sql</InfoHashtags>
+              </ContainerHashtags>
+            </HashTags>
           </MainContentPostStyled>
         </MainContainerPostStyled>
       </ContainerPost>
@@ -146,7 +164,7 @@ const Timeline = styled.div`
 `;
 
 const TitleTimeLine = styled.h1`
-  font-family: "Oswald";
+  font-family: 'Oswald';
   font-size: 43px;
   font-weight: 700;
   color: #ffffff;
@@ -172,7 +190,7 @@ const CaixaPostInputs = styled.form`
   flex-direction: column;
   margin-left: 20px;
   label {
-    font-family: "Lato";
+    font-family: 'Lato';
     font-style: normal;
     font-weight: 300;
     font-size: 20px;
@@ -185,7 +203,7 @@ const CaixaPostInputs = styled.form`
     height: 40px;
     background-color: #efefef;
     margin-top: 10px;
-    font-family: "Lato";
+    font-family: 'Lato';
     font-size: 15px;
     font-weight: 300;
     color: #949494;
@@ -216,7 +234,7 @@ const ButtonPost = styled.div`
     height: 31px;
     border-radius: 10px;
     color: #ffffff;
-    font-family: "Lato";
+    font-family: 'Lato';
     font-size: 14px;
     font-weight: 700;
     border: none;
@@ -226,4 +244,41 @@ const ButtonPost = styled.div`
 const Lista = styled.div`
   width: 100%;
   flex-direction: column;
+`;
+
+const HashTags = styled.div`
+  flex-direction: column;
+  width: 30%;
+  height: 100%;
+  background-color: #171717;
+  border-radius: 16px;
+  color: #ffffff;
+  position: sticky;
+  top: 100px;
+`;
+
+const TitleHashtag = styled.h1`
+  width: 100%;
+  font-family: 'Oswald';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 27px;
+  line-height: 40px;
+  color: #ffffff;
+  padding: 9px 0px 12px 16px;
+  border-bottom: 1px solid #484848;
+`;
+
+const ContainerHashtags = styled.div`
+  width: 100%;
+  padding: 22px 16px 20px 16px;
+`;
+
+const InfoHashtags = styled.p`
+  font-family: 'Lato';
+  font-size: 19px;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 15px;
+  cursor: pointer;
 `;
