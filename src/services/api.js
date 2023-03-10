@@ -15,7 +15,6 @@ export function signIn(body) {
 
 // REGISTER AUTH
 export function signUp(body) {
-  console.log('dsadsa')
   const response = axios.post(`${process.env.REACT_APP_API_URL}/sign-up`, body);
   return response;
 }
@@ -25,7 +24,8 @@ export const getUserByToken = (token) => apiRequests.get(`/users/current`, autho
 export const getUsersByUsername = (username, token) =>
   apiRequests.get(`/users?username=${username}`, authorization(token));
 
-export const getPostsByUserId = (userId, token) => apiRequests.get(`/publication/user/${userId}`, authorization(token));
+export const getPostsByUserId = (userId, token) =>
+  apiRequests.get(`/publication/user/${userId}`, authorization(token));
 
 export const deletePost = (id, token) => {
   return apiRequests.delete(`/publication/${id}`, authorization(token));
@@ -39,4 +39,16 @@ export const updatePost = (id, body, token) => {
 
 export const getTrendings = () => {
   return apiRequests.get(`/trending`);
-}
+};
+
+export const getUsersLikePost = (id, limit, token) => {
+  return apiRequests.get(`/publication/${id}/likes?limit=${limit}`, authorization(token));
+};
+
+export const sendLikePost = (id, token) => {
+  return apiRequests.post(`/publication/${id}/likes`, {}, authorization(token));
+};
+
+export const deleteLikePost = (id, token) => {
+  return apiRequests.delete(`/publication/${id}/likes`, authorization(token));
+};
