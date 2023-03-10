@@ -1,30 +1,29 @@
-import axios from "axios";
-import { useContext, useEffect, useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
-import styled from "styled-components";
-import { ContainerPost } from "./ContainerPost.js";
-import Header from "../../components/Header/Header";
-import { AuthContext } from "../../contexts/AuthContext";
-import Post from "../../components/Post/Post";
-import { useUser } from "../../contexts/UserContext.js";
-import isEmpty from "../../utils/functions/isEmpty.js";
-import TrendingsBar from "../../components/TrendingsBar.js";
+import axios from 'axios';
+import { useContext, useEffect, useState } from 'react';
+import { Link, useNavigate, useParams } from 'react-router-dom';
+import styled from 'styled-components';
+import { ContainerPost } from './ContainerPost.js';
+import Header from '../../components/Header/Header';
+import { AuthContext } from '../../contexts/AuthContext';
+import Post from '../../components/Post/Post';
+import { useUser } from '../../contexts/AuthContext.js';
+import isEmpty from '../../utils/functions/isEmpty.js';
+import TrendingsBar from '../../components/TrendingsBar.js';
 
 export default function HashtagPage() {
-  const [link, setLink] = useState("");
-  const [description, setDescription] = useState("");
-  const [name, setName] = useState("");
+  const [link, setLink] = useState('');
+  const [description, setDescription] = useState('');
+  const [name, setName] = useState('');
   const [list, setList] = useState([]);
   const [alter, setAlter] = useState(false);
-  const { token,setToken } = useContext(AuthContext);
+  const { token, setToken } = useContext(AuthContext);
   const { user } = useUser();
   const navigate = useNavigate();
 
-  const hashtag = useParams().hashtag
+  const hashtag = useParams().hashtag;
 
   useEffect(() => {
-
-    if(isEmpty(token)) return navigate("/");
+    if (isEmpty(token)) return navigate('/');
 
     const config = {
       headers: {
@@ -64,7 +63,7 @@ export default function HashtagPage() {
     axios
       .post(url, body)
       .then(() => {
-        console.log("foi inserido uma publicação");
+        console.log('foi inserido uma publicação');
       })
       .catch((err) => {
         console.log(err);
@@ -97,7 +96,7 @@ export default function HashtagPage() {
                 )}
               </Lista>
             </Timeline>
-          <TrendingsBar/>
+            <TrendingsBar />
           </MainContentPostStyled>
         </MainContainerPostStyled>
       </ContainerPost>
@@ -123,7 +122,7 @@ const Timeline = styled.div`
 `;
 
 const TitleTimeLine = styled.h1`
-  font-family: "Oswald";
+  font-family: 'Oswald';
   font-size: 43px;
   font-weight: 700;
   color: #ffffff;
@@ -149,7 +148,7 @@ const CaixaPostInputs = styled.form`
   flex-direction: column;
   margin-left: 20px;
   label {
-    font-family: "Lato";
+    font-family: 'Lato';
     font-style: normal;
     font-weight: 300;
     font-size: 20px;
@@ -162,7 +161,7 @@ const CaixaPostInputs = styled.form`
     height: 40px;
     background-color: #efefef;
     margin-top: 10px;
-    font-family: "Lato";
+    font-family: 'Lato';
     font-size: 15px;
     font-weight: 300;
     color: #949494;
@@ -193,7 +192,7 @@ const ButtonPost = styled.div`
     height: 31px;
     border-radius: 10px;
     color: #ffffff;
-    font-family: "Lato";
+    font-family: 'Lato';
     font-size: 14px;
     font-weight: 700;
     border: none;

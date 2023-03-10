@@ -6,11 +6,11 @@ import Posts from './pages/PostPages/PostPages.js';
 import colors from './utils/constants/colors.js';
 import { AuthProvider } from './contexts/AuthContext.js';
 import RoutePrivate from './components/RoutePrivate/RoutePrivate.js';
-import HashtagPage from './pages/HashtagPage.js';
+import HashtagPage from './pages/PostPages/HashtagPage.js';
 import UserFeedPage from './pages/UserFeedPage/UserFeedPage.js';
 
 export default function App() {
-  let t
+  let t;
   return (
     <ThemeProvider theme={{ colors }}>
       <BrowserRouter>
