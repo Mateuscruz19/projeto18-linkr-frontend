@@ -112,6 +112,7 @@ const Post = ({ item, list, setList, alter, setAlter }) => {
           </TitleNameStyled>
           {editing ? (
             <input
+              data-test='edit-input'
               type='text'
               ref={inputRef}
               value={description}
@@ -146,10 +147,10 @@ const Post = ({ item, list, setList, alter, setAlter }) => {
           )}
         </ContainerInfoDescriptionStyled>
         <ContainerModifyStyled>
-          <UpdateButtonStyled onClick={handleTextClick}>
+          <UpdateButtonStyled data-test='edit-btn' onClick={handleTextClick}>
             <TiPencil />
           </UpdateButtonStyled>
-          <DeleteButtonStyled onClick={handleOpenModal}>
+          <DeleteButtonStyled data-test='delete-btn' onClick={handleOpenModal}>
             <HiTrash />
           </DeleteButtonStyled>
         </ContainerModifyStyled>

@@ -75,9 +75,10 @@ export default function Signin() {
             <Entrar data-test='sign-up-btn' onClick={handleSendForm}>
               <p>Sign Up</p>
             </Entrar>
-            <Link data-test='login-link' className='link' to='/'>
-              <RegisterBox>Switch back to log in</RegisterBox>
-            </Link>
+
+            <RegisterBox data-test='login-link' className='link' to='/'>
+              Switch back to log in
+            </RegisterBox>
           </ContainerBot>
         </Form>
       </RightTable>
@@ -92,12 +93,26 @@ const Background = styled.div`
   align-items: center;
   justify-content: space-between;
   background-color: #151515;
+  @media screen and (max-width: 800px) {
+    display: block;
+    height: auto;
+    overflow: hidden;
+  }
 `;
 const TittleBox = styled.div`
   height: 400px;
   width: 500px;
   margin-left: 10%;
   margin-bottom: 5%;
+  @media screen and (max-width: 800px) {
+    width: 100%;
+    height: auto;
+    padding: 20px 0px;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
 `;
 const TittleDesc = styled.p`
   font-family: 'Oswald';
@@ -106,6 +121,12 @@ const TittleDesc = styled.p`
   font-size: 43px;
   line-height: 64px;
   color: #ffffff;
+  @media screen and (max-width: 800px) {
+    width: 100%;
+    text-align: center;
+    font-size: 23px;
+    line-height: 34px;
+  }
 `;
 
 const TittleBig = styled.p`
@@ -116,6 +137,12 @@ const TittleBig = styled.p`
   line-height: 117px;
   letter-spacing: 0.05em;
   color: #ffffff;
+  @media screen and (max-width: 800px) {
+    width: 100%;
+    text-align: center;
+    font-size: 76px;
+    line-height: 84px;
+  }
 `;
 
 const RightTable = styled.main`
@@ -124,6 +151,10 @@ const RightTable = styled.main`
   background: #333333;
   box-shadow: 4px 0px 4px rgba(0, 0, 0, 0.25);
   display: flex;
+  @media screen and (max-width: 800px) {
+    width: 100%;
+    height: 80vh;
+  }
 `;
 
 const Form = styled.form`
@@ -134,6 +165,11 @@ const Form = styled.form`
   align-items: center;
   width: 100%;
   margin-bottom: 150px;
+  @media screen and (max-width: 800px) {
+    justify-content: flex-start;
+    margin-top: 40px;
+    padding: 0 22px;
+  }
 `;
 
 const ContainerBot = styled.div`
@@ -144,6 +180,10 @@ const ContainerBot = styled.div`
   padding: 0px;
   gap: 8px;
   margin-top: 30px;
+  @media screen and (max-width: 800px) {
+    width: 100%;
+    margin-top: 0px;
+  }
 `;
 
 const InputLoginStyled = styled.input`
@@ -192,11 +232,13 @@ const Entrar = styled.button`
     box-shadow: 3px 2px 22px 1px rgba(0, 0, 0, 0.24);
     /* Lowering the shadow */
   }
+  @media screen and (max-width: 800px) {
+    width: 100%;
+  }
 `;
 
-const RegisterBox = styled.p`
+const RegisterBox = styled(Link)`
   width: 427px;
-
   font-style: normal;
   font-weight: 400;
   font-size: 15px;
@@ -212,5 +254,10 @@ const RegisterBox = styled.p`
   &:hover {
     text-decoration: underline;
     text-decoration-color: blue;
+  }
+  @media screen and (max-width: 800px) {
+    width: 100%;
+    display: flex;
+    justify-content: center;
   }
 `;

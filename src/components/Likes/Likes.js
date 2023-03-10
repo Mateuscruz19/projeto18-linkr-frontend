@@ -25,8 +25,7 @@ const Likes = ({ postId, qtyLikesPost, idUsersLike }) => {
       isLike = idUsersLike.filter((item) => item.id === user.id);
     }
 
-    console.log(isLike);
-    if (isLike.length !== 0) {
+    if (isLike.length > 0) {
       setLike(true);
     }
 
@@ -47,7 +46,7 @@ const Likes = ({ postId, qtyLikesPost, idUsersLike }) => {
         }
       })
       .catch((err) => console.log(err));
-  }, [like]);
+  }, []);
 
   const handleLike = () => {
     if (like === false) {
@@ -70,7 +69,7 @@ const Likes = ({ postId, qtyLikesPost, idUsersLike }) => {
 
   return (
     <ContainerButtonLikeStyled>
-      <ButtonLikeStyled onClick={handleLike}>
+      <ButtonLikeStyled data-test='like-btn' onClick={handleLike}>
         {!like ? (
           <AiOutlineHeart />
         ) : (
@@ -80,11 +79,12 @@ const Likes = ({ postId, qtyLikesPost, idUsersLike }) => {
         )}
       </ButtonLikeStyled>
       <TextLikeStyled
+        data-test='tooltip'
         data-tooltip-id='my-tooltip'
         data-tooltip-variant='light'
         data-tooltip-content={usersLike}
       >
-        {qtyLike} likes
+        <span data-test='counter'>{qtyLike}</span> likes
       </TextLikeStyled>
       <ReactTooltip id='my-tooltip' effect='solid' place='bottom' />
     </ContainerButtonLikeStyled>

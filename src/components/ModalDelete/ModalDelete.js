@@ -35,10 +35,12 @@ const ModalDelete = ({ isModalOpen, handleCloseModal, itemId, list, setList, alt
       <ContainerModalStyled>
         <TitleModalStyled>Are you sure you want to delete this post?</TitleModalStyled>
         <ContainerButtonsStyled>
-          <ButtonNoAcceptModalStyled onClick={handleCloseModal}>
+          <ButtonNoAcceptModalStyled data-test='cancel' onClick={handleCloseModal}>
             No, go back
           </ButtonNoAcceptModalStyled>
-          <ButtonAcceptModalStyled onClick={handleDelete}>Yes, delete it</ButtonAcceptModalStyled>
+          <ButtonAcceptModalStyled data-test='confirm' onClick={handleDelete}>
+            Yes, delete it
+          </ButtonAcceptModalStyled>
         </ContainerButtonsStyled>
       </ContainerModalStyled>
     </MainContainerModalStyled>

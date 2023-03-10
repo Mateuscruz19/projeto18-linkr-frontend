@@ -44,6 +44,7 @@ const Header = () => {
       <LogoTitle>Linkr</LogoTitle>
       <SearchContainer>
         <DebounceInput
+          data-test='search'
           placeholder='Search for people'
           minLength={3}
           debounceTimeout={300}
