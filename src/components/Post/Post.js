@@ -25,6 +25,7 @@ import axios from 'axios';
 import ModalDelete from '../ModalDelete/ModalDelete.js';
 import { updatePost } from '../../services/api.js';
 import { AuthContext } from '../../contexts/AuthContext.js';
+import { Link } from 'react-router-dom';
 
 const Post = ({ item, list, setList, alter, setAlter }) => {
   const { token } = useContext(AuthContext);
@@ -95,14 +96,14 @@ const Post = ({ item, list, setList, alter, setAlter }) => {
     <>
       <MainContainerPostStyled>
         <ContainerImageLikeStyled>
-          <ImageProfileStyled src={item.avatarImage} alt='' />
+        <Link to={`/user/${item.userId}`} ><ImageProfileStyled src={item.avatarImage} alt='' /></Link>
           <ButtonLikeStyled>
             <AiOutlineHeart />
             <span>13 likes</span>
           </ButtonLikeStyled>
         </ContainerImageLikeStyled>
         <ContainerInfoDescriptionStyled>
-          <TitleNameStyled>{item.name}</TitleNameStyled>
+          <TitleNameStyled><Link to={`/user/${item.userId}`} >{item.name}</Link></TitleNameStyled>
           {editing ? (
             <input
               type='text'
