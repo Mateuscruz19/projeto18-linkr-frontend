@@ -2,7 +2,7 @@ import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { ConteinerPost } from "./ConteinerPost.js";
+import { ContainerPost } from "./ContainerPost.js";
 import Header from "../../components/Header/Header";
 import veio from "../../img/image 4.svg";
 import { AuthContext } from "../../contexts/AuthContext";
@@ -78,7 +78,7 @@ export default function Posts() {
   return (
     <>
       <Header />
-      <ConteinerPost>
+      <ContainerPost>
         <MainContainerPostStyled>
           <TitleTimeLine>timeline</TitleTimeLine>
           <MainContentPostStyled>
@@ -110,7 +110,7 @@ export default function Posts() {
               </CaixaInsert>
               <Lista>
                 {list.length === 0 ? (
-                  <div>Sua lista esta vazio</div>
+                  <div>Sua lista esta vazia</div>
                 ) : (
                   <>
                     {list.map((item) => (
@@ -129,7 +129,7 @@ export default function Posts() {
           <TrendingsBar/>
           </MainContentPostStyled>
         </MainContainerPostStyled>
-      </ConteinerPost>
+      </ContainerPost>
     </>
   );
 }

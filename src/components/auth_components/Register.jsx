@@ -56,7 +56,7 @@ export default function Signin() {
                     onChange={(e) => handleForm({name: e.target.name,value: e.target.value,})}>
                     </Senha>
                 <Entrar onClick={handleSendForm}><p>Sign Up</p></Entrar>
-                <Link className="link" to="/login">
+                <Link className="link" to="/">
                 <RegisterBox>Switch back to log in</RegisterBox>
                 </Link>
                 </ContainerBot>

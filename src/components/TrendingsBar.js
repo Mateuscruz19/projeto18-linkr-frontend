@@ -1,9 +1,12 @@
 import styled from "styled-components";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { getTrendings } from "../services/api";
 import axios from "axios";
 
 export default function TrendingsBar(props){
+
+	const nav = useNavigate()
 
 	const [trendings, setTrendings] = useState([]);
 
@@ -21,7 +24,7 @@ export default function TrendingsBar(props){
 
 		<ContainerHashtags>
 			{trendings.map((e, i) => (
-				<InfoHashtags key={i}> {e.name} </InfoHashtags>
+				<InfoHashtags key={i} onClick={()=>nav(`/hashtag/${e.name.substring(1)}`)}> {e.name} </InfoHashtags>
 			))}
 		</ContainerHashtags>
 	  </HashTags>
