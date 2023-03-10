@@ -1,10 +1,10 @@
-import { useContext, useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router";
-import Header from "../../components/Header/Header";
-import Post from "../../components/Post/Post";
-import { ImageProfileStyled } from "../../components/Post/PostStyled";
-import { AuthContext } from "../../contexts/AuthContext";
-import { getPostsByUserId } from "../../services/api";
+import { useContext, useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router';
+import Header from '../../components/Header/Header';
+import Post from '../../components/Post/Post';
+import { ImageProfileStyled } from '../../components/Post/PostStyled';
+import { AuthContext } from '../../contexts/AuthContext';
+import { getPostsByUserId } from '../../services/api';
 import {
   ContainerHashtags,
   ConteinerPost,
@@ -16,9 +16,10 @@ import {
   Timeline,
   TitleContent,
   TitleHashtag,
-  TitleTimeLine, EmptyTimeLine
-} from "../../styles/styles";
-import isEmpty from "../../utils/functions/isEmpty";
+  TitleTimeLine,
+  EmptyTimeLine,
+} from '../../styles/styles';
+import isEmpty from '../../utils/functions/isEmpty';
 
 const UserFeedPage = () => {
   const userId = Number(useParams().userId);
@@ -28,15 +29,15 @@ const UserFeedPage = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (isEmpty(token)) return navigate("/");
+    if (isEmpty(token)) return navigate('/');
 
-    if (!userId) return navigate("/post");
+    if (!userId) return navigate('/post');
 
     async function getUserPosts() {
       try {
         const { data: posts } = await getPostsByUserId(userId, token);
 
-        if(!posts.length) return navigate("/post");
+        if (!posts.length) return navigate('/post');
 
         setList(posts);
       } catch (error) {
@@ -54,7 +55,7 @@ const UserFeedPage = () => {
           <TitleContent>
             {list.length && (
               <>
-                <ImageProfileStyled src={list[0].avatarImage} alt="" />
+                <ImageProfileStyled src={list[0].avatarImage} alt='' />
                 <TitleTimeLine>{list[0].name}’s posts</TitleTimeLine>
               </>
             )}
