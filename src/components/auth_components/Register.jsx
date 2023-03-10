@@ -18,6 +18,7 @@ export default function Signin() {
     if (!form.username || !form.email || !form.password || !form.picture) {
       return alert('Preencha os campos corretamente');
     }
+
     console.log(form);
     signUp(form)
       .then((res) => {
@@ -78,6 +79,7 @@ export default function Signin() {
       </RightTable>
     </Background>
   );
+
 }
 
 const Background = styled.div`

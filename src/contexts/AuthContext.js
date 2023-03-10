@@ -1,3 +1,4 @@
+
 import React, { createContext, useEffect, useState, useContext } from 'react';
 import { useNavigate } from 'react-router';
 
@@ -58,6 +59,7 @@ export function AuthProvider({ children }) {
         logout,
       }}
     >
+
       {children}
     </AuthContext.Provider>
   );

@@ -13,11 +13,14 @@ import { useContext, useState } from 'react';
 import { AuthContext } from '../../contexts/AuthContext';
 import { getUsersByUsername } from '../../services/api';
 import UserCard from './UserCard/UserCard';
+import { useNavigate } from "react-router-dom";
+
 
 const Header = () => {
   const [searchValue, setSearchValue] = useState('');
   const [searchResult, setSearchResult] = useState([]);
   const [dropdownFlag, setDropdownFlag] = useState(false);
+
   const { logout, token, user } = useContext(AuthContext);
 
   function Logout() {
@@ -45,6 +48,7 @@ const Header = () => {
           placeholder='Search for people'
           minLength={3}
           debounceTimeout={300}
+          value={searchValue}
           onChange={(e) => handleSearchValue(e.target.value)}
         />
         {searchValue && (
@@ -53,7 +57,13 @@ const Header = () => {
               <p>Usuário não encontrado :P</p>
             ) : (
               searchResult.map(({ id, avatar_url, name }) => (
-                <UserCard key={id} avatar={avatar_url} username={name} />
+                <UserCard
+                  key={id}
+                  id={id}
+                  avatar={avatar_url}
+                  username={name}
+                  setSearchValue = {setSearchValue}
+                />
               ))
             )}
           </SearchBox>

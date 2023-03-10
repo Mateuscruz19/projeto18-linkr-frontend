@@ -1,3 +1,4 @@
+
 import axios from 'axios';
 import { useContext, useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
@@ -8,7 +9,8 @@ import veio from '../../img/image 4.svg';
 import { AuthContext } from '../../contexts/AuthContext';
 import Post from '../../components/Post/Post';
 import { useUser } from '../../contexts/AuthContext.js';
-import isEmpty from '../../utils/functions/isEmpty.js';
+import TrendingsBar from "../../components/TrendingsBar.js";
+
 
 export default function Posts() {
   const [link, setLink] = useState('');
@@ -21,6 +23,7 @@ export default function Posts() {
   const navigate = useNavigate();
 
   useEffect(() => {
+
     const config = {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -69,7 +72,7 @@ export default function Posts() {
   return (
     <>
       <Header />
-      <ConteinerPost>
+      <ContainerPost>
         <MainContainerPostStyled>
           <TitleTimeLine>timeline</TitleTimeLine>
           <MainContentPostStyled>
@@ -101,7 +104,7 @@ export default function Posts() {
               </CaixaInsert>
               <Lista>
                 {list.length === 0 ? (
-                  <div>Sua lista esta vazio</div>
+                  <div>Sua lista esta vazia</div>
                 ) : (
                   <>
                     {list.map((item) => (
@@ -117,34 +120,10 @@ export default function Posts() {
                 )}
               </Lista>
             </Timeline>
-            <HashTags>
-              <TitleHashtag>trending</TitleHashtag>
-
-              <ContainerHashtags>
-                <InfoHashtags># javascript</InfoHashtags>
-
-                <InfoHashtags># react</InfoHashtags>
-
-                <InfoHashtags># react-native</InfoHashtags>
-
-                <InfoHashtags># material</InfoHashtags>
-
-                <InfoHashtags># web-dev</InfoHashtags>
-
-                <InfoHashtags># mobile</InfoHashtags>
-
-                <InfoHashtags># css</InfoHashtags>
-
-                <InfoHashtags># html</InfoHashtags>
-
-                <InfoHashtags># node</InfoHashtags>
-
-                <InfoHashtags># sql</InfoHashtags>
-              </ContainerHashtags>
-            </HashTags>
+          <TrendingsBar/>
           </MainContentPostStyled>
         </MainContainerPostStyled>
-      </ConteinerPost>
+      </ContainerPost>
     </>
   );
 }
@@ -247,6 +226,7 @@ const ButtonPost = styled.div`
 const Lista = styled.div`
   width: 100%;
   flex-direction: column;
+
 `;
 
 const HashTags = styled.div`
@@ -285,3 +265,4 @@ const InfoHashtags = styled.p`
   margin-bottom: 15px;
   cursor: pointer;
 `;
+

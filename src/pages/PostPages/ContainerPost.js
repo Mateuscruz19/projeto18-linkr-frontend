@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const ConteinerPost = styled.div`
+export const ContainerPost = styled.div`
   width: 100%;
   min-height: 100vh;
   background-color: #333333;
