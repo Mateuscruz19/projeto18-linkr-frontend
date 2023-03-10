@@ -1,14 +1,13 @@
 import axios from 'axios';
 import { useContext, useEffect, useState } from 'react';
-import { Link, useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { ContainerPost } from './ContainerPost.js';
 import Header from '../../components/Header/Header';
 import { AuthContext } from '../../contexts/AuthContext';
 import Post from '../../components/Post/Post';
 import { useUser } from '../../contexts/AuthContext.js';
-import isEmpty from '../../utils/functions/isEmpty.js';
-import TrendingsBar from '../../components/TrendingsBar.js';
+import TrendingsBar from "../../components/TrendingsBar.js";
+import { Link, useNavigate, useParams } from "react-router-dom";
 
 export default function HashtagPage() {
   const [link, setLink] = useState('');
@@ -16,15 +15,12 @@ export default function HashtagPage() {
   const [name, setName] = useState('');
   const [list, setList] = useState([]);
   const [alter, setAlter] = useState(false);
-  const { token, setToken } = useContext(AuthContext);
+  const { token } = useContext(AuthContext);
   const { user } = useUser();
-  const navigate = useNavigate();
 
-  const hashtag = useParams().hashtag;
+  const hashtag = useParams().hashtag
 
   useEffect(() => {
-    if (isEmpty(token)) return navigate('/');
-
     const config = {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -37,7 +33,7 @@ export default function HashtagPage() {
           return null;
         }
         setList(res.data);
-        console.log(res.data);
+
       })
       .catch((err) => {
         console.log(err);
@@ -49,27 +45,6 @@ export default function HashtagPage() {
     return <div>Carregando...</div>;
   }
 
-  function addPost(e) {
-    e.preventDefault();
-
-    const url = `${process.env.REACT_APP_API_URL}/publication`;
-
-    const body = {
-      link: link,
-      description: description,
-      name: name,
-    };
-
-    axios
-      .post(url, body)
-      .then(() => {
-        console.log('foi inserido uma publicação');
-      })
-      .catch((err) => {
-        console.log(err);
-        alert(err.response);
-      });
-  }
   return (
     <>
       <Header />
@@ -80,11 +55,12 @@ export default function HashtagPage() {
             <Timeline>
               <Lista>
                 {list.length === 0 ? (
-                  <div>Sua lista esta vazia</div>
+                  <div data-test='message'>There are no posts yet</div>
                 ) : (
                   <>
                     {list.map((item) => (
                       <Post
+                        key={item.id}
                         item={item}
                         list={list}
                         setList={setList}
@@ -96,7 +72,7 @@ export default function HashtagPage() {
                 )}
               </Lista>
             </Timeline>
-            <TrendingsBar />
+            <TrendingsBar/>
           </MainContentPostStyled>
         </MainContainerPostStyled>
       </ContainerPost>
@@ -202,4 +178,41 @@ const ButtonPost = styled.div`
 const Lista = styled.div`
   width: 100%;
   flex-direction: column;
+`;
+
+const HashTags = styled.div`
+  flex-direction: column;
+  width: 30%;
+  height: 100%;
+  background-color: #171717;
+  border-radius: 16px;
+  color: #ffffff;
+  position: sticky;
+  top: 100px;
+`;
+
+const TitleHashtag = styled.h1`
+  width: 100%;
+  font-family: 'Oswald';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 27px;
+  line-height: 40px;
+  color: #ffffff;
+  padding: 9px 0px 12px 16px;
+  border-bottom: 1px solid #484848;
+`;
+
+const ContainerHashtags = styled.div`
+  width: 100%;
+  padding: 22px 16px 20px 16px;
+`;
+
+const InfoHashtags = styled.p`
+  font-family: 'Lato';
+  font-size: 19px;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 15px;
+  cursor: pointer;
 `;
