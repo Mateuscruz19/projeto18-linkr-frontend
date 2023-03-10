@@ -1,6 +1,5 @@
-
-import React, { createContext, useEffect, useState, useContext } from 'react';
-import { useNavigate } from 'react-router';
+import React, { createContext, useEffect, useState, useContext } from "react";
+import { useLocation, useNavigate } from "react-router";
 
 export const AuthContext = createContext({});
 
@@ -9,16 +8,21 @@ export function AuthProvider({ children }) {
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState(null);
   const navigate = useNavigate();
+  const { pathname } = useLocation();
 
   useEffect(() => {
-    const recoveredUser = localStorage.getItem('user');
+    const recoveredUser = localStorage.getItem("user");
 
     if (recoveredUser) {
+      const notAllowToLoggedUsers =
+        pathname === "/" || pathname === "/registro";
       const recoveredUserJson = JSON.parse(recoveredUser);
+      console.log(pathname);
       setToken(recoveredUserJson.token);
       delete recoveredUserJson.token;
       setUser(recoveredUserJson);
-      navigate('/timeline');
+
+      if (notAllowToLoggedUsers) navigate("/timeline");
     }
 
     setLoading(false);
@@ -27,7 +31,7 @@ export function AuthProvider({ children }) {
   const login = (data) => {
     const loggedUser = data;
 
-    localStorage.setItem('user', JSON.stringify(loggedUser));
+    localStorage.setItem("user", JSON.stringify(loggedUser));
 
     setToken((item) => (item = data.token));
     delete loggedUser.token;
@@ -35,14 +39,14 @@ export function AuthProvider({ children }) {
 
     setLoading(true);
 
-    navigate('/timeline');
+    navigate("/timeline");
   };
 
   const logout = () => {
-    localStorage.removeItem('user');
+    localStorage.removeItem("user");
     setUser(null);
     setToken(null);
-    navigate('/');
+    navigate("/");
   };
 
   return (
@@ -59,7 +63,6 @@ export function AuthProvider({ children }) {
         logout,
       }}
     >
-
       {children}
     </AuthContext.Provider>
   );

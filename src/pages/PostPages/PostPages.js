@@ -29,7 +29,7 @@ export default function Posts() {
           return null;
         }
         setList(res.data);
-        console.log(res.data);
+
       })
       .catch((err) => {
         console.log(err);
@@ -106,6 +106,7 @@ export default function Posts() {
                   <>
                     {list.map((item) => (
                       <Post
+                        key={item.id}
                         item={item}
                         list={list}
                         setList={setList}

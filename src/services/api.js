@@ -25,7 +25,7 @@ export const getUsersByUsername = (username, token) =>
   apiRequests.get(`/users?username=${username}`, authorization(token));
 
 export const getPostsByUserId = (userId, token) =>
-  apiRequests.get(`/publication/user/${userId}`, authorization(token));
+  apiRequests.get(`/users/${userId}/publication`, authorization(token));
 
 export const deletePost = (id, token) => {
   return apiRequests.delete(`/publication/${id}`, authorization(token));
