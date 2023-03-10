@@ -10,6 +10,7 @@ import HashtagPage from "./pages/PostPages/HashtagPage.js";
 import UserFeedPage from "./pages/UserFeedPage/UserFeedPage.js";
 
 export default function App() {
+  let t
   return (
     <ThemeProvider theme={{ colors }}>
       <AuthProvider>
