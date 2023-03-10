@@ -20,6 +20,7 @@ export function signIn(body) {
 
 // REGISTER AUTH
 export function signUp(body) {
+  console.log('dsadsa')
   const response = axios.post(`${process.env.REACT_APP_API_URL}/sign-up`, body);
   return response;
 }
@@ -39,3 +40,9 @@ export const deletePost = (id, token) => {
 export const updatePost = (id, body, token) => {
   return apiRequests.put(`/publication/${id}`, body, authorization(token));
 };
+
+//GET HASHTAGS
+
+export const getTrendings = () => {
+  return apiRequests.get(`/trending`);
+}

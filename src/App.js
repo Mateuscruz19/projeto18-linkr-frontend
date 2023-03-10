@@ -6,6 +6,7 @@ import Posts from "./pages/PostPages/PostPages.js";
 import colors from "./utils/constants/colors.js";
 import AuthProvider from "./contexts/AuthContext.js";
 import UserProvider from "./contexts/UserContext.js";
+import HashtagPage from "./pages/HashtagPage.js";
 import UserFeedPage from "./pages/UserFeedPage/UserFeedPage.js";
 
 export default function App() {
@@ -18,6 +19,7 @@ export default function App() {
               <Route path="/" element={<Login />} />
               <Route path="/registro" element={<Register />} />
               <Route path="/post" element={<Posts />} />
+              <Route path="/hashtag/:hashtag" element={<HashtagPage />} />
               <Route path="/user/:userId" element={<UserFeedPage/>} />
             </Routes>
           </BrowserRouter>
