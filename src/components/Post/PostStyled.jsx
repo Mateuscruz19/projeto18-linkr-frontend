@@ -18,24 +18,6 @@ export const ContainerImageLikeStyled = styled.div`
   align-items: center;
 `;
 
-export const ButtonLikeStyled = styled.div`
-  margin-top: 20px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  font-family: 'Lato';
-  font-style: normal;
-  font-weight: 400;
-  font-size: 20px;
-  line-height: 13px;
-  text-align: center;
-  color: #ffffff;
-  span {
-    margin-top: 4px;
-    font-size: 11px;
-  }
-`;
-
 export const ImageProfileStyled = styled.img`
   width: 50px;
   height: 50px;
@@ -57,10 +39,10 @@ export const TitleNameStyled = styled.h1`
   font-size: 19px;
   line-height: 23px;
   margin-bottom: 5px;
-  a{
+  a {
     text-decoration: none;
     color: #ffffff;
-    &:hover{
+    &:hover {
       text-decoration: underline;
     }
   }

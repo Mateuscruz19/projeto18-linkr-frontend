@@ -1,8 +1,6 @@
-import { AiOutlineHeart } from 'react-icons/ai';
 import {
   MainContainerPostStyled,
   ContainerImageLikeStyled,
-  ButtonLikeStyled,
   ImageProfileStyled,
   ContainerInfoDescriptionStyled,
   TitleNameStyled,
@@ -26,6 +24,7 @@ import ModalDelete from '../ModalDelete/ModalDelete.js';
 import { updatePost } from '../../services/api.js';
 import { AuthContext } from '../../contexts/AuthContext.js';
 import { Link } from 'react-router-dom';
+import Likes from '../Likes/Likes.js';
 
 const Post = ({ item, list, setList, alter, setAlter }) => {
   const { token } = useContext(AuthContext);
@@ -36,7 +35,8 @@ const Post = ({ item, list, setList, alter, setAlter }) => {
   const inputRef = useRef(null);
   console.log(description);
 
-  console.log(item.linkPost);
+  console.log(item.idUsersLike);
+
   useEffect(() => {
     axios
       .get(`https://api.linkpreview.net/?key=79574a3e5aa6921ccabd738c2837550c&q=${item.linkPost}/`)
@@ -92,18 +92,21 @@ const Post = ({ item, list, setList, alter, setAlter }) => {
       });
   };
 
+  console.log(item.qtyLikesPost);
+
   return (
     <>
       <MainContainerPostStyled>
         <ContainerImageLikeStyled>
-        <Link to={`/user/${item.userId}`} ><ImageProfileStyled src={item.avatarImage} alt='' /></Link>
-          <ButtonLikeStyled>
-            <AiOutlineHeart />
-            <span>13 likes</span>
-          </ButtonLikeStyled>
+          <Link to={`/user/${item.userId}`}>
+            <ImageProfileStyled src={item.avatarImage} alt='' />
+          </Link>
+          <Likes postId={item.id} qtyLikesPost={item.qtyLikesPost} idUsersLike={item.idUsersLike} />
         </ContainerImageLikeStyled>
         <ContainerInfoDescriptionStyled>
-          <TitleNameStyled><Link to={`/user/${item.userId}`} >{item.name}</Link></TitleNameStyled>
+          <TitleNameStyled>
+            <Link to={`/user/${item.userId}`}>{item.name}</Link>
+          </TitleNameStyled>
           {editing ? (
             <input
               type='text'
