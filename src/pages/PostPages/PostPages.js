@@ -6,6 +6,7 @@ import Header from '../../components/Header/Header';
 import { AuthContext } from '../../contexts/AuthContext';
 import Post from '../../components/Post/Post';
 import { useUser } from '../../contexts/AuthContext.js';
+import TrendingsBar from "../../components/TrendingsBar.js";
 
 export default function Posts() {
   const [link, setLink] = useState('');
@@ -118,31 +119,7 @@ export default function Posts() {
                 )}
               </Lista>
             </Timeline>
-            <HashTags>
-              <TitleHashtag>trending</TitleHashtag>
-
-              <ContainerHashtags>
-                <InfoHashtags># javascript</InfoHashtags>
-
-                <InfoHashtags># react</InfoHashtags>
-
-                <InfoHashtags># react-native</InfoHashtags>
-
-                <InfoHashtags># material</InfoHashtags>
-
-                <InfoHashtags># web-dev</InfoHashtags>
-
-                <InfoHashtags># mobile</InfoHashtags>
-
-                <InfoHashtags># css</InfoHashtags>
-
-                <InfoHashtags># html</InfoHashtags>
-
-                <InfoHashtags># node</InfoHashtags>
-
-                <InfoHashtags># sql</InfoHashtags>
-              </ContainerHashtags>
-            </HashTags>
+            <TrendingsBar/>
           </MainContentPostStyled>
         </MainContainerPostStyled>
       </ContainerPost>
