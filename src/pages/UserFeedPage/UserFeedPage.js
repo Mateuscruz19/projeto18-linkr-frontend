@@ -4,7 +4,7 @@ import Header from '../../components/Header/Header';
 import Post from '../../components/Post/Post';
 import { ImageProfileStyled } from '../../components/Post/PostStyled';
 import { AuthContext } from '../../contexts/AuthContext';
-import { getPostsByUserId } from '../../services/api';
+import { getFollowExist, getPostsByUserId, postFollow, deleteFollow } from '../../services/api';
 import {
   ContainerHashtags,
   ConteinerPost,
@@ -18,48 +18,111 @@ import {
   TitleHashtag,
   TitleTimeLine,
   EmptyTimeLine,
+  ContainerTittleContent,
+  ContainerButtonFollowUnfollow,
+  ButtonFollow,
+  ButtonUnfollow,
 } from '../../styles/styles';
 import isEmpty from '../../utils/functions/isEmpty';
 
 const UserFeedPage = () => {
   const userId = Number(useParams().userId);
-  const { token } = useContext(AuthContext);
+  const { token, user } = useContext(AuthContext);
   const [alter, setAlter] = useState(false);
   const [list, setList] = useState([]);
+  const [follow, setFollow] = useState(false);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+
+  console.log(userId);
+
+  async function getUserPosts() {
+    try {
+      const { data: posts } = await getPostsByUserId(userId, token);
+
+      if (!posts.length) return navigate('/post');
+
+      setList(posts);
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   useEffect(() => {
     if (isEmpty(token)) return navigate('/');
 
     if (!userId) return navigate('/post');
 
-    async function getUserPosts() {
-      try {
-        const { data: posts } = await getPostsByUserId(userId, token);
-
-        if (!posts.length) return navigate('/post');
-
-        setList(posts);
-      } catch (error) {
-        console.log(error);
-      }
-    }
     getUserPosts();
+
+    getFollowExist(userId, token)
+      .then((res) => {
+        setFollow(res.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }, [token, userId]);
+
+  function changeFollow() {
+    setLoading((item) => (item = true));
+    if (follow === false) {
+      postFollow(userId, token)
+        .then((res) => {
+          setFollow(true);
+          setLoading((item) => (item = false));
+        })
+        .catch((error) => {
+          console.log(error);
+          if (error.response.status === 409 || error.response.status === 404) {
+            alert(error.response.message);
+          }
+          setLoading((item) => (item = false));
+        });
+    }
+    if (follow === true) {
+      deleteFollow(userId, token)
+        .then((res) => {
+          setFollow(false);
+          setLoading((item) => (item = false));
+        })
+        .catch((error) => {
+          console.log(error);
+          if (error.response.status === 409 || error.response.status === 404) {
+            alert(error.response.message);
+          }
+          setLoading((item) => (item = false));
+        });
+    }
+  }
 
   return (
     <>
       <Header />
       <ConteinerPost>
         <MainContainerPostStyled>
-          <TitleContent>
-            {list.length && (
-              <>
-                <ImageProfileStyled src={list[0].avatarImage} alt='' />
-                <TitleTimeLine>{list[0].name}’s posts</TitleTimeLine>
-              </>
-            )}
-          </TitleContent>
+          <ContainerTittleContent>
+            <TitleContent>
+              {list.length && (
+                <>
+                  <ImageProfileStyled src={list[0].avatarImage} alt='' />
+                  <TitleTimeLine>{list[0].name}’s posts</TitleTimeLine>
+                </>
+              )}
+            </TitleContent>
+            <ContainerButtonFollowUnfollow>
+              {userId !== user.id &&
+                (!follow ? (
+                  <ButtonFollow onClick={changeFollow} disabled={loading}>
+                    Follow
+                  </ButtonFollow>
+                ) : (
+                  <ButtonUnfollow onClick={changeFollow} disabled={loading}>
+                    Unfollow
+                  </ButtonUnfollow>
+                ))}
+            </ContainerButtonFollowUnfollow>
+          </ContainerTittleContent>
           <MainContentPostStyled>
             <Timeline>
               <Lista>

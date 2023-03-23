@@ -29,7 +29,8 @@ export const getPostsByUserId = (userId, token) =>
 
 export const getAllPosts = (token) => apiRequests.get(`/publication`, authorization(token));
 
-export const setPost = (body, token) => apiRequests.post(`/publication`, body, authorization(token));
+export const setPost = (body, token) =>
+  apiRequests.post(`/publication`, body, authorization(token));
 
 export const deletePost = (id, token) => {
   return apiRequests.delete(`/publication/${id}`, authorization(token));
@@ -55,4 +56,16 @@ export const sendLikePost = (id, token) => {
 
 export const deleteLikePost = (id, token) => {
   return apiRequests.delete(`/publication/${id}/likes`, authorization(token));
+};
+
+export const getFollowExist = (id, token) => {
+  return apiRequests.get(`/users/follow/${id}`, authorization(token));
+};
+
+export const postFollow = (id, token) => {
+  return apiRequests.post(`/users/follow/${id}`, {}, authorization(token));
+};
+
+export const deleteFollow = (id, token) => {
+  return apiRequests.delete(`/users/follow/${id}`, authorization(token));
 };
