@@ -25,14 +25,53 @@ export const Timeline = styled.div`
   width: 65%;
 `;
 
+export const ContainerTittleContent = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
 export const TitleContent = styled.div`
   display: flex;
   align-items: center;
   gap: 16px;
-`
+`;
+
+export const ContainerButtonFollowUnfollow = styled.div`
+  width: auto;
+`;
+export const ButtonFollow = styled.button`
+  border: none;
+  background: #1877f2;
+  border-radius: 5px;
+  padding: 7px 35px;
+  font-family: 'Lato';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 17px;
+  color: #ffffff;
+  cursor: pointer;
+`;
+
+export const ButtonUnfollow = styled.button`
+  border: none;
+  border: none;
+  background: #ffffff;
+  border-radius: 5px;
+  padding: 7px 28px;
+  font-family: 'Lato';
+  font-style: normal;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 17px;
+  color: #1877f2;
+  cursor: pointer;
+`;
 
 export const TitleTimeLine = styled.h1`
-  font-family: "Oswald";
+  font-family: 'Oswald';
   font-size: 43px;
   font-weight: 700;
   color: #ffffff;
@@ -60,7 +99,7 @@ export const CaixaPostInputs = styled.form`
   flex-direction: column;
   margin-left: 20px;
   label {
-    font-family: "Lato";
+    font-family: 'Lato';
     font-style: normal;
     font-weight: 300;
     font-size: 20px;
@@ -73,7 +112,7 @@ export const CaixaPostInputs = styled.form`
     height: 40px;
     background-color: #efefef;
     margin-top: 10px;
-    font-family: "Lato";
+    font-family: 'Lato';
     font-size: 15px;
     font-weight: 300;
     color: #949494;
@@ -104,7 +143,7 @@ export const ButtonPost = styled.div`
     height: 31px;
     border-radius: 10px;
     color: #ffffff;
-    font-family: "Lato";
+    font-family: 'Lato';
     font-size: 14px;
     font-weight: 700;
     border: none;
@@ -129,7 +168,7 @@ export const HashTags = styled.div`
 
 export const TitleHashtag = styled.h1`
   width: 100%;
-  font-family: "Oswald";
+  font-family: 'Oswald';
   font-style: normal;
   font-weight: 700;
   font-size: 27px;
@@ -145,7 +184,7 @@ export const ContainerHashtags = styled.div`
 `;
 
 export const InfoHashtags = styled.p`
-  font-family: "Lato";
+  font-family: 'Lato';
   font-size: 19px;
   font-weight: 700;
   color: #fff;
@@ -155,7 +194,7 @@ export const InfoHashtags = styled.p`
 
 export const EmptyTimeLine = styled.div`
   height: 300px;
-  color: ${({theme})=>theme.colors.white};
+  color: ${({ theme }) => theme.colors.white};
   display: flex;
   align-items: center;
   justify-content: center;
