@@ -1,16 +1,20 @@
 import styled from 'styled-components';
 
 export const MainContainerPostStyled = styled.div`
+  width: 100%;
+  border-radius: 16px;
+  margin-bottom: 30px;
+`;
+export const PostContainer = styled.div`
   padding: 25px;
   width: 100%;
   display: flex;
   background: #171717;
   border-radius: 16px;
-  margin-bottom: 30px;
   position: relative;
+  z-index: 1;
   word-wrap: break-word;
 `;
-
 export const ContainerImageLikeStyled = styled.div`
   width: 10%;
   display: flex;
@@ -167,4 +171,20 @@ export const DeleteButtonStyled = styled.div`
   font-size: 16px;
   cursor: pointer;
   margin-left: 12px;
+`;
+
+export const CommentsButton = styled.button`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    font-size: 21px;
+    margin-top: 13px;
+    cursor: pointer;
+    border: none;
+    background-color: transparent;
+    color: ${({theme})=>theme.colors.white};
+    span{
+      font-size: 11px;
+    }
 `;
