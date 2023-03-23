@@ -168,3 +168,10 @@ export const DeleteButtonStyled = styled.div`
   cursor: pointer;
   margin-left: 12px;
 `;
+
+export const RepostButtonStyled = styled.div` 
+  color: #fff;
+  font-size: 16px;
+  cursor: pointer;
+  margin-right: 12px;
+`
