@@ -33,7 +33,7 @@ import Comments from "./Comments/Comments.js";
 
 const Post = ({ item, list, setList, alter, setAlter }) => {
   const { token } = useContext(AuthContext);
-  const {user} = useUser();
+  const { user } = useUser();
   const [infoLink, setInfoLink] = useState(undefined);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [description, setDescription] = useState(item.descriptionPost);
@@ -173,7 +173,12 @@ const Post = ({ item, list, setList, alter, setAlter }) => {
             </DeleteButtonStyled>
           </ContainerModifyStyled>
         </PostContainer>
-        {commentBoxFlag && <Comments userImage={user.avatar_url}/>}
+        {commentBoxFlag && (
+          <Comments
+            userImage={user.avatar_url}
+            postId={item.id}
+          />
+        )}
       </MainContainerPostStyled>
       <ModalDelete
         isModalOpen={isModalOpen}
