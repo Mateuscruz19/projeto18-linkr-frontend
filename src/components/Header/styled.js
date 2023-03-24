@@ -36,11 +36,13 @@ export const HeaderContainer = styled.header`
 `;
 
 export const LogoTitle = styled.h1`
-  color: ${({ theme }) => theme.colors.white};
   font-size: 49px;
   font-weight: 700;
   font-family: "Passion One", "Arial", sans-serif;
-
+  a{
+    text-decoration: none;
+    color: ${({ theme }) => theme.colors.white};
+  }
   @media screen and (max-width: 800px) {
     font-size:29px;
   }
@@ -69,6 +71,10 @@ export const SearchBox = styled.ul`
   }
   a{
     text-decoration: none;
+  }
+  @media screen and (max-width: 800px) {
+      width:70%;
+      margin-left:15px;
   }
 
 `;

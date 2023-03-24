@@ -13,6 +13,7 @@ import { useContext, useState } from 'react';
 import { AuthContext } from '../../contexts/AuthContext';
 import { getUsersByUsername } from '../../services/api';
 import UserCard from './UserCard/UserCard';
+import { Link } from 'react-router-dom';
 
 const Header = () => {
   const [searchValue, setSearchValue] = useState('');
@@ -40,7 +41,7 @@ const Header = () => {
 
   return (
     <HeaderContainer>
-      <LogoTitle>Linkr</LogoTitle>
+      <LogoTitle><Link to="/timeline">Linkr</Link></LogoTitle>
       <SearchContainer>
         <DebounceInput
           data-test='search'
