@@ -31,6 +31,9 @@ export const getPostsByUserId = (userId, token) =>
 export const getAllPosts = (token) =>
   apiRequests.get(`/publication`, authorization(token));
 
+export const getCommentsByPostId = (postId, token) =>
+  apiRequests.get(`/publication/${postId}/comments`, authorization(token));
+
 export const setPost = (body, token) =>
   apiRequests.post(`/publication`, body, authorization(token));
 

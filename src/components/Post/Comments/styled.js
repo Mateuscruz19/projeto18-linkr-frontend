@@ -43,7 +43,7 @@ export const CommentInput = styled.input`
     outline: none;
   }
   &::placeholder {
-    font-family: 'Lato';
+    font-family: "Lato";
     font-size: 14px;
     font-style: italic;
     color: ${({ theme }) => theme.colors.lightGrey};
@@ -70,20 +70,21 @@ export const CommentContent = styled.li`
   align-items: flex-start;
   gap: 14px;
   padding: 14px 0;
-  &>div{
+  & > div {
     display: flex;
     flex-direction: column;
     gap: 5px;
-    p{
-      font-family: 'Lato';
+    p {
+      font-family: "Lato";
       font-size: 14px;
       font-weight: 400;
       color: ${({ theme }) => theme.colors.lightGrey};
-      &>span:nth-child(1){
+      word-break: break-word;
+      & > span:nth-child(1) {
         color: ${({ theme }) => theme.colors.white};
         font-weight: 700;
       }
-      &>span:nth-child(2){
+      & > span:nth-child(2) {
         color: #565656;
       }
     }

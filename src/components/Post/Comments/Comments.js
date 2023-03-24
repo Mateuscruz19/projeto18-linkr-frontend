@@ -1,7 +1,6 @@
 import {
   CommentBox,
   CommentContainer,
-  CommentContent,
   CommentForm,
   UserCommentsContainer,
   CommentImage,
@@ -12,12 +11,17 @@ import { BsSend } from "react-icons/bs";
 import { useContext, useState } from "react";
 import { AuthContext } from "../../../contexts/AuthContext";
 import { setPostComment } from "../../../services/api";
+import CommentCard from "../CommentCard/CommentCard";
 
-const Comments = ({ userImage, postId }) => {
+const Comments = ({
+  userImage,
+  postId,
+  commentList,
+  setUpdateCommentList,
+  updateCommentList,
+}) => {
   const [comment, setComment] = useState("");
   const { token } = useContext(AuthContext);
-
-  
 
   async function sendComment(e) {
     e.preventDefault();
@@ -26,7 +30,7 @@ const Comments = ({ userImage, postId }) => {
 
     try {
       await setPostComment({ postId, comment }, token);
-
+      setUpdateCommentList(!updateCommentList);
       setComment("");
     } catch (error) {
       console.log(error);
@@ -34,35 +38,21 @@ const Comments = ({ userImage, postId }) => {
   }
 
   return (
-    <CommentContainer>
+    <CommentContainer  data-test="comment-box">
       <UserCommentsContainer>
-        <CommentContent>
-          <CommentImage src={userImage} alt={`Youuu`} />
-          <div>
-            <p>
-              <span>João Avatares</span> <span>• following</span>
-            </p>
-            <p>Adorei esse post, ajuda muito a usar Material UI com React!</p>
-          </div>
-        </CommentContent>
-        <CommentContent>
-          <CommentImage src={userImage} alt={`Youuu`} />
-          <div>
-            <p>
-              <span>João Avatares</span> <span>• following</span>
-            </p>
-            <p>Adorei esse post, ajuda muito a usar Material UI com React!</p>
-          </div>
-        </CommentContent>
-        <CommentContent>
-          <CommentImage src={userImage} alt={`Youuu`} />
-          <div>
-            <p>
-              <span>João Avatares</span> <span>• following</span>
-            </p>
-            <p>Adorei esse post, ajuda muito a usar Material UI com React!</p>
-          </div>
-        </CommentContent>
+        {commentList &&
+          commentList.map(
+            ({ id, userId, name, avatarImage, comment, status = false }) => (
+              <CommentCard
+                key={id}
+                userId={userId}
+                name={name}
+                avatarImage={avatarImage}
+                comment={comment}
+                status={status}
+              />
+            )
+          )}
       </UserCommentsContainer>
       <CommentBox>
         <CommentImage src={userImage} alt={`Youuu`} />
@@ -71,9 +61,10 @@ const Comments = ({ userImage, postId }) => {
             placeholder="write a comment..."
             value={comment}
             onChange={(e) => setComment(e.target.value)}
+            data-test="comment-input"
             required
           />
-          <CommentSubmit>
+          <CommentSubmit data-test="comment-input">
             <BsSend />
           </CommentSubmit>
         </CommentForm>

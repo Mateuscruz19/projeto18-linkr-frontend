@@ -24,7 +24,7 @@ import { TiPencil } from "react-icons/ti";
 import { AiOutlineComment } from "react-icons/ai";
 import axios from "axios";
 import ModalDelete from "../ModalDelete/ModalDelete.js";
-import { updatePost } from "../../services/api.js";
+import { getCommentsByPostId, updatePost } from "../../services/api.js";
 import { AuthContext, useUser } from "../../contexts/AuthContext.js";
 import { Link } from "react-router-dom";
 import Likes from "../Likes/Likes.js";
@@ -38,10 +38,20 @@ const Post = ({ item, list, setList, alter, setAlter }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [description, setDescription] = useState(item.descriptionPost);
   const [editing, setEditing] = useState(false);
+  const [commentList, setCommentList] = useState(null);
+  const [updateCommentList, setUpdateCommentList] = useState(false);
   const [commentBoxFlag, setCommentBoxFlag] = useState(false);
   const inputRef = useRef(null);
 
   useEffect(() => {
+    async function listAllComments() {
+      const { data: comments } = await getCommentsByPostId(item.id, token);
+
+      setCommentList(comments);
+    }
+
+    listAllComments();
+
     axios
       .get(
         `https://api.linkpreview.net/?key=79574a3e5aa6921ccabd738c2837550c&q=${item.linkPost}/`
@@ -52,7 +62,7 @@ const Post = ({ item, list, setList, alter, setAlter }) => {
       .catch((err) => {
         console.log(err);
       });
-  }, []);
+  }, [updateCommentList]);
 
   const handleOpenModal = () => setIsModalOpen(true);
   const handleCloseModal = () => setIsModalOpen(false);
@@ -111,9 +121,10 @@ const Post = ({ item, list, setList, alter, setAlter }) => {
               qtyLikesPost={item.qtyLikesPost}
               idUsersLike={item.idUsersLike}
             />
-            <CommentsButton onClick={() => setCommentBoxFlag(!commentBoxFlag)}>
+            <CommentsButton data-test="comment-btn"  onClick={() => setCommentBoxFlag(!commentBoxFlag)}>
               {" "}
-              <AiOutlineComment /> <span>13 comments</span>
+              <AiOutlineComment />{" "}
+              <span data-test="comment-counter">{commentList ? commentList.length : 0} comments</span>
             </CommentsButton>
           </ContainerImageLikeStyled>
           <ContainerInfoDescriptionStyled>
@@ -177,6 +188,9 @@ const Post = ({ item, list, setList, alter, setAlter }) => {
           <Comments
             userImage={user.avatar_url}
             postId={item.id}
+            commentList={commentList}
+            setUpdateCommentList={setUpdateCommentList}
+            updateCommentList={updateCommentList}
           />
         )}
       </MainContainerPostStyled>
