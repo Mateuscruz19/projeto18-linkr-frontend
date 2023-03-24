@@ -84,3 +84,7 @@ export const postFollow = (id, token) => {
 export const deleteFollow = (id, token) => {
   return apiRequests.delete(`/users/follow/${id}`, authorization(token));
 };
+
+export const doesUserFollowsSomeone = (token) => {
+  return apiRequests.get('/users/doesUserFollows', authorization(token))
+}

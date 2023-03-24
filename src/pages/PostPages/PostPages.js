@@ -5,7 +5,7 @@ import Header from "../../components/Header/Header";
 import { AuthContext } from "../../contexts/AuthContext";
 import Post from "../../components/Post/Post";
 import { useUser } from "../../contexts/AuthContext.js";
-import { getAllPosts, setPost } from "../../services/api.js";
+import { getAllPosts, setPost, doesUserFollowsSomeone } from "../../services/api.js";
 import TrendingsBar from "../../components/TrendingsBar.js";
 import useInterval from "use-interval";
 import spin from "../../img/spinLoad.svg";
@@ -20,6 +20,7 @@ export default function Posts() {
   const [sendingPost, setSendingPost] = useState(false);
   const [count, setCount] = useState(0);
   const [active, setActive] = useState(false);
+  const [followsSomeone, setFollowsSomeone] = useState(false);
 
   useInterval(() => {
     if(active === true){
@@ -45,6 +46,12 @@ export default function Posts() {
     }
     listAllPosts();
   }, [alter]);
+
+  useEffect(()=>{
+    const prom = doesUserFollowsSomeone(token)
+    prom.then((res)=>setFollowsSomeone(res.data)).
+    catch((err)=>console.log(err))
+  }, [])
 
   if (list === 0) {
     setCount(0);
@@ -134,7 +141,14 @@ export default function Posts() {
               </CaixaReloandList>
               <Lista>
                 {list.length === 0 ? (
-                  <div data-test="message">There are no posts yet</div>
+                  <div data-test="message">
+                    {
+                      followsSomeone?
+                      "No posts found from your friends"
+                      :
+                      "You don't follow anyone yet. Search for new friends!"
+                    }
+                  </div>
                 ) : (
                   <>
                     {list.map((item) => (
