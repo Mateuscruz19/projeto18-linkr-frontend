@@ -7,6 +7,8 @@ import Post from "../../components/Post/Post";
 import { useUser } from "../../contexts/AuthContext.js";
 import { getAllPosts, setPost } from "../../services/api.js";
 import TrendingsBar from "../../components/TrendingsBar.js";
+import useInterval from "use-interval";
+import spin from "../../img/spinLoad.svg";
 
 export default function Posts() {
   const [link, setLink] = useState("");
@@ -16,6 +18,16 @@ export default function Posts() {
   const { token } = useContext(AuthContext);
   const { user } = useUser();
   const [sendingPost, setSendingPost] = useState(false);
+  const [count, setCount] = useState(0);
+  const [active, setActive] = useState(false);
+
+  useInterval(() => {
+    if(active === true){
+      setCount(count+1);
+      setActive(false);
+    }
+
+  }, 15000);
 
   useEffect(() => {
     async function listAllPosts() {
@@ -35,6 +47,7 @@ export default function Posts() {
   }, [alter]);
 
   if (list === 0) {
+    setCount(0);
     return <div>Carregando...</div>;
   }
 
@@ -51,15 +64,21 @@ export default function Posts() {
     try {
       await setPost(body, token);
 
-      setAlter(!alter);
+     
       setDescription("");
       setLink("");
+      setActive(true);
     } catch (error) {
       console.log(error);
       alert("Houve um erro ao publicar seu link");
     } finally {
       setSendingPost(false);
     }
+  }
+
+  function reload(){
+    setCount(0);
+    setAlter(!alter);
   }
 
   return (
@@ -107,6 +126,12 @@ export default function Posts() {
                   </ButtonPost>
                 </CaixaPostInputs>
               </CaixaInsert>
+              <CaixaReloandList condicao={count>0?"block":"none"}>
+                <button data-test="load-btn" onClick={reload}>
+                  {count} new posts, load more! 
+                  <img src={spin} alt="spin"/>
+                </button>
+              </CaixaReloandList>
               <Lista>
                 {list.length === 0 ? (
                   <div data-test="message">There are no posts yet</div>
@@ -133,6 +158,7 @@ export default function Posts() {
     </>
   );
 }
+
 
 const MainContainerPostStyled = styled.div`
   width: 70%;
@@ -272,4 +298,24 @@ const InfoHashtags = styled.p`
   color: #fff;
   margin-bottom: 15px;
   cursor: pointer;
+`;
+
+const CaixaReloandList = styled.div`
+        display: ${props => props.condicao};
+        button{
+          margin-bottom: 17px;
+          width: 100%;
+          height: 61px;
+          background-color: #1877F2;
+          color: #ffffff;
+          border-radius: 25px;
+          align-items: center;
+          justify-items: center;
+          font-family: 'Lato';
+          font-size: 16px;
+          font-weight: 400;
+        }
+        img{
+          margin-left: 14px;
+        }
 `;

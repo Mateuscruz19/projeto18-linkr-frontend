@@ -14,6 +14,7 @@ import {
   UrlInfoLinkStyled,
   UpdateButtonStyled,
   DeleteButtonStyled,
+  RepostButtonStyled,
   ContainerModifyStyled,
   CommentsButton,
   PostContainer,
@@ -21,10 +22,14 @@ import {
 import { useEffect, useState, useRef, useContext } from "react";
 import { HiTrash } from "react-icons/hi";
 import { TiPencil } from "react-icons/ti";
-import { AiOutlineComment } from "react-icons/ai";
+import { AiOutlineComment, AiOutlineSwap } from "react-icons/ai";
 import axios from "axios";
 import ModalDelete from "../ModalDelete/ModalDelete.js";
-import { getCommentsByPostId, updatePost } from "../../services/api.js";
+import {
+  getCommentsByPostId,
+  updatePost,
+  setPost,
+} from "../../services/api.js";
 import { AuthContext, useUser } from "../../contexts/AuthContext.js";
 import { Link } from "react-router-dom";
 import Likes from "../Likes/Likes.js";
@@ -108,6 +113,29 @@ const Post = ({ item, list, setList, alter, setAlter }) => {
       });
   };
 
+  const handleRepost = (e) => {
+    e.preventDefault();
+    if (window.confirm("Deseja repostar essa publicação?")) {
+      const link = infoLink.url;
+      const description =
+        item.hashtags[0].id !== null &&
+        item.hashtags.map((hash) => hash.nameHashtag);
+
+      const body = {
+        description,
+        link,
+      };
+
+      try {
+        setPost(body, token);
+        console.log(item.hashtags);
+        alert("Repostou com sucesso");
+      } catch (error) {
+        alert("Repostar falhou");
+      }
+    }
+  };
+
   return (
     <>
       <MainContainerPostStyled data-test="post">
@@ -121,10 +149,15 @@ const Post = ({ item, list, setList, alter, setAlter }) => {
               qtyLikesPost={item.qtyLikesPost}
               idUsersLike={item.idUsersLike}
             />
-            <CommentsButton data-test="comment-btn"  onClick={() => setCommentBoxFlag(!commentBoxFlag)}>
+            <CommentsButton
+              data-test="comment-btn"
+              onClick={() => setCommentBoxFlag(!commentBoxFlag)}
+            >
               {" "}
               <AiOutlineComment />{" "}
-              <span data-test="comment-counter">{commentList ? commentList.length : 0} comments</span>
+              <span data-test="comment-counter">
+                {commentList ? commentList.length : 0} comments
+              </span>
             </CommentsButton>
           </ContainerImageLikeStyled>
           <ContainerInfoDescriptionStyled>
@@ -173,6 +206,9 @@ const Post = ({ item, list, setList, alter, setAlter }) => {
             )}
           </ContainerInfoDescriptionStyled>
           <ContainerModifyStyled>
+            <RepostButtonStyled>
+              <AiOutlineSwap data-test="repost-btn" onClick={handleRepost} />
+            </RepostButtonStyled>
             <UpdateButtonStyled data-test="edit-btn" onClick={handleTextClick}>
               <TiPencil />
             </UpdateButtonStyled>

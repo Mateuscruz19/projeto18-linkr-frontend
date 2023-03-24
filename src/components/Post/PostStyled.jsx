@@ -188,3 +188,9 @@ export const CommentsButton = styled.button`
       font-size: 11px;
     }
 `;
+export const RepostButtonStyled = styled.div`
+  color: #fff;
+  font-size: 16px;
+  cursor: pointer;
+  margin-right: 12px;
+`

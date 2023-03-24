@@ -72,3 +72,15 @@ export const sendLikePost = (id, token) => {
 export const deleteLikePost = (id, token) => {
   return apiRequests.delete(`/publication/${id}/likes`, authorization(token));
 };
+
+export const getFollowExist = (id, token) => {
+  return apiRequests.get(`/users/follow/${id}`, authorization(token));
+};
+
+export const postFollow = (id, token) => {
+  return apiRequests.post(`/users/follow/${id}`, {}, authorization(token));
+};
+
+export const deleteFollow = (id, token) => {
+  return apiRequests.delete(`/users/follow/${id}`, authorization(token));
+};
