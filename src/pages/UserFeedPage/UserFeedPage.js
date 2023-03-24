@@ -113,11 +113,11 @@ const UserFeedPage = () => {
             <ContainerButtonFollowUnfollow>
               {userId !== user.id &&
                 (!follow ? (
-                  <ButtonFollow onClick={changeFollow} disabled={loading}>
+                  <ButtonFollow data-test='follow-btn' onClick={changeFollow} disabled={loading}>
                     Follow
                   </ButtonFollow>
                 ) : (
-                  <ButtonUnfollow onClick={changeFollow} disabled={loading}>
+                  <ButtonUnfollow data-test='follow-btn' onClick={changeFollow} disabled={loading}>
                     Unfollow
                   </ButtonUnfollow>
                 ))}
