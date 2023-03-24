@@ -81,8 +81,15 @@ export const CommentContent = styled.li`
       color: ${({ theme }) => theme.colors.lightGrey};
       word-break: break-word;
       & > span:nth-child(1) {
-        color: ${({ theme }) => theme.colors.white};
+        a{
+          color: ${({ theme }) => theme.colors.white};
         font-weight: 700;
+        text-decoration: none;
+        &:hover{
+          text-decoration: underline;
+          color: ${({ theme }) => theme.colors.lightGrey};
+        }
+        }
       }
       & > span:nth-child(2) {
         color: #565656;
