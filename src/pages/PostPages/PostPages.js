@@ -5,14 +5,15 @@ import Header from "../../components/Header/Header";
 import { AuthContext } from "../../contexts/AuthContext";
 import Post from "../../components/Post/Post";
 import { useUser } from "../../contexts/AuthContext.js";
-import { getAllPosts, setPost } from "../../services/api.js";
+import { getAllPosts, setPost, doesUserFollowsSomeone } from "../../services/api.js";
 import TrendingsBar from "../../components/TrendingsBar.js";
 import useInterval from "use-interval";
 import spin from "../../img/spinLoad.svg";
 
+
 export default function Posts() {
-  const [link, setLink] = useState("");
-  const [description, setDescription] = useState("");
+  const [link, setLink] = useState('');
+  const [description, setDescription] = useState('');
   const [list, setList] = useState([]);
   const [alter, setAlter] = useState(false);
   const { token } = useContext(AuthContext);
@@ -20,13 +21,13 @@ export default function Posts() {
   const [sendingPost, setSendingPost] = useState(false);
   const [count, setCount] = useState(0);
   const [active, setActive] = useState(false);
+  const [followsSomeone, setFollowsSomeone] = useState(false);
 
   useInterval(() => {
-    if(active === true){
-      setCount(count+1);
+    if (active === true) {
+      setCount(count + 1);
       setActive(false);
     }
-
   }, 15000);
 
   useEffect(() => {
@@ -46,6 +47,12 @@ export default function Posts() {
     listAllPosts();
   }, [alter]);
 
+  useEffect(()=>{
+    const prom = doesUserFollowsSomeone(token)
+    prom.then((res)=>setFollowsSomeone(res.data)).
+    catch((err)=>console.log(err))
+  }, [])
+
   if (list === 0) {
     setCount(0);
     return <div>Carregando...</div>;
@@ -64,19 +71,19 @@ export default function Posts() {
     try {
       await setPost(body, token);
 
-     
-      setDescription("");
-      setLink("");
+      setDescription('');
+      setLink('');
       setActive(true);
+      reload();
     } catch (error) {
       console.log(error);
-      alert("Houve um erro ao publicar seu link");
+      alert('Houve um erro ao publicar seu link');
     } finally {
       setSendingPost(false);
     }
   }
 
-  function reload(){
+  function reload() {
     setCount(0);
     setAlter(!alter);
   }
@@ -89,52 +96,56 @@ export default function Posts() {
           <TitleTimeLine>timeline</TitleTimeLine>
           <MainContentPostStyled>
             <Timeline>
-              <CaixaInsert data-test="publish-box">
-                <img src={user.avatar_url} alt="imagem de perfil" />
+              <CaixaInsert data-test='publish-box'>
+                <img src={user.avatar_url} alt='imagem de perfil' />
                 <CaixaPostInputs onSubmit={addPost}>
                   <label>What are you going to share today?</label>
                   <input
-                    data-test="link"
-                    name="link"
+                    data-test='link'
+                    name='link'
                     value={link}
-                    type="url"
-                    pattern="https://.*"
-                    placeholder="https://..."
+                    type='url'
+                    pattern='https://.*'
+                    placeholder='https://...'
                     onChange={(e) => setLink(e.target.value)}
                     required
                     disabled={sendingPost}
                   />
                   <input
-                    data-test="description"
-                    name="description"
+                    data-test='description'
+                    name='description'
                     value={description}
-                    type="text"
-                    className="ultimo"
-                    placeholder="Awesome article about #javascript"
+                    type='text'
+                    className='ultimo'
+                    placeholder='Awesome article about #javascript'
                     onChange={(e) => setDescription(e.target.value)}
                     disabled={sendingPost}
                   />
 
                   <ButtonPost>
-                    <button
-                      type="submit"
-                      data-test="publish-btn"
-                      disabled={sendingPost}
-                    >
-                      {sendingPost ? "Publishing..." : "Publish"}
+                    <button type='submit' data-test='publish-btn' disabled={sendingPost}>
+                      {sendingPost ? 'Publishing...' : 'Publish'}
                     </button>
                   </ButtonPost>
                 </CaixaPostInputs>
               </CaixaInsert>
-              <CaixaReloandList condicao={count>0?"block":"none"}>
-                <button data-test="load-btn" onClick={reload}>
-                  {count} new posts, load more! 
-                  <img src={spin} alt="spin"/>
+              <CaixaReloandList condicao={count > 0 ? 'block' : 'none'}>
+                <button data-test='load-btn' onClick={reload}>
+                  {count} new posts, load more!
+                  <img src={spin} alt='spin' />
                 </button>
               </CaixaReloandList>
               <Lista>
                 {list.length === 0 ? (
-                  <div data-test="message">There are no posts yet</div>
+
+                  <div data-test="message">
+                    {
+                      followsSomeone?
+                      "No posts found from your friends"
+                      :
+                      "You don't follow anyone yet. Search for new friends!"
+                    }
+                  </div>
                 ) : (
                   <>
                     {list.map((item) => (
@@ -159,7 +170,6 @@ export default function Posts() {
   );
 }
 
-
 const MainContainerPostStyled = styled.div`
   width: 70%;
   margin-top: 130px;
@@ -178,7 +188,7 @@ const Timeline = styled.div`
 `;
 
 const TitleTimeLine = styled.h1`
-  font-family: "Oswald";
+  font-family: 'Oswald';
   font-size: 43px;
   font-weight: 700;
   color: #ffffff;
@@ -204,7 +214,7 @@ const CaixaPostInputs = styled.form`
   flex-direction: column;
   margin-left: 20px;
   label {
-    font-family: "Lato";
+    font-family: 'Lato';
     font-style: normal;
     font-weight: 300;
     font-size: 20px;
@@ -217,7 +227,7 @@ const CaixaPostInputs = styled.form`
     height: 40px;
     background-color: #efefef;
     margin-top: 10px;
-    font-family: "Lato";
+    font-family: 'Lato';
     font-size: 15px;
     font-weight: 300;
     color: #949494;
@@ -248,7 +258,7 @@ const ButtonPost = styled.div`
     height: 31px;
     border-radius: 10px;
     color: #ffffff;
-    font-family: "Lato";
+    font-family: 'Lato';
     font-size: 14px;
     font-weight: 700;
     border: none;
@@ -276,7 +286,7 @@ const HashTags = styled.div`
 
 const TitleHashtag = styled.h1`
   width: 100%;
-  font-family: "Oswald";
+  font-family: 'Oswald';
   font-style: normal;
   font-weight: 700;
   font-size: 27px;
@@ -292,7 +302,7 @@ const ContainerHashtags = styled.div`
 `;
 
 const InfoHashtags = styled.p`
-  font-family: "Lato";
+  font-family: 'Lato';
   font-size: 19px;
   font-weight: 700;
   color: #fff;
@@ -301,21 +311,21 @@ const InfoHashtags = styled.p`
 `;
 
 const CaixaReloandList = styled.div`
-        display: ${props => props.condicao};
-        button{
-          margin-bottom: 17px;
-          width: 100%;
-          height: 61px;
-          background-color: #1877F2;
-          color: #ffffff;
-          border-radius: 25px;
-          align-items: center;
-          justify-items: center;
-          font-family: 'Lato';
-          font-size: 16px;
-          font-weight: 400;
-        }
-        img{
-          margin-left: 14px;
-        }
+  display: ${(props) => props.condicao};
+  button {
+    margin-bottom: 17px;
+    width: 100%;
+    height: 61px;
+    background-color: #1877f2;
+    color: #ffffff;
+    border-radius: 25px;
+    align-items: center;
+    justify-items: center;
+    font-family: 'Lato';
+    font-size: 16px;
+    font-weight: 400;
+  }
+  img {
+    margin-left: 14px;
+  }
 `;

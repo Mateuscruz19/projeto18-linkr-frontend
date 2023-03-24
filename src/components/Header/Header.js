@@ -56,13 +56,14 @@ const Header = () => {
             {!searchResult.length ? (
               <p>Usuário não encontrado :P</p>
             ) : (
-              searchResult.map(({ id, avatar_url, name }) => (
+              searchResult.map(({ id, avatar_url, name, follows }) => (
                 <UserCard
                   key={id}
                   id={id}
                   avatar={avatar_url}
                   username={name}
                   setSearchValue={setSearchValue}
+                  follows={follows}
                 />
               ))
             )}
