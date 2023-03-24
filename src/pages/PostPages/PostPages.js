@@ -74,6 +74,7 @@ export default function Posts() {
       setDescription('');
       setLink('');
       setActive(true);
+      reload();
     } catch (error) {
       console.log(error);
       alert('Houve um erro ao publicar seu link');
