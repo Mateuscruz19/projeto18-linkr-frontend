@@ -2,7 +2,7 @@ import { UserContent } from './styled';
 import { ImageCrop } from '../styled';
 import { Link } from 'react-router-dom';
 
-const UserCard = ({ avatar, username, id, setSearchValue }) => {
+const UserCard = ({ avatar, username, id, setSearchValue, follows }) => {
   return (
     <Link data-test='user-search' to={`/user/${id}`} onClick={() => setSearchValue('')}>
       <UserContent>
@@ -10,6 +10,11 @@ const UserCard = ({ avatar, username, id, setSearchValue }) => {
           <img src={avatar} alt={`User Avatar :)`} />
         </ImageCrop>
         <span>{username}</span>
+        {follows !== null?
+          <span Style="color: #C4C4C4">• following</span>
+          :
+          <span></span>
+        }
       </UserContent>
     </Link>
   );
