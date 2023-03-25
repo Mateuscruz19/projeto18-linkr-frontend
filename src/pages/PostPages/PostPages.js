@@ -1,15 +1,18 @@
-import { useContext, useEffect, useState } from 'react';
-import styled from 'styled-components';
-import { ContainerPost } from './ContainerPost.js';
-import Header from '../../components/Header/Header';
-import { AuthContext } from '../../contexts/AuthContext';
-import Post from '../../components/Post/Post';
-import { useUser } from '../../contexts/AuthContext.js';
-import { getAllPosts, setPost } from '../../services/api.js';
-import TrendingsBar from '../../components/TrendingsBar.js';
-import axios from 'axios';
-import useInterval from 'use-interval';
-import spin from '../../img/spinLoad.svg';
+import { useContext, useEffect, useState } from "react";
+import styled from "styled-components";
+import { ContainerPost } from "./ContainerPost.js";
+import Header from "../../components/Header/Header";
+import { AuthContext } from "../../contexts/AuthContext";
+import Post from "../../components/Post/Post";
+import { useUser } from "../../contexts/AuthContext.js";
+import { getAllPosts, setPost, doesUserFollowsSomeone } from "../../services/api.js";
+import TrendingsBar from "../../components/TrendingsBar.js";
+import useInterval from "use-interval";
+import spin from "../../img/spinLoad.svg";
+import spinScroller from "../../img/loaderScroller.svg";
+import  InfiniteScroll  from  'react-infinite-scroller';
+import { getAllPostsPages } from "../../services/api.js";
+
 
 export default function Posts() {
   const [link, setLink] = useState('');
@@ -21,6 +24,8 @@ export default function Posts() {
   const [sendingPost, setSendingPost] = useState(false);
   const [count, setCount] = useState(0);
   const [active, setActive] = useState(false);
+  const [followsSomeone, setFollowsSomeone] = useState(false);
+  const [page, setPage] = useState(1);
 
   useInterval(() => {
     if (active === true) {
@@ -45,6 +50,12 @@ export default function Posts() {
     }
     listAllPosts();
   }, [alter]);
+
+  useEffect(()=>{
+    const prom = doesUserFollowsSomeone(token)
+    prom.then((res)=>setFollowsSomeone(res.data)).
+    catch((err)=>console.log(err))
+  }, [])
 
   if (list === 0) {
     setCount(0);
@@ -76,6 +87,21 @@ export default function Posts() {
     }
   }
 
+  async function loadFunc(){
+
+
+    try{
+      const {data} = await getAllPostsPages(token, page);
+      setList([...list, ...data]);
+      setPage(page+1);
+ 
+ 
+    }catch(error){
+        console.log(error);
+        console.log(error.response.data.message);
+    }
+  }
+ 
   function reload() {
     setCount(0);
     setAlter(!alter);
@@ -128,24 +154,44 @@ export default function Posts() {
                   <img src={spin} alt='spin' />
                 </button>
               </CaixaReloandList>
-              <Lista>
-                {list.length === 0 ? (
-                  <div data-test='message'>There are no posts yet</div>
-                ) : (
-                  <>
-                    {list.map((item) => (
-                      <Post
-                        key={item.id}
-                        item={item}
-                        list={list}
-                        setList={setList}
-                        alter={alter}
-                        setAlter={setAlter}
-                      />
-                    ))}
-                  </>
-                )}
-              </Lista>
+              <InfiniteScroll
+              pageStart={0}
+              loadMore={loadFunc}
+              hasMore={true || false}
+              loader={
+                <div className="loader" key={0}>
+                    <img src={spinScroller} alt="spinScroller"/>
+                    Loading more posts...
+                </div>}
+             >
+               <Lista>
+                 {list.length === 0 ? (
+
+
+                   <div data-test="message">
+                     {
+                       followsSomeone?
+                       "No posts found from your friends"
+                       :
+                       "You don't follow anyone yet. Search for new friends!"
+                     }
+                   </div>
+                 ) : (
+                   <>
+                     {list.map((item) => (
+                       <Post
+                         key={item.id}
+                         item={item}
+                         list={list}
+                         setList={setList}
+                         alter={alter}
+                         setAlter={setAlter}
+                       />
+                     ))}
+                   </>
+                 )}
+               </Lista>
+             </InfiniteScroll>
             </Timeline>
             <TrendingsBar />
           </MainContentPostStyled>
@@ -170,6 +216,17 @@ const MainContentPostStyled = styled.div`
 const Timeline = styled.div`
   flex-direction: column;
   width: 65%;
+  .loader{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Lato';
+    font-size: 22px;
+    font-weight: 400;
+    color: #6D6D6D;
+    margin-top: 83px;
+    margin-bottom: 338px;
+  }
 `;
 
 const TitleTimeLine = styled.h1`

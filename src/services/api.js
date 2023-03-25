@@ -31,6 +31,8 @@ export const getPostsByUserId = (userId, token) =>
 export const getAllPosts = (token) =>
   apiRequests.get(`/publication`, authorization(token));
 
+export const getAllPostsPages = (token, page) => apiRequests.get(`/publication?_page=${page}&_limit=10`, authorization(token));
+
 export const getCommentsByPostId = (postId, token) =>
   apiRequests.get(`/publication/${postId}/comments`, authorization(token));
 
@@ -84,3 +86,7 @@ export const postFollow = (id, token) => {
 export const deleteFollow = (id, token) => {
   return apiRequests.delete(`/users/follow/${id}`, authorization(token));
 };
+
+export const doesUserFollowsSomeone = (token) => {
+  return apiRequests.get('/users/doesUserFollows', authorization(token))
+}
