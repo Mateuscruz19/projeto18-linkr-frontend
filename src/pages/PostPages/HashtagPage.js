@@ -6,8 +6,8 @@ import Header from '../../components/Header/Header';
 import { AuthContext } from '../../contexts/AuthContext';
 import Post from '../../components/Post/Post';
 import { useUser } from '../../contexts/AuthContext.js';
-import TrendingsBar from "../../components/TrendingsBar.js";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import TrendingsBar from '../../components/TrendingsBar.js';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 
 export default function HashtagPage() {
   const [link, setLink] = useState('');
@@ -18,7 +18,7 @@ export default function HashtagPage() {
   const { token } = useContext(AuthContext);
   const { user } = useUser();
 
-  const hashtag = useParams().hashtag
+  const hashtag = useParams().hashtag;
 
   useEffect(() => {
     const config = {
@@ -33,7 +33,6 @@ export default function HashtagPage() {
           return null;
         }
         setList(res.data);
-
       })
       .catch((err) => {
         console.log(err);
@@ -50,7 +49,7 @@ export default function HashtagPage() {
       <Header />
       <ContainerPost>
         <MainContainerPostStyled>
-          <TitleTimeLine data-test="hashtag-title">#{hashtag}</TitleTimeLine>
+          <TitleTimeLine data-test='hashtag-title'>#{hashtag}</TitleTimeLine>
           <MainContentPostStyled>
             <Timeline>
               <Lista>
@@ -72,7 +71,7 @@ export default function HashtagPage() {
                 )}
               </Lista>
             </Timeline>
-            <TrendingsBar/>
+            <TrendingsBar />
           </MainContentPostStyled>
         </MainContainerPostStyled>
       </ContainerPost>

@@ -18,23 +18,19 @@ import {
   ContainerModifyStyled,
   CommentsButton,
   PostContainer,
-} from "./PostStyled.jsx";
-import { useEffect, useState, useRef, useContext } from "react";
-import { HiTrash } from "react-icons/hi";
-import { TiPencil } from "react-icons/ti";
-import { AiOutlineComment, AiOutlineSwap } from "react-icons/ai";
-import axios from "axios";
-import ModalDelete from "../ModalDelete/ModalDelete.js";
-import {
-  getCommentsByPostId,
-  updatePost,
-  setPost,
-} from "../../services/api.js";
-import { AuthContext, useUser } from "../../contexts/AuthContext.js";
-import { Link } from "react-router-dom";
-import Likes from "../Likes/Likes.js";
-import HashtagHighlight from "../HashtagHighlight.js";
-import Comments from "./Comments/Comments.js";
+} from './PostStyled.jsx';
+import { useEffect, useState, useRef, useContext } from 'react';
+import { HiTrash } from 'react-icons/hi';
+import { TiPencil } from 'react-icons/ti';
+import { AiOutlineComment, AiOutlineSwap } from 'react-icons/ai';
+import ModalDelete from '../ModalDelete/ModalDelete.js';
+import { getCommentsByPostId, updatePost, setPost } from '../../services/api.js';
+import { AuthContext, useUser } from '../../contexts/AuthContext.js';
+import { Link } from 'react-router-dom';
+import Likes from '../Likes/Likes.js';
+import HashtagHighlight from '../HashtagHighlight.js';
+import Comments from './Comments/Comments.js';
+import imagemQuebrada from '../../img/imagem_quebrada.png';
 
 const Post = ({ item, list, setList, alter, setAlter }) => {
   const { token } = useContext(AuthContext);
@@ -56,17 +52,6 @@ const Post = ({ item, list, setList, alter, setAlter }) => {
     }
 
     listAllComments();
-
-    axios
-      .get(
-        `https://api.linkpreview.net/?key=79574a3e5aa6921ccabd738c2837550c&q=${item.linkPost}/`
-      )
-      .then((res) => {
-        setInfoLink((item) => (item = res.data));
-      })
-      .catch((err) => {
-        console.log(err);
-      });
   }, [updateCommentList]);
 
   const handleOpenModal = () => setIsModalOpen(true);
@@ -87,10 +72,10 @@ const Post = ({ item, list, setList, alter, setAlter }) => {
   };
 
   const handleKeyPress = (event) => {
-    if (event.key === "Enter") {
+    if (event.key === 'Enter') {
       handleUpdatePost();
     }
-    if (event.key === "Escape") {
+    if (event.key === 'Escape') {
       setDescription(item.descriptionPost);
       setEditing(false);
     }
@@ -115,11 +100,10 @@ const Post = ({ item, list, setList, alter, setAlter }) => {
 
   const handleRepost = (e) => {
     e.preventDefault();
-    if (window.confirm("Deseja repostar essa publicação?")) {
+    if (window.confirm('Deseja repostar essa publicação?')) {
       const link = infoLink.url;
       const description =
-        item.hashtags[0].id !== null &&
-        item.hashtags.map((hash) => hash.nameHashtag);
+        item.hashtags[0].id !== null && item.hashtags.map((hash) => hash.nameHashtag);
 
       const body = {
         description,
@@ -129,20 +113,20 @@ const Post = ({ item, list, setList, alter, setAlter }) => {
       try {
         setPost(body, token);
         console.log(item.hashtags);
-        alert("Repostou com sucesso");
+        alert('Repostou com sucesso');
       } catch (error) {
-        alert("Repostar falhou");
+        alert('Repostar falhou');
       }
     }
   };
 
   return (
     <>
-      <MainContainerPostStyled data-test="post">
+      <MainContainerPostStyled data-test='post'>
         <PostContainer>
           <ContainerImageLikeStyled>
             <Link to={`/user/${item.userId}`}>
-              <ImageProfileStyled src={item.avatarImage} alt="" />
+              <ImageProfileStyled src={item.avatarImage} alt='' />
             </Link>
             <Likes
               postId={item.id}
@@ -150,26 +134,26 @@ const Post = ({ item, list, setList, alter, setAlter }) => {
               idUsersLike={item.idUsersLike}
             />
             <CommentsButton
-              data-test="comment-btn"
+              data-test='comment-btn'
               onClick={() => setCommentBoxFlag(!commentBoxFlag)}
             >
-              {" "}
-              <AiOutlineComment />{" "}
-              <span data-test="comment-counter">
+              {' '}
+              <AiOutlineComment />{' '}
+              <span data-test='comment-counter'>
                 {commentList ? commentList.length : 0} comments
               </span>
             </CommentsButton>
           </ContainerImageLikeStyled>
           <ContainerInfoDescriptionStyled>
             <TitleNameStyled>
-              <Link to={`/user/${item.userId}`} data-test="username">
+              <Link to={`/user/${item.userId}`} data-test='username'>
                 {item.name}
               </Link>
             </TitleNameStyled>
             {editing ? (
               <input
-                data-test="edit-input"
-                type="text"
+                data-test='edit-input'
+                type='text'
                 ref={inputRef}
                 value={description}
                 onKeyDown={handleKeyPress}
@@ -180,42 +164,52 @@ const Post = ({ item, list, setList, alter, setAlter }) => {
                 <HashtagHighlight text={description} />
               </DescriptionStyled>
             )}
-
-            {infoLink ? (
-              <ContainerLinkStyled
-                data-test="link"
-                onClick={(e) => window.open(infoLink.url, "_blank")}
-              >
-                <ContainerInfoLinkStyled>
-                  <TitleInfoLinkStyled>{infoLink.title}</TitleInfoLinkStyled>
-                  <DescriptionInfoLinkStyled data-test="description">
-                    {infoLink.description}
-                    <span>
-                      {item.hashtags[0].id !== null &&
-                        item.hashtags.map((hash) => hash.nameHashtag)}
-                    </span>
+            <span>
+              {item.hashtags[0].id !== null && item.hashtags.map((hash) => hash.nameHashtag)}
+            </span>
+            <ContainerLinkStyled
+              data-test='link'
+              onClick={(e) => window.open(item.linkPost, '_blank')}
+            >
+              <ContainerInfoLinkStyled>
+                {item.titleLinkPost === null ? (
+                  <TitleInfoLinkStyled>
+                    {item.linkPost.split('/')[2].split('.')[0] === 'WWW' ||
+                    item.linkPost.split('/')[2].split('.')[0] === 'www'
+                      ? item.linkPost.split('/')[2].split('.')[1].toUpperCase()
+                      : item.linkPost.split('/')[2].split('.')[0].toUpperCase()}
+                  </TitleInfoLinkStyled>
+                ) : (
+                  <TitleInfoLinkStyled>{item.titleLinkPost}</TitleInfoLinkStyled>
+                )}
+                {item.descriptionLinkPost === null ? (
+                  <DescriptionInfoLinkStyled data-test='description'>
+                    {item.linkPost}
                   </DescriptionInfoLinkStyled>
-                  <UrlInfoLinkStyled>{infoLink.url}</UrlInfoLinkStyled>
-                </ContainerInfoLinkStyled>
-                <ContainerImageLinkStyled>
-                  <ImageLinkStyled src={infoLink.image} alt="" />
-                </ContainerImageLinkStyled>
-              </ContainerLinkStyled>
-            ) : (
-              <>Carregando...</>
-            )}
+                ) : (
+                  <DescriptionInfoLinkStyled data-test='description'>
+                    {item.descriptionLinkPost}
+                  </DescriptionInfoLinkStyled>
+                )}
+                <UrlInfoLinkStyled>{item.linkPost}</UrlInfoLinkStyled>
+              </ContainerInfoLinkStyled>
+              <ContainerImageLinkStyled>
+                {item.imageLinkPost === null ? (
+                  <ImageLinkStyled src={imagemQuebrada} alt='' />
+                ) : (
+                  <ImageLinkStyled src={item.imageLinkPost} alt='' />
+                )}
+              </ContainerImageLinkStyled>
+            </ContainerLinkStyled>
           </ContainerInfoDescriptionStyled>
           <ContainerModifyStyled>
             <RepostButtonStyled>
-              <AiOutlineSwap data-test="repost-btn" onClick={handleRepost} />
+              <AiOutlineSwap data-test='repost-btn' onClick={handleRepost} />
             </RepostButtonStyled>
-            <UpdateButtonStyled data-test="edit-btn" onClick={handleTextClick}>
+            <UpdateButtonStyled data-test='edit-btn' onClick={handleTextClick}>
               <TiPencil />
             </UpdateButtonStyled>
-            <DeleteButtonStyled
-              data-test="delete-btn"
-              onClick={handleOpenModal}
-            >
+            <DeleteButtonStyled data-test='delete-btn' onClick={handleOpenModal}>
               <HiTrash />
             </DeleteButtonStyled>
           </ContainerModifyStyled>

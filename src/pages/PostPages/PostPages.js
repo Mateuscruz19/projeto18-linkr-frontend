@@ -7,6 +7,7 @@ import Post from '../../components/Post/Post';
 import { useUser } from '../../contexts/AuthContext.js';
 import { getAllPosts, setPost } from '../../services/api.js';
 import TrendingsBar from '../../components/TrendingsBar.js';
+import axios from 'axios';
 import useInterval from 'use-interval';
 import spin from '../../img/spinLoad.svg';
 
@@ -56,8 +57,8 @@ export default function Posts() {
     setSendingPost(true);
 
     const body = {
-      description,
       link,
+      description,
     };
 
     try {
@@ -68,7 +69,7 @@ export default function Posts() {
       setActive(true);
       reload();
     } catch (error) {
-      console.log(error);
+      console.log(error.response);
       alert('Houve um erro ao publicar seu link');
     } finally {
       setSendingPost(false);
