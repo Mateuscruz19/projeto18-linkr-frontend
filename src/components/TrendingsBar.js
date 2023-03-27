@@ -61,6 +61,10 @@ const HashTags = styled.div`
   color: #ffffff;
   position: sticky;
   top: 100px;
+
+  @media screen and (max-width: 800px) {
+    display: none;
+  }
 `;
 
 const ContainerHashtags = styled.div`

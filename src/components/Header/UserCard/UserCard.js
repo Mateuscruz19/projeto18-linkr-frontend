@@ -10,7 +10,7 @@ const UserCard = ({ avatar, username, id, setSearchValue, follows }) => {
           <img src={avatar} alt={`User Avatar :)`} />
         </ImageCrop>
         <span>{username}</span>
-        {follows !== null?
+        {follows ?
           <span Style="color: #C4C4C4">• following</span>
           :
           <span></span>
