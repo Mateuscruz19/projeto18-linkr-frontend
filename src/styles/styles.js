@@ -11,6 +11,10 @@ export const ConteinerPost = styled.div`
 export const MainContainerPostStyled = styled.div`
   width: 70%;
   margin-top: 130px;
+  @media screen and (max-width: 800px) {
+    width: 100%;
+    margin-top: 110px;
+  }
 `;
 
 export const MainContentPostStyled = styled.div`
@@ -18,11 +22,17 @@ export const MainContentPostStyled = styled.div`
   display: flex;
   justify-content: space-between;
   margin-top: 45px;
+  @media screen and (max-width: 800px) {
+    margin-top: 20px;
+  }
 `;
 
 export const Timeline = styled.div`
   flex-direction: column;
   width: 65%;
+   @media screen and (max-width: 800px) {
+    width: 100%;
+  }
 `;
 
 export const ContainerTittleContent = styled.div`
@@ -30,6 +40,9 @@ export const ContainerTittleContent = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+   @media screen and (max-width: 800px) {
+   padding: 0 10px;
+  }
 `;
 
 export const TitleContent = styled.div`
@@ -77,6 +90,10 @@ export const TitleTimeLine = styled.h1`
   color: #ffffff;
   height: 50px;
   gap: 16px;
+   @media screen and (max-width: 800px) {
+   font-size: 33px;
+   padding-left: 10px;
+  }
 `;
 
 export const CaixaInsert = styled.div`

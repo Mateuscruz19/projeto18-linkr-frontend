@@ -10,6 +10,9 @@ export const CommentContainer = styled.div`
   position: relative;
   bottom: 20px;
   padding: 20px 20px 0 20px;
+  @media screen and (max-width: 800px) {
+   border-radius: 0px;
+  }
 `;
 
 export const CommentImage = styled(ImageProfileStyled)`

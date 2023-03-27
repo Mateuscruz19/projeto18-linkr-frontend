@@ -4,6 +4,9 @@ export const MainContainerPostStyled = styled.div`
   width: 100%;
   border-radius: 16px;
   margin-bottom: 30px;
+  @media screen and (max-width: 800px) {
+   margin-bottom: 16px;
+  }
 `;
 export const PostContainer = styled.div`
   padding: 25px;
@@ -14,6 +17,9 @@ export const PostContainer = styled.div`
   position: relative;
   z-index: 1;
   word-wrap: break-word;
+  @media screen and (max-width: 800px) {
+   border-radius: 0px;
+  }
 `;
 export const ContainerImageLikeStyled = styled.div`
   width: 10%;

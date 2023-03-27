@@ -5,14 +5,12 @@ import Header from "../../components/Header/Header";
 import { AuthContext } from "../../contexts/AuthContext";
 import Post from "../../components/Post/Post";
 import { useUser } from "../../contexts/AuthContext.js";
-import { getAllPosts, setPost, doesUserFollowsSomeone } from "../../services/api.js";
+import { getAllPosts, setPost, doesUserFollowsSomeone, getAllPostsPages } from "../../services/api.js";
 import TrendingsBar from "../../components/TrendingsBar.js";
 import useInterval from "use-interval";
 import spin from "../../img/spinLoad.svg";
 import spinScroller from "../../img/loaderScroller.svg";
 import  InfiniteScroll  from  'react-infinite-scroller';
-import { getAllPostsPages } from "../../services/api.js";
-
 
 export default function Posts() {
   const [link, setLink] = useState('');
@@ -94,14 +92,14 @@ export default function Posts() {
       const {data} = await getAllPostsPages(token, page);
       setList([...list, ...data]);
       setPage(page+1);
- 
- 
+
+
     }catch(error){
         console.log(error);
         console.log(error.response.data.message);
     }
   }
- 
+
   function reload() {
     setCount(0);
     setAlter(!alter);
@@ -204,6 +202,10 @@ export default function Posts() {
 const MainContainerPostStyled = styled.div`
   width: 70%;
   margin-top: 130px;
+  @media screen and (max-width: 800px) {
+    width: 100%;
+    margin-top: 110px;
+  }
 `;
 
 const MainContentPostStyled = styled.div`
@@ -211,6 +213,9 @@ const MainContentPostStyled = styled.div`
   display: flex;
   justify-content: space-between;
   margin-top: 45px;
+  @media screen and (max-width: 800px) {
+    margin-top: 20px;
+  }
 `;
 
 const Timeline = styled.div`
@@ -227,6 +232,9 @@ const Timeline = styled.div`
     margin-top: 83px;
     margin-bottom: 338px;
   }
+  @media screen and (max-width: 800px) {
+    width: 100%;
+  }
 `;
 
 const TitleTimeLine = styled.h1`
@@ -234,6 +242,10 @@ const TitleTimeLine = styled.h1`
   font-size: 43px;
   font-weight: 700;
   color: #ffffff;
+  @media screen and (max-width: 800px) {
+   font-size: 33px;
+   padding-left: 10px;
+  }
 `;
 
 const CaixaInsert = styled.div`
@@ -249,6 +261,15 @@ const CaixaInsert = styled.div`
     height: 50px;
     border-radius: 100%;
   }
+  @media screen and (max-width: 800px) {
+   border-radius: 0;
+   padding: 20px 15px;
+   margin-bottom: 16px;
+   img{
+    display: none;
+   }
+  }
+
 `;
 
 const CaixaPostInputs = styled.form`
@@ -286,6 +307,11 @@ const CaixaPostInputs = styled.form`
 
   .ultimo {
     height: 66px;
+  }
+  @media screen and (max-width: 800px) {
+   width: 100%;
+   margin-left: auto;
+   text-align: center;
   }
 `;
 
