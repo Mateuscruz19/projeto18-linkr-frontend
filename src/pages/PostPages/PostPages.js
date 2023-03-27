@@ -68,8 +68,8 @@ export default function Posts() {
     setSendingPost(true);
 
     const body = {
-      description,
       link,
+      description,
     };
 
     try {
@@ -80,7 +80,7 @@ export default function Posts() {
       setActive(true);
       reload();
     } catch (error) {
-      console.log(error);
+      console.log(error.response);
       alert('Houve um erro ao publicar seu link');
     } finally {
       setSendingPost(false);
